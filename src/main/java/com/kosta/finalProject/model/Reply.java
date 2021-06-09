@@ -3,7 +3,6 @@ package com.kosta.finalProject.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,30 +24,27 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode(of = "replyNO")
-@Table(name = "p_reply")
-public class ReplyDTO {
+@Table(name = "")
+public class Reply {
 
     /**
      * Default constructor
      */
-    public ReplyDTO() {
+    public Reply() {
     }
 
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "reply_no")
     private int replyNO;
 
     @ManyToOne
-    private UserDTO replyUser;
+    private User replyUser;
 
     @ManyToOne
-    private PostDTO post;
+    private Post post;
 
     private String reply;
-    
-    @Column(name = "reply_date")
     private Date replyDate;
 
 

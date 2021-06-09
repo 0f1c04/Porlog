@@ -3,7 +3,6 @@ package com.kosta.finalProject.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,33 +21,28 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode(of = "userID")
-@Table(name = "p_user")
-public class UserDTO {
+@Table(name = "")
+public class User {
 
     /**
      * Default constructor
      */
-    public UserDTO() {
+    public User() {
     }
 
     @Id
-    @Column(name = "user_id")
     private String userID;
 
-    @Column(name = "user_pw")
     private String userPW;
-    
+
     private String eamil;
 
     private String nickname;
 
-    @Column(name = "last_login")
     private Date lastLogin;
 
-    @Column(name = "last_pw_chg")
     private Date lastPWChg;
 
-    @Column(name = "auth_lv")
     private int authLV;
 
 
