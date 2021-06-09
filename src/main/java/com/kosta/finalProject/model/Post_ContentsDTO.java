@@ -1,7 +1,10 @@
 
 package com.kosta.finalProject.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -19,19 +22,20 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode(of = "postID")
-@Table(name = "")
-public class Post_Contents {
+@Table(name = "p_post_contents")
+public class Post_ContentsDTO {
 
     /**
      * Default constructor
      */
-    public Post_Contents() {
+    public Post_ContentsDTO() {
     }
 
     @Id
-    private String postID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "post_id")
+    private Long postID;
 
-    
     private String contents;
 
 
