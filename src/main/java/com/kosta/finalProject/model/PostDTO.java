@@ -1,5 +1,9 @@
+
 package com.kosta.finalProject.model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,25 +24,31 @@ import lombok.ToString;
 @Entity
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(of = "likeNO")
-@Table(name = "")
-public class Like {
+@EqualsAndHashCode(of = "postID")
+@Table(name = "p_post")
+public class PostDTO {
 
     /**
      * Default constructor
      */
-    public Like() {
+    public PostDTO() {
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int likeNO;
+    @Column(name = "post_id")
+    private Long postID;
 
     @ManyToOne
-    private Post post;
-
+    private BlogDTO blog;
     
-    private int likeCnt;
-
+    @Column(name = "post_date")
+    private Date postDate;
+    
+    @Column(name = "post_title")
+    private String postTitle;
+    
+    @Column(name = "view_cnt")
+    private int viewCnt;
 
 }
