@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="form-group">
+		
+		<textarea class="form-control text-left" rows="3" cols="" id="content"name="content">[[${postcontent.contents}]]</textarea>
+	</div>
+	
+	<table class="table table-striped table-bordered  table-hover">
+	  	  <thead>
+		  	  <tr>
+		  	     <th>댓글번호</th>
+		  	     <th>내용</th>
+		  	     <th>작성날짜</th>
+		  	  </tr>
+	  	  </thead>
+	  	  <tbody id="replyTable" data-toggle="modal" data-target="#myModal"></tbody>
+	 </table>
+	  	
+
+<th:block>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+   <script>
+   var replyManager = ( function() {
+		var getAll = function(obj, callback) {
+			console.log("getAll......" + obj);
+			$.getJSON("/replies/post/" + obj, callback);
+			
+		};
+		
+		return {
+			"getAll": getAll
+		};
+	})();
+     
+   
+     //console.log(replyManager); //{"getAll":function(){}, ........}
+     replyManager.getAll("[[${postcontent.post_postID}]]",  printList);
+   
+     function printList(rList){
+    	 console.log(rList);
+    	 var str="";
+    	 $.each(rList, function(idx, item){
+    		 str += "<tr>";
+    		 str += "<td>" + item["replyNO"] + "</td>";
+    		 str += "<td>" + item["reply"] + "</td>";
+    		 str += "<td>" + item["replyDate"] + "</td>";
+    		 str += "</tr>";
+    	 });
+    	 $("#replyTable").html(str);
+     }
+     
+   </script>
+</th:block>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+

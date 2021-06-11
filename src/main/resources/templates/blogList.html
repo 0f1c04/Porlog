@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table class="table table-striped table-bordered table-hover ">
+		<tr>
+			<th>블로그ID</th>
+			<th>유저ID</th>
+			<th>유저</th>
+			<th>게시물</th>
+
+		</tr>
+		<tr th:each="blog:${bloglist}">
+
+			<td th:text="${blog.blogID}"></td>
+			<td th:text="${blog.user.userID}"></td>
+			<td th:text="${blog.user.nickname}"></td>
+			<td><a th:href="@{/postList(blogID=${blog.blogID})}"th:text="보기"></a><span class="badge">([[${blog.postlist.size()}]]개)</span></td>
+		</tr>
+	</table>
+
+</body>
+</html>
+
+

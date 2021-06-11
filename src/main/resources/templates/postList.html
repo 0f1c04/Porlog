@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table class="table table-striped table-bordered table-hover ">
+		<tr>
+			<th>postID</th>
+			<th>postDate</th>
+			<th>postTitle</th>
+			<th>blogID</th>
+			<th>viewCnt</th>
+			<th>내용보기</th>
+
+		</tr>
+		<tr th:each="post:${postlist}">
+
+			<td th:text="${post.postID}"></td>
+			<td th:text="${post.postDate}"></td>
+			<td th:text="${post.postTitle}"></td>
+			<td th:text="${post.blog.blogID}"></td>
+			<td th:text="${post.viewCnt}"></td>
+			<td><a th:href="@{/postDetail(postID=${post.postID})}"th:text="보기"></a>
+			
+		</tr>
+	</table>
+
+</body>
+</html>
+
+

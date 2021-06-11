@@ -51,4 +51,7 @@ public class UserDTO {
     @Column(name = "auth_lv")
     private int authLV;
 
+
+
+
 }
