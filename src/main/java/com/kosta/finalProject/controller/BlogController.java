@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kosta.finalProject.model.BlogDTO;
 import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.service.BlogService;
-import com.kosta.finalProject.service.PostService;
 import com.kosta.finalProject.service.UserService;
+
 
 @Controller
 public class BlogController {
@@ -22,15 +22,15 @@ public class BlogController {
 	BlogService service;
 	
 	@Autowired
-	PostService serviceP;
+	UserService userService;
+	
+
 	
 	
 	@GetMapping("/blogList")
 	public String selectUsers(Model model) {
 		model.addAttribute("bloglist", service.selectAll());
-		//model.addAttribute("postlist", serviceP.selectByBlog(blog));
-		//System.out.println(blog);
-		return "/blogList";
+		return "blogList";
 	}
 	
 	
@@ -42,8 +42,25 @@ public class BlogController {
 	}
 	
 	@GetMapping("/blogInsert")
-	public void blogInsert() {
-		
+	public void blogInsert(Model model, Long blogID) {
+		model.addAttribute("blogID", blogID);
 	}
 	
+//	@GetMapping("/basic")
+//	public String selectById(Model model, String userID) {
+//		System.out.println("넘어온 user : "+userID);
+//		UserDTO user = serviceU.selectById(userID);
+//		model.addAttribute("myblog", service.selectByUser(user));
+//		return "/basic"; 
+//	}
+	@GetMapping("/basic")
+	public String selectById(Model model) {
+		//System.out.println("넘어온 user : "+userID);
+		String userID;
+		userID = "qwe";
+		UserDTO user = userService.selectById(userID);
+		model.addAttribute("myblog", service.selectByUser(user));
+	
+		return "/basic"; 
+	}
 }

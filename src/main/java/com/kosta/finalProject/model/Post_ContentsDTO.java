@@ -22,7 +22,7 @@ import lombok.ToString;
 @Entity
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(of = "postID")
+@EqualsAndHashCode(of = "postcID")
 @Table(name = "p_post_contents")
 public class Post_ContentsDTO {
 
@@ -35,12 +35,12 @@ public class Post_ContentsDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "postc_id")
-    private Long postID;
+    private Long postcID;
 
     private String contents;
     
-    @Column(name = "post_post_id")
-    private Long post_postID;
+    @ManyToOne 
+    private PostDTO post;
 
 
 }

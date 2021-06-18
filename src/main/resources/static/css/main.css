@@ -33,15 +33,16 @@
   text-decoration: none;
   cursor: pointer;
 }
+
 /* COMMON */
 body{
   color: #333;
   font-size: 16px;
-  /* �룿�듃援듦린 */
+  /* 占쎈？占쎈뱜�뤃�벀由� */
   font-weight: 400;
-  /* 以꾨넂�씠 */
+  /* 餓κ쑬�꼥占쎌뵠 */
   line-height: 1.4;
-  /* 援ш� �룿�듃 �쟻�슜 */
+  /* �뤃�덌옙 占쎈？占쎈뱜 占쎌읅占쎌뒠 */
   font-family: 'Nanum Gothic', sans-serif;
    /* height: 3000px;  */
 }
@@ -55,7 +56,7 @@ img{
   position: relative;
 }
 a{
-  /* �쟾泥큑 諛묒쨪�젣嫄� */
+  /* 占쎌읈筌ｍ걨 獄쏅쵐夷わ옙�젫椰꾬옙 */
   text-decoration: none;
   color:#333;
 }
@@ -312,7 +313,7 @@ header .main-menu .item .item__contents .contents__texture p{
   margin-left: 15px;
   border-radius: 5px;
   width: 150px;
-  font-family: 'a타이틀고딕1';
+  font-family: 'a���씠��怨좊뵓1';
 }
 .visual .cup2.image{
   position: absolute;
@@ -613,7 +614,7 @@ footer .inner .logo{
   top: 50%;
   margin-top: calc(1920px * 9 /16 /-2);
 }
-/* 가상요소선택자 */
+/* 媛��긽�슂�냼�꽑�깮�옄 */
 .youtube .youtube__area::before{
   content: "";
   display: block;

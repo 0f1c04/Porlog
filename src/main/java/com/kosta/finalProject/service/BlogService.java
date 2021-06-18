@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kosta.finalProject.model.BlogDTO;
 import com.kosta.finalProject.model.PostDTO;
+import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.repository.BlogRepository;
 
 @Service
@@ -31,7 +32,9 @@ public class BlogService {
 		return repo.save(blog);
 	}
 	
-	
+	public BlogDTO selectByUser(UserDTO user) {
+		return repo.findByUser(user);
+	}
 	
 }
 

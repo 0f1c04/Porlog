@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "postlist")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -45,6 +46,9 @@ public class BlogDTO {
 
     @ManyToOne
     private UserDTO user;
+    
+    @Column(name = "blog_title")
+    private String blogTitle;
     
     @JsonIgnore
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //, fetch = FetchType.EAGER

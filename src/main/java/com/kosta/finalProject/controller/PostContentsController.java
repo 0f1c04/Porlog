@@ -8,25 +8,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kosta.finalProject.model.BlogDTO;
+import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.Post_ContentsDTO;
+import com.kosta.finalProject.service.BlogService;
 import com.kosta.finalProject.service.PostContentsService;
+import com.kosta.finalProject.service.PostService;
 
 @Controller
 public class PostContentsController {
 	
 	@Autowired
 	PostContentsService service;
+	@Autowired
+	PostService serviceP;
+	@Autowired
+	BlogService serviceB;
+	
 	
 	@GetMapping("/postDetail")
-	public String selectByBlog(Model model, Long postID) {
-		model.addAttribute("postcontent", service.selectByPostid(postID));
+	public String selectByPost(Model model, Long postID) {
+		PostDTO post = serviceP.selectByPostId(postID);
+		model.addAttribute("postcontent", service.selectByPost(post));
+		model.addAttribute("postID", postID);
 		return "/postDetail";
 	}
 	
 	// 게시글입력페이지(Get)
 	@GetMapping("/postContents")
 	public void postContents() {
-		
 	}
 	
 	// 게시글입력(Post)

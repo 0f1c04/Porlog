@@ -1,18 +1,54 @@
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* COMMON */
 body{
   color: #333;
+  height: 100%;
   font-size: 16px;
-  /* 폰트굵기 */
+  /* �룿�듃援듦린 */
   font-weight: 400;
-  /* 줄높이 */
+  /* 以꾨넂�씠 */
   line-height: 1.4;
-  /* 구글 폰트 적용 */
+  /* 援ш� �룿�듃 �쟻�슜 */
   font-family: 'Nanum Gothic', sans-serif;
    /* height: 3000px;  */
 }
 img{
   display: block;
-  
 }
 .inner{
   width: 1100px;
@@ -20,7 +56,7 @@ img{
   position: relative;
 }
 a{
-  /* 전체a 밑줄제거 */
+  /* �쟾泥큑 諛묒쨪�젣嫄� */
   text-decoration: none;
   color:#333;
 }
@@ -51,12 +87,12 @@ a{
   color: #333;
 }
 .btn.btn--brown{
-  color: #592B18;
-  border-color: #592B18;
+  color: #0078FF;
+  border-color: #0078FF;
 }
 .btn.btn--brown:hover{
   color: #fff;
-  background-color: #592B18;
+  background-color: #0078FF;
 }
 .btn.btn--gold{
   color: #D9AA8A;
@@ -87,9 +123,7 @@ header{
   z-index: 9;
 }
 header > .inner{
-
   height: 120px;
-
 }
 header .logo{
   height: 75px;
@@ -137,8 +171,8 @@ header .sub-menu ul.menu li a{
 }
 header .sub-menu ul.menu li a:hover{
   background-color: black;
-  
- 
+  text-decoration: none;
+  color: #fff;
 }
 header .sub-menu .search {
  
@@ -176,6 +210,8 @@ header .sub-menu .search.focused .material-icons{
 
 }
 header .main-menu{
+  height: 60px;
+  padding-top: 10px;
   display: flex;
   position: absolute;
   bottom: 0;
@@ -185,9 +221,6 @@ header .main-menu{
 header .main-menu li.item:hover .item__name a{
  
   color: #669900;
-} 
-header .main-menu .item{
- 
 }
 header .main-menu .item:hover .item__name{
   background-color: #2c2a29;
@@ -200,15 +233,22 @@ header .main-menu .item .item__name{
   font-size: 13px;
 }
 header .main-menu .item .item__nameA{
-  padding: 10px 20px 34px 20px;
+  padding: 14px 20px 34px 20px;
   font-family: Arial, sans-serif;
   font-size: 13px;
+}
+header .main-menu .item .item__nameA a{
+	color: black;
+}
+header .main-menu .item .item__nameA a:hover{
+	text-decoration: none;
 }
 header .main-menu .item:hover .item__contents{
  display: block;
 }
 header .main-menu .item .item__contents{
   width: 100%;
+  margin-top: -12px;
   position: fixed;
   left:0;
   display: none;
@@ -259,44 +299,45 @@ header .main-menu .item .item__contents .contents__texture p{
 
 /* VISUAL */
 .visual{  
-  margin-top: 120px;
-  background-image: url('');  
+  margin-top: 130px;
+  margin-bottom: 350px;
+  background-image: url('');
   background-position: center;
-  padding: 50px 0;
+  /* padding: 50px 0; */
 }
 .visual .inner{
-  height: 304px;
+  max-height: 800px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  background-color: gray;
+  /* background-color: gray; */
 }
 .visual .inner2{
-  height: 1280px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 960px;
   margin: 0 auto;
   padding: 40px 20px;
-  
 }
 .visual .inner .fortpolio{
   width: 300px;
   height: 304px;
-  margin: 4px;
+  margin: 15px;
   border: 3px solid #fff;
   border-radius: 10px;
   box-sizing: border-box;
   background-color: white;
   overflow: hidden;
-  
+  box-shadow: lightgray 0px 4px 16px 0px;
+  transition: box-shadow 0.25s ease-in 0s, margin-top 0.25s ease-in 0s;
 }
 .visual .inner .fortpolio:hover{
-  background-color: orange;  
+  box-shadow: gray 0px 4px 16px 0px;
+  margin-top: -1px;
   z-index: 1;
   
 }
@@ -306,7 +347,6 @@ header .main-menu .item .item__contents .contents__texture p{
   background-position: center;
   background-repeat: no-repeat;
   background-size: 90px;
-  
 }
 .visual .inner .fortpolio:nth-child(1) .forex{ 
   background-image: url("");
@@ -316,25 +356,60 @@ header .main-menu .item .item__contents .contents__texture p{
   display: block;
   width: 98%;
   height: 60%;
-  border: 1px solid red;
 }
-.visual .inner .fortpolio .forex  .foo1{
+.visual .inner .fortpolio .forex .foo1{
   width: 98%;
   height: 90.2px;
-  border: 1px solid red;
+  padding: 5px;
+  padding-left: 20px;
+  padding-top: 15px;
 }
-.visual .inner .fortpolio .forex  .footer1{
-  border: 1px solid red;
+.visual .inner .fortpolio .forex .footer1{
   height: 20px;
   width: 98%;
+  padding: 5px;
+  padding-left: 20px;
 }
+
+.visual .inner2 .post-area {
+	max-width: 768px;
+}
+
+.visual .inner2 .post-area .post-box{
+	width: 100%;
+	padding-bottom: 20px;
+	margin-bottom: 50px;
+	position: relative;
+}
+
+.visual .inner2 .post-area .post-box .post-thumbnail {
+	width: 768px;
+	height: 402px;
+	margin-bottom: 20px;
+	border:5px solid green;
+}
+
+.post-box img {
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+
 /* FOOTER */
 footer{
+  position: absolute;
   background-color: #272727;
   border-top: 1px solid #333;
+  width: 100%;
+  height: 350px;
 }
 footer .inner{
-  padding: 40px 0 60px 0;
+  padding-top: 40px;
 }
 footer .menu{
   display: flex;

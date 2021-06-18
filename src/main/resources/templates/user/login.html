@@ -20,15 +20,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			</div>
 			 -->
 			 
-			<form id="login" th:action="@{/loginSuccess}" method="post">
+			<form method="post">
 				<p>
 					<label for="userID">Username</label> <input type="text"
-						id="userID" name="userID" value="테스트ID" />  <!-- 이름변경불가  : username -->
+						id="username" name="username" value="테스트ID" />  <!-- 이름변경불가  : username -->
 				</p>
 				<p>
-					<label for="userPW">Password</label> 
+					<label for="password">Password</label> 
 					<input type="password"
-						id="userPW" name="userPW" value="1234" /> <!-- 이름변경불가  : password -->
+						id="password" name="password" value="1234" /> <!-- 이름변경불가  : password -->
 				</p>			
 
 				<!-- <input type="text" th:name="${_csrf.parameterName}" 	th:value="${_csrf.token}" />   -->
