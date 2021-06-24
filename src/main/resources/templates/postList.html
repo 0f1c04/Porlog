@@ -104,13 +104,19 @@
           </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="basic.html">채용정보</a></div>
+          <div class="item__nameA">
+          	<a th:href="@{/jInfo}">채용정보</a>
+          </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="polio.html">폴로그</a></div>
+          <div class="item__nameA">
+          	<a th:href="@{/blogList}">폴로그</a>
+          </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="basic.html">내 폴로그</a></div>
+          <div class="item__nameA">
+          	<a th:href="@{/postList}">내 폴로그</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -125,9 +131,6 @@
 		<p>[[${blog.blogTitle}]]</p>
   	</div>
   	<hr style="width: 760px;">
-  	
-  	
-  	<a th:href="@{/posting(blogID=${blogID})}"><button style="margin: 0 auto;">새 글 작성</button></a>
     <div class="inner2" >
     
     
@@ -137,12 +140,11 @@
 		<div class="post-box" th:each="post:${postlist}">
 			<div class="post-thumbnail">
 				<a th:href="@{/postDetail(postID=${post.postID})}">
-					<img src="" />
+					<img src="../images/madongsuk-thumbnail2.gif" />
 				</a>
 			</div>
-			<a th:href="@{/postDetail(postID=${post.postID})}"><h2>[[${post.postTitle}]]</h2></a>
-			<p></p>
 			<div class="subinfo">
+				<a th:href="@{/postDetail(postID=${post.postID})}"><h2>[[${post.postTitle}]]</h2></a>
 				<span>[[${post.postDate}]]</span>
 				<span>조회수 [[${post.viewCnt}]]</span>
 				<form action="">
@@ -150,7 +152,9 @@
 					<input type="hidden" name="postID" th:value="${post.postID}">
 				</form>
 			</div>
+			<br><br><hr>
 		</div>
+		
 	</div>
     </div>
     

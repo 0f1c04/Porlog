@@ -24,6 +24,11 @@ public class PostService {
 		return repo.findByBlog(blog);
 	}
 	
+	//조회수증가
+	public int HitCount(Long postID) {
+		return repo.HitViewCount(postID);
+	}
+	
 	public PostDTO selectByPostId(Long postID) {
 		return repo.findById(postID).get();
 	}

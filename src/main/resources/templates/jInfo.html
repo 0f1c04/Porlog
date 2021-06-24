@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>porlog</title>
+  <!-- 오픈그래프 -->
+ <!-- 오픈그래프 -->
+ <meta property="og:type" content="website" />
+ <meta property="og:site_name" content="porlog" />
+ <meta property="og:title" content="Belog KOSTA KOREA" />
+ <meta property="og:description" content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+ <meta property="og:image" content="images/logo-1.png" />
+ <meta property="og:url" content="" />
+ <!-- 트위터카드  -->
+ <meta property="twitter:card" content="summary" />
+ <meta property="twitter:site" content="porlog" />
+ <meta property="twitter:title" content="porlog는 KOSTA KOREA" />
+ <meta property="twitter:description" content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+ <meta property="twitter:image" content="images/logo-1.png" />
+ <meta property="twitter:url" content="" />
+  <!-- 구글 폰트 -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+  <!--구글 아이콘API  -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- 브라우져 기본 스타일 초기화  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <!-- 브라우져 타이틀 이미지 -->
+  <link rel="icon" href="images/logo-1.png">
+  <!-- css  -->
+  <link rel="stylesheet" href="css/jInfo.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- js -->
+  <script defer src="js/sample.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>	
+</head>
+
+<body>
+  <!-- HEADER -->
+  
+  <header>
+    <div class="inner">
+      <a href="/" class="logo">
+        <img src="images/logo-2.png" alt="Belog" class="img_title">
+      </a>
+      <div class="sub-menu">
+        <ul class="menu">
+          <li>
+            <a href="/signin">로그인</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">회원가입</a>
+          </li>
+
+        </ul>
+        <div class="search">
+          <input type="text">
+          <div class="material-icons">
+            search
+          </div>
+        </div>
+      </div>
+      <ul class="main-menu">
+        <li class="item">
+          <div class="item__name"><div class="material-icons">menu</div></div>
+          <div class="item__contents">
+            <div class="contents__menu">
+              <ul class="inner">
+                <li>
+                  <h4>채용정보</h4>
+                  <ul>
+                    <li>지역별</li>
+                    <li>직업별</li>
+                  </ul>
+                </li>
+                <li>
+                  <h4>폴로그</h4>
+                  <ul>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </li>
+                <li>
+                  <h4>내 폴로그</h4>
+                  <ul>
+                    <li>폴로그 확인</li>
+                    <li>폴로그 수정</li>
+                    <li>폴로그 삭제</li>
+                  </ul>
+                </li>
+              
+              </ul>
+            </div>
+            <div class="contents__texture">
+              <div class="inner">
+                
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA">
+            <a th:href="@{/jInfo}">채용정보</a>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA">
+            <a th:href="@{/blogList}">폴로그</a>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA">
+            <a th:href="@{/postList}">내 폴로그</a>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </header>
+	
+	<div id='myModal' class='modal fade' role='dialog'>
+		<div class='modal-dialog' style='width: 350px;'>
+		<div class='modal-content'>
+		<div class='modal-header'>
+		<button type='button' class='close' data-dismiss='modal'>&times;</button>
+		<h4 class='modal-title'>채용정보 상세보기</h4>
+		</div>
+		<div class='modal-body'>
+		<div class='form-group'>
+		<label for='detailinfo'>상세정보</label>
+		<div class='detailinformation'></div>
+		</div>
+		<div class='form-group'>
+		<label for='submit'>지원하기</label>
+		<div class='submit'></div>
+		</div>
+		<br>
+		<button id='close'>확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+
+
+	
+  <!-- VISUAL   조원분들이 건드려야할 부분-->
+  <section class="visual">
+    <div class="inner2" id="div01" >     
+    	
+     </div>
+  </section> 
+ 
+
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="inner">
+      <ul class="menu">
+        <li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침2</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침3</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침4</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침5</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침6</a></li>
+      </ul>
+      <div class="btn-group">
+        <a href="javascript:void(0)" class="btn btn--white">찾아와라1</a>
+        <a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
+        <a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
+      </div>
+      <div class="info">
+        <span>사사사11</span>
+        <span>사사사12</span>
+        <span>사사사13</span>
+        <span>사사사14</span>
+      </div>
+      <p class="copyright">
+        &copy;<span class="this-year"></span>KOSTA TEAM4
+      </p>
+      <img src="./images/logo-2.png" alt="" class="logo">
+    </div>
+
+  </footer>
+
+</body>
+
+ 
+ 
+
+ 
+<script>
+
+
+function call(i){
+	
+	$('#myModal').modal('show');
+	 
+	 $(".detailinformation").html(arr7[i].childNodes[0].nodeValue);
+	 
+	 $(".submit").html(arr8[i].childNodes[0].nodeValue+" 일까지 <br>"+arr5[i].childNodes[0].nodeValue+" 연락주세요!" + "<br>" + arr6[i].childNodes[0].nodeValue); 
+}
+$("#close").click(function(){
+	$('#myModal').modal('hide');
+});
+$(document).ready(function() {
+	 $.ajax({
+        url:'http://192.168.0.172:8887/api/1',
+        type:'POST',        
+        data:{},        
+        dataType:'xml', // 리턴해주는 타입을 지정해줘야함
+        beforeSend:function(jqXHR) {
+            console.log("ajax호출전");
+        },// 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+        success: function(data) {      
+            console.log("호출성공");   
+        
+            var arr1 = $(data).find("row").find("CMPNY_NM");
+            var arr2 = $(data).find("row").find("BSNS_SUMRY_CN");
+            var arr3 = $(data).find("row").find("HOLIDAY_NM");
+            var arr4 = $(data).find("row").find("WORK_TIME_NM");
+            arr5 = $(data).find("row").find("MNGR_PHON_NO");
+            arr6 = $(data).find("row").find("BASS_ADRES_CN");
+             arr7 = $(data).find("row").find("DTY_CN");
+             arr8 = $(data).find("row").find("RCEPT_CLOS_NM");
+             
+            
+            $.each(arr1, function(i,e){
+            	
+            	
+            	var p = "<div class='joblist'>" +  
+            			"<div class='jobimgdiv'>" + "</div>" +
+            			"<p>" + "<span class='substring2'><b>" + $(e).text() + "</b></span>" + "</h4>" + "<br>" + 
+            			arr3[i].childNodes[0].nodeValue + " / " + arr4[i].childNodes[0].nodeValue + "<br>" + 
+            			arr6[i].childNodes[0].nodeValue + "<br>" + 
+            			"<span class='substring'>자격요건,복리후생 자세한 내용은 상세버튼을 누르세요.</span>" + "</p>" + 
+            			"<br><a href='javascript:call("+i+");' class='ai'><button>상세</button></a>" + 
+            			"</div>";
+             
+            	$(".inner2").append(p);
+            	
+            });
+      	
+         
+        },// 요청 완료 시
+     
+        error:function(jqXHR) {
+            console.log("실패입니다.");
+        }// 요청 실패.
+    });
+	
+
+});
+
+
+</script> 
+
+
+</html>

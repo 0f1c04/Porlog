@@ -51,9 +51,10 @@ img{
   display: block;
 }
 .inner{
-  width: 1100px;
+  max-width: 1100px;
   margin: 0 auto;
   position: relative;
+  /* height: 100%; */
 }
 a{
   /* �쟾泥큑 諛묒쨪�젣嫄� */
@@ -303,14 +304,17 @@ header .main-menu .item .item__contents .contents__texture p{
   margin-bottom: 350px;
   background-image: url('');
   background-position: center;
+  max-width: 1700px;
   /* padding: 50px 0; */
 }
 .visual .inner{
-  max-height: 800px;
+  /* max-width: 1200px; */
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 40px 20px;
   /* background-color: gray; */
@@ -352,9 +356,10 @@ header .main-menu .item .item__contents .contents__texture p{
   background-image: url("");
 }
 .visual .inner .fortpolio .forex .title1{
-  background-image: url("../images/visual_cup1.png");
+  background-image: url("../images/madongsuk-thumbnail2.gif");
+  background-size: cover;
   display: block;
-  width: 98%;
+  width: 100%;
   height: 60%;
 }
 .visual .inner .fortpolio .forex .foo1{
@@ -394,7 +399,7 @@ header .main-menu .item .item__contents .contents__texture p{
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 100%;
+    height: 402px;
     display: block;
     object-fit: cover;
 }

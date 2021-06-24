@@ -54,26 +54,4 @@ public class PostController {
 		model.addAttribute("postID", postID);
 	}
 	
-	
-	
-//	@GetMapping("/postList/{blogID}")
-//	public ResponseEntity<List<PostDTO>> selectAll(@PathVariable Long blogID) {
-//		BlogDTO blog = BlogDTO.builder().blogID(blogID).build();
-//		return new ResponseEntity<>(service.selectByBlog(blog),HttpStatus.OK);
-//	}
-	
-/*	
-	@PostMapping("/blogInsert")
-	public String blogInsert(UserDTO user, RedirectAttributes rttr) {
-		UserDTO ins_user = service.insertUser(user);
-		rttr.addFlashAttribute("resultMessage", ins_user==null? "입력실패":"입력성공");
-		return "redirect:/userSample";
-	}
-	
-	@GetMapping("/blogInsert")
-	public void blogInsert() {
-		
-	}
-	*/
-	
 }

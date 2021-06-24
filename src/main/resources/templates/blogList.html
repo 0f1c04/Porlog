@@ -99,7 +99,7 @@
         </li>
         <li class="item">
           <div class="item__nameA">
-          	<a th:href="@{/basic}">채용정보</a>
+          	<a th:href="@{/jInfo}">채용정보</a>
           </div>
         </li>
         <li class="item">
@@ -120,12 +120,12 @@
   
   <!-- VISUAL -->
   <section class="visual">
-    <p style="text-align: center;">porlog</p>
-    <div class="inner" >
+    <h1 style="text-align: left; padding-left: 230px; padding-top: 50px;"><b>porlog</b></h1>
+    <div class="inner">
       
       <div class="fortpolio" th:each="blog:${bloglist}">
         <div class="forex">
-          <a href="#" class="title1"></a>
+          <a th:href="@{/postList(blogID=${blog.blogID})}" class="title1"></a>
           <div class="foo1">
             <a th:href="@{/postList(blogID=${blog.blogID})}" th:text="${blog.blogTitle}" class="content1"></a><span class="badge">([[${blog.postlist.size()}]]개의 게시물)</span>
           </div>

@@ -1,7 +1,5 @@
 package com.kosta.finalProject.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,10 +55,10 @@ public class BlogController {
 	public String selectById(Model model) {
 		//System.out.println("넘어온 user : "+userID);
 		String userID;
-		userID = "qwe";
+		userID = "yoonho3";
 		UserDTO user = userService.selectById(userID);
-		model.addAttribute("myblog", service.selectByUser(user));
-	
+		BlogDTO blog = service.selectByUser(user);
+		model.addAttribute("myblog", blog);
 		return "/basic"; 
 	}
 }
