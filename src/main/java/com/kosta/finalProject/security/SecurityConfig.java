@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override  //WebSecurity를 통해 HTTP 요청에 대한 웹 기반 보안을 구성
 	public void configure(WebSecurity web) throws Exception {
 		// 파일 기준은 resources/static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
-		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**");
+		web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/lib/**");
 		//만약 특정한 경로에 특정한 권한을 가진 사용자만 접근할 수 있도록 authorizeRequests().antMatches("/manager/**").hasRole("MANAGER")를 이용
 		//P.412참조
 	}

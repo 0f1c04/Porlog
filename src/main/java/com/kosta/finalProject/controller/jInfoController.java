@@ -17,7 +17,7 @@ public class jInfoController {
 	public String callApi() throws IOException{
 		StringBuilder result = new StringBuilder();
 		
-		String urlStr = "http://openapi.seoul.go.kr:8088/7078765043676b7333325555474e64/xml/GetJobInfo/4/31/";
+		String urlStr = "http://openapi.seoul.go.kr:8088/584f55707a73686f373045534a716d/xml/GetJobInfo/4/31/";
 		URL url = new URL(urlStr);
 		
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

@@ -11,7 +11,4 @@ import com.kosta.finalProject.model.ReplyDTO;
 public interface ReplyRepository extends CrudRepository<ReplyDTO, Long>, JpaRepository<ReplyDTO, Long> {
 	
 	public List<ReplyDTO> findByPost(PostDTO post);
-	
-	
-	
 }

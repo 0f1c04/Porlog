@@ -1,9 +1,11 @@
 package com.kosta.finalProject.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.kosta.finalProject.model.BlogDTO;
 import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.Post_ContentsDTO;
 import com.kosta.finalProject.repository.PostContentsRepository;
@@ -22,7 +24,6 @@ public class PostContentsService {
 	public Post_ContentsDTO selectByPost(PostDTO post) {
 		return repo.findByPost(post);
 	}
-	
 	
 	// 입력
 	public Post_ContentsDTO insertPostContents(Post_ContentsDTO postC) {

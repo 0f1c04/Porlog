@@ -10,10 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @SpringBootApplication
 //(exclude = { SecurityAutoConfiguration.class })
 @ComponentScan(basePackages = {"com.kosta"})
+@Controller
 public class FinalProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FinalProjectApplication.class, args);
 	}
 	
+	@RequestMapping( "/jInfo" )
+	public String home2() { 
+		return "jInfo";
+	}
 }

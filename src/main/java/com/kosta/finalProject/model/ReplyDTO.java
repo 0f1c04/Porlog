@@ -20,7 +20,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = "post")
+@ToString
 @Entity
 @Builder
 @AllArgsConstructor
@@ -39,7 +39,7 @@ public class ReplyDTO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "reply_no")
     private Long replyNO;
-    
+
     @ManyToOne
     private UserDTO replyUser;
 

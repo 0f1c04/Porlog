@@ -1,11 +1,13 @@
 package com.kosta.finalProject.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.finalProject.model.BlogDTO;
+import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.repository.BlogRepository;
 
@@ -35,8 +37,16 @@ public class BlogService {
 		BlogDTO blog = repo.findByUser2(user);
 		if(blog.getBlogTitle() == null)
 			blog.setBlogTitle("새 블로그를 만들어주세요");
-		return blog;
+		return blog;  
 	}
 	
+	public int updateBlog(UserDTO user, String blogTitle) {
+		return repo.updateBlog(user, blogTitle);
+	}
 }
+
+
+
+
+
 

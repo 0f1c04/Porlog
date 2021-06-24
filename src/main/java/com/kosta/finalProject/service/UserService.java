@@ -69,6 +69,11 @@ public class UserService {
 	public UserDTO selectById(String userID) {
 		return repo.findById(userID).get();
 	}
+	
+	//닉네임으로 조회
+	public UserDTO selectByNick(String nickname) {
+		return repo.findByNickname(nickname);
+	}
 
 	
 }

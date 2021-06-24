@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kosta.finalProject.model.BlogDTO;
 import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.Post_ContentsDTO;
 import com.kosta.finalProject.service.BlogService;
@@ -29,7 +30,6 @@ public class PostContentsController {
 		PostDTO post = serviceP.selectByPostId(postID);
 		model.addAttribute("postcontent", service.selectByPost(post));
 		model.addAttribute("postID", postID);
-		model.addAttribute("view", serviceP.HitCount(postID));
 		return "/postDetail";
 	}
 	

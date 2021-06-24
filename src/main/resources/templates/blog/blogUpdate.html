@@ -9,9 +9,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 </head>
 <body>
 
-<h1 class="panel-heading">블로그 작성</h1>
+<h1 class="panel-heading">블로그 수정</h1>
 	<div class="panel-body">
-		<form th:action="@{/blogInsert}" method="post">
+		<form th:action="@{/blogUpdate}" method="post">
 			<div class="form-group">
 		      <label for="userID">유저ID : [[${userID}]]</label>
 		      <textarea hidden="true" class="form-control" cols=""  id="userID" name="userID">[[${userID}]]</textarea>
@@ -20,7 +20,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		      <label for="blogTitle">블로그 제목 : </label>
 		      <textarea class="form-control" cols="" id="blogTitle" name="blogTitle"></textarea>
 		    </div>
-		    <button type="submit" class="btn btn-success">등록하기</button>
+		    <button type="submit" class="btn btn-success">수정하기</button>
 		    <button type="reset" class="btn btn-primary">Reset</button>
 		  </form>
 	

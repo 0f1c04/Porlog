@@ -15,7 +15,7 @@ public class PostService {
 
 	@Autowired
 	PostRepository repo;
-	
+
 	@Autowired
 	BlogRepository repoB;
 
@@ -23,16 +23,16 @@ public class PostService {
 	public List<PostDTO> selectByBlog(BlogDTO blog) {
 		return repo.findByBlog(blog);
 	}
-	
-	//조회수증가
+
+	// 조회수증가
 	public int HitCount(Long postID) {
 		return repo.HitViewCount(postID);
 	}
-	
+
 	public PostDTO selectByPostId(Long postID) {
 		return repo.findById(postID).get();
 	}
-	
+
 	// 입력
 	public PostDTO insertPost(PostDTO post, Long blogID) {
 		BlogDTO blog = repoB.findById(blogID).get();

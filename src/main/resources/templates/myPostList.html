@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
-
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>porlog</title>
-  <!-- 오픈그래프 -->
- <!-- 오픈그래프 -->
- <meta property="og:type" content="website" />
- <meta property="og:site_name" content="porlog" />
- <meta property="og:title" content="Belog KOSTA KOREA" />
- <meta property="og:description" content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
- <meta property="og:image" content="images/logo-1.png" />
- <meta property="og:url" content="" />
- <!-- 트위터카드  -->
- <meta property="twitter:card" content="summary" />
- <meta property="twitter:site" content="porlog" />
- <meta property="twitter:title" content="porlog는 KOSTA KOREA" />
- <meta property="twitter:description" content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
- <meta property="twitter:image" content="images/logo-1.png" />
- <meta property="twitter:url" content="" />
-  <!-- 구글 폰트 -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
-  <!--구글 아이콘API  -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- 브라우져 기본 스타일 초기화  -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-  <!-- 브라우져 타이틀 이미지 -->
-  <link rel="icon" href="images/logo-1.png">
-  <!-- css  -->
-  <link rel="stylesheet" href="css/sample.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>porlog</title>
+  
+<!-- 오픈그래프 -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="porlog" />
+<meta property="og:title" content="Belog KOSTA KOREA" />
+<meta property="og:description" content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+<meta property="og:image" content="images/logo-1.png" />
+<meta property="og:url" content="" />
+<!-- 트위터카드  -->
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="porlog" />
+<meta property="twitter:title" content="porlog는 KOSTA KOREA" />
+<meta property="twitter:description" content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+<meta property="twitter:image" content="images/logo-1.png" />
+<meta property="twitter:url" content="" />
+<!-- 구글 폰트 -->
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+<!--구글 아이콘API  -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- 브라우져 기본 스타일 초기화  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+<!-- 브라우져 타이틀 이미지 -->
+<link rel="icon" href="images/logo-1.png">
+<!-- css  -->
+<link rel="stylesheet" href="css/sample.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-
-  <!-- js -->
-  <script defer src="js/sample.js"></script>
+<!-- js -->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script defer src="js/sample.js"></script>
 
 </head>
 
@@ -44,7 +44,7 @@
   <!-- HEADER -->
   <header>
     <div class="inner">
-      <a th:href="@{/index}" class="logo">
+      <a href="/" class="logo">
         <img src="images/logo-2.png" alt="Belog" class="img_title">
       </a>
       <div class="sub-menu">
@@ -55,7 +55,6 @@
           <li>
             <a href="javascript:void(0)">회원가입</a>
           </li>
-
         </ul>
         <div class="search">
           <input type="text">
@@ -75,7 +74,6 @@
                   <ul>
                     <li>지역별</li>
                     <li>직업별</li>
-                  
                   </ul>
                 </li>
                 <li>
@@ -83,7 +81,6 @@
                   <ul>
                     <li></li>
                     <li></li>
-                    
                   </ul>
                 </li>
                 <li>
@@ -92,10 +89,8 @@
                     <li>폴로그 확인</li>
                     <li>폴로그 수정</li>
                     <li>폴로그 삭제</li>
-                    
                   </ul>
                 </li>
-              
               </ul>
             </div>
             <div class="contents__texture">
@@ -110,86 +105,56 @@
         </li>
         <li class="item">
           <div class="item__nameA"><a href="basic.html">채용정보</a></div>
-
         </li>
         <li class="item">
           <div class="item__nameA"><a href="polio.html">폴로그</a></div>
-         
         </li>
         <li class="item">
           <div class="item__nameA"><a href="basic.html">내 폴로그</a></div>
-         
-        <!-- </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">검증면접</a></div>
-        
         </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">합격이야기</a></div>
-        
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">WHAT'S NEW</a></div>
-         
-           
-        </li> -->
       </ul>
-
-
-
-
-
     </div>
   </header>
   
+  
+  
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
+	<div style="width: 760px; margin: 0 auto; text-align: left; padding-top: 50px;">
+		<h2><b>[[${blog.user.nickname}]]</b></h2>
+		<p>[[${blog.blogTitle}]]</p>
+  	</div>
+  	<hr style="width: 760px;">
+  	
+  	
+  	<a th:href="@{/posting(blogID=${blogID})}"><button style="margin: 0 auto;">새 글 작성</button></a>
     <div class="inner2" >
-     
-	<table >
-		<tr>
-			<th>블로그ID</th>
-			<th>유저ID</th>
-			<th>블로그제목 &nbsp </th>
-
-
-		</tr>
-		<tr>
-			<td th:text="${myblog.blogID}"></td>
-			<td th:text="${myblog.user.userID}"></td>
-			<td th:text="${myblog.blogTitle}"></td>
-		</tr>
-	</table> 
-	
-	<table>
-			<tr>
-				<th>게시물번호  </th>
-				<th>작성날짜  </th>
-				<th>제목  </th>
-				<th>조회수  </th>
-			</tr>
-			<tr th:each="post:${postlist}">
-				<td th:text="${post.postID}"></td>
-				<td th:text="${post.postDate}"></td>
-				<td>
-					<a th:href="@{/postDetail(postID=${post.postID})}">[[${post.postTitle}]]</a>
-					
-				</td>
-				<td th:text="${post.viewCnt}"></td>
-			</tr>
-			
-			
-			
-		</table>
-		
-     	<div th:if="${myblog.blogID} == 0">
-     		<a th:href="@{/blogInsert(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 만들기</button></a>
-     	</div>
-     	<div th:unless="${myblog.blogID} == 0">
-     		<a th:href="@{/blogUpdate(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 수정</button></a>
-     	</div>
-     	<a th:href="@{/posting(blogID=${myblog.blogID})}"><button style="margin: 0 auto;">게시글 만들기</button></a>
+    
+    
+    
+    
+	<div class="post-area">
+		<div class="post-box" th:each="post:${postlist}">
+			<div class="post-thumbnail">
+				<a th:href="@{/postDetail(postID=${post.postID})}">
+					<img src="" />
+				</a>
+			</div>
+			<a th:href="@{/postDetail(postID=${post.postID})}"><h2>[[${post.postTitle}]]</h2></a>
+			<p></p>
+			<div class="subinfo">
+				<span>[[${post.postDate}]]</span>
+				<span>조회수 [[${post.viewCnt}]]</span>
+				<form action="">
+					<input type="hidden" name="blogID" th:value="${blogID}">
+					<input type="hidden" name="postID" th:value="${post.postID}">
+				</form>
+			</div>
+		</div>
+	</div>
     </div>
+    
+    
   </section>
  
 
@@ -222,7 +187,6 @@
       </p>
       <img src="./images/logo-2.png" alt="" class="logo">
     </div>
-
   </footer>
 
 </body>

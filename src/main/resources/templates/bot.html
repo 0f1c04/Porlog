@@ -145,50 +145,32 @@
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
     <div class="inner2" >
-     
-	<table >
-		<tr>
-			<th>블로그ID</th>
-			<th>유저ID</th>
-			<th>블로그제목 &nbsp </th>
+    	<div style="float: left; margin-right: 10px;" id="listProducts" th:each="product:${products}">
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Photo</th>
+            </tr>
+            
+            <tr>
+                <td>[[${product.id }]]</td>
+                <td>[[${product.name }]]</td>
+                <td>[[${product.price }]]</td>
+                <td>
+                    <img th:src="@{${'/images/' + product.photo}}" width="120" height="100" class="productPhoto" />
+                    <input type="hidden" class="productId" th:value="${product.id}"/>
+                </td>
+            </tr>
+           
+        </table>
+    </div>
 
+	    <div id="cart" style="width: 200px; min-height: 200px; border: 1px solid red; margin-left: 300px; padding: 5px;">
 
-		</tr>
-		<tr>
-			<td th:text="${myblog.blogID}"></td>
-			<td th:text="${myblog.user.userID}"></td>
-			<td th:text="${myblog.blogTitle}"></td>
-		</tr>
-	</table> 
+	    </div>
 	
-	<table>
-			<tr>
-				<th>게시물번호  </th>
-				<th>작성날짜  </th>
-				<th>제목  </th>
-				<th>조회수  </th>
-			</tr>
-			<tr th:each="post:${postlist}">
-				<td th:text="${post.postID}"></td>
-				<td th:text="${post.postDate}"></td>
-				<td>
-					<a th:href="@{/postDetail(postID=${post.postID})}">[[${post.postTitle}]]</a>
-					
-				</td>
-				<td th:text="${post.viewCnt}"></td>
-			</tr>
-			
-			
-			
-		</table>
-		
-     	<div th:if="${myblog.blogID} == 0">
-     		<a th:href="@{/blogInsert(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 만들기</button></a>
-     	</div>
-     	<div th:unless="${myblog.blogID} == 0">
-     		<a th:href="@{/blogUpdate(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 수정</button></a>
-     	</div>
-     	<a th:href="@{/posting(blogID=${myblog.blogID})}"><button style="margin: 0 auto;">게시글 만들기</button></a>
     </div>
   </section>
  
@@ -224,6 +206,97 @@
     </div>
 
   </footer>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+function displayCart(data) {
+	
+    var s = '';
+    var sum = 0;
+    var pp = '';
+    for (var i= 0; i < data.length; i++) {
+    	//pp = data[i].product.id;
+    	//alert('*'+pp);
+        sum += parseInt(data[i].quantity) * parseFloat(data[i].product.price);
+        s += '<br><img src="images/' + data[i].product.photo + '" width="50" height="50">';
+        s += '<br>Id: ' + data[i].product.id;
+        s += '<br>Name: ' + data[i].product.name;
+        s += '<br>Quantity: ' + data[i].quantity;
+        s += "<br>Sub Total: " + (parseInt(data[i].quantity) * parseFloat(data[i].product.price));
+        s += `<br><a href="javascript:del('${data[i].product.id}')" id=delete>Delete</a>`; 
+        s += '<br>--------------------------';
+        
+    } 
+    s += '<br>Totals: ' + sum;
+    
+    $('#cart').html(s);
+}
+
+
+function del(id){
+	alert(id);
+	//var productIdCart = $(this).attr('href').split('=');
+   // console.log(productIdCart[1]);
+ 
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        url: '/cart/delete/' + id,
+        success: function (data) {
+            displayCart(data);
+        }
+    });
+}
+
+    $(document).ready(function() {
+    	
+    	
+
+        $('#listProducts img').css({
+            'z-index' : 100
+        }).draggable({
+            'opacity' : '0.5',
+            'revert' : true,
+            'cursor' : 'pointer'
+        });
+        
+
+       
+
+        $('#cart').droppable({
+            drop: function (event, ui) {
+            	var aa='qwe';
+            	//console.log(aa.sibligs('.productId'));
+            	//console.log($(ui));
+                var productId = $(ui.draggable).siblings('.productId').val();
+                console.log(productId);
+                
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/cart/buy/' + productId ,
+                    success: function (data) {
+                        displayCart(data);
+                    }
+                });
+            }
+        });
+        
+        
+
+        
+
+
+    });
+    
+    
+</script>
 
 </body>
 

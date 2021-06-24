@@ -7,5 +7,5 @@ import com.kosta.finalProject.model.UserDTO;
 
 public interface UserRepository extends CrudRepository<UserDTO, String>, JpaRepository<UserDTO, String>{
 	
-	
+	public UserDTO findByNickname(String nickname);
 }
