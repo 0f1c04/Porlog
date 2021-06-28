@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>porlog</title>
+  <!-- 오픈그래프 -->
+ <!-- 오픈그래프 -->
+ <meta property="og:type" content="website" />
+ <meta property="og:site_name" content="porlog" />
+ <meta property="og:title" content="Belog KOSTA KOREA" />
+ <meta property="og:description" content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+ <meta property="og:image" content="images/logo-1.png" />
+ <meta property="og:url" content="" />
+ <!-- 트위터카드  -->
+ <meta property="twitter:card" content="summary" />
+ <meta property="twitter:site" content="porlog" />
+ <meta property="twitter:title" content="porlog는 KOSTA KOREA" />
+ <meta property="twitter:description" content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+ <meta property="twitter:image" content="images/logo-1.png" />
+ <meta property="twitter:url" content="" />
+  <!-- 구글 폰트 -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+  <!--구글 아이콘API  -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- 브라우져 기본 스타일 초기화  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <!-- 브라우져 타이틀 이미지 -->
+  <link rel="icon" href="images/logo-1.png">
+  <!-- css  -->
+  <link rel="stylesheet" href="css/sample.css">
+
+
+  <!-- js -->
+  <script defer src="js/sample.js"></script>
+
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="inner">
+      <a th:href="@{/index}" class="logo">
+        <img src="images/logo-2.png" alt="Belog" class="img_title">
+      </a>
+      <div class="sub-menu">
+        <ul class="menu">
+          <li>
+            <a href="/signin">로그인</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">회원가입</a>
+          </li>
+
+        </ul>
+        <div class="search">
+          <input type="text">
+          <div class="material-icons">
+            search
+          </div>
+        </div>
+      </div>
+      <ul class="main-menu">
+        <li class="item">
+          <div class="item__name"><div class="material-icons">menu</div></div>
+          <div class="item__contents">
+            <div class="contents__menu">
+              <ul class="inner">
+                <li>
+                  <h4>채용정보</h4>
+                  <ul>
+                    <li>지역별</li>
+                    <li>직업별</li>
+                  
+                  </ul>
+                </li>
+                <li>
+                  <h4>폴로그</h4>
+                  <ul>
+                    <li></li>
+                    <li></li>
+                    
+                  </ul>
+                </li>
+                <li>
+                  <h4>내 폴로그</h4>
+                  <ul>
+                    <li>폴로그 확인</li>
+                    <li>폴로그 수정</li>
+                    <li>폴로그 삭제</li>
+                    
+                  </ul>
+                </li>
+              
+              </ul>
+            </div>
+            <div class="contents__texture">
+              <div class="inner">
+                <!-- <h4>나와 어울리는 커피 찾기</h4>
+                <p>스타벅스가 여러분에게 어울리는 커피를 찾아드립니다.</p>
+                <h4>최상의 커피를 즐기는 법</h4>
+                <p>여러가지 방법을 통해 다양한 풍미의 커피를 즐겨보세요.</p> -->
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA"><a href="basic.html">채용정보</a></div>
+
+        </li>
+        <li class="item">
+          <div class="item__nameA"><a href="polio.html">폴로그</a></div>
+         
+        </li>
+        <li class="item">
+          <div class="item__nameA"><a href="basic.html">내 폴로그</a></div>
+         
+        <!-- </li>
+        <li class="item">
+          <div class="item__nameA"><a href="javascript:void(0)">검증면접</a></div>
+        
+        </li>
+        <li class="item">
+          <div class="item__nameA"><a href="javascript:void(0)">합격이야기</a></div>
+        
+        </li>
+        <li class="item">
+          <div class="item__nameA"><a href="javascript:void(0)">WHAT'S NEW</a></div>
+         
+           
+        </li> -->
+      </ul>
+
+
+
+
+
+    </div>
+  </header>
+  
+  <!-- VISUAL   조원분들이 건드려야할 부분-->
+  <section class="visual">
+    <div class="inner2" >
+    	<div style="float: left; margin-right: 10px;" id="listProducts" th:each="product:${products}">
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Photo</th>
+            </tr>
+            
+            <tr>
+                <td>[[${product.id }]]</td>
+                <td>[[${product.name }]]</td>
+                <td>[[${product.price }]]</td>
+                <td>
+                    <img th:src="@{${'/images/' + product.photo}}" width="120" height="100" class="productPhoto" />
+                    <input type="hidden" class="productId" th:value="${product.id}"/>
+                </td>
+            </tr>
+           
+        </table>
+    </div>
+
+	    <div id="cart" style="width: 200px; min-height: 200px; border: 1px solid red; margin-left: 300px; padding: 5px;">
+
+	    </div>
+	
+    </div>
+  </section>
+ 
+
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="inner">
+      <ul class="menu">
+        <li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침2</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침3</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침4</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침5</a></li>
+        <li><a href="javascript:void(0)">개인정보처리방침6</a></li>
+      </ul>
+      <div class="btn-group">
+        <a href="javascript:void(0)" class="btn btn--white">찾아와라1</a>
+        <a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
+        <a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
+      </div>
+      <div class="info">
+        <span>사사사11</span>
+        <span>사사사12</span>
+        <span>사사사13</span>
+        <span>사사사14</span>
+      </div>
+      <p class="copyright">
+        &copy;<span class="this-year"></span>KOSTA TEAM4
+      </p>
+      <img src="./images/logo-2.png" alt="" class="logo">
+    </div>
+
+  </footer>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+function displayCart(data) {
+	
+    var s = '';
+    var sum = 0;
+    var pp = '';
+    for (var i= 0; i < data.length; i++) {
+    	//pp = data[i].product.id;
+    	//alert('*'+pp);
+        sum += parseInt(data[i].quantity) * parseFloat(data[i].product.price);
+        s += '<br><img src="images/' + data[i].product.photo + '" width="50" height="50">';
+        s += '<br>Id: ' + data[i].product.id;
+        s += '<br>Name: ' + data[i].product.name;
+        s += '<br>Quantity: ' + data[i].quantity;
+        s += "<br>Sub Total: " + (parseInt(data[i].quantity) * parseFloat(data[i].product.price));
+        s += `<br><a href="javascript:del('${data[i].product.id}')" id=delete>Delete</a>`; 
+        s += '<br>--------------------------';
+        
+    } 
+    s += '<br>Totals: ' + sum;
+    
+    $('#cart').html(s);
+}
+
+
+function del(id){
+	alert(id);
+	//var productIdCart = $(this).attr('href').split('=');
+   // console.log(productIdCart[1]);
+ 
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        url: '/cart/delete/' + id,
+        success: function (data) {
+            displayCart(data);
+        }
+    });
+}
+
+    $(document).ready(function() {
+    	
+    	
+
+        $('#listProducts img').css({
+            'z-index' : 100
+        }).draggable({
+            'opacity' : '0.5',
+            'revert' : true,
+            'cursor' : 'pointer'
+        });
+        
+
+       
+
+        $('#cart').droppable({
+            drop: function (event, ui) {
+            	var aa='qwe';
+            	//console.log(aa.sibligs('.productId'));
+            	//console.log($(ui));
+                var productId = $(ui.draggable).siblings('.productId').val();
+                console.log(productId);
+                
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/cart/buy/' + productId ,
+                    success: function (data) {
+                        displayCart(data);
+                    }
+                });
+            }
+        });
+        
+        
+
+        
+
+
+    });
+    
+    
+</script>
+
+</body>
+
+</html>

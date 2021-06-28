@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
 
 <head>
   <meta charset="UTF-8">
@@ -42,7 +44,7 @@
   <!-- HEADER -->
   <header>
     <div class="inner">
-      <a href="/" class="logo">
+      <a th:href="@{/index}" class="logo">
         <img src="images/logo-2.png" alt="Belog" class="img_title">
       </a>
       <div class="sub-menu">
@@ -144,7 +146,49 @@
   <section class="visual">
     <div class="inner2" >
      
-     
+	<table >
+		<tr>
+			<th>블로그ID</th>
+			<th>유저ID</th>
+			<th>블로그제목 &nbsp </th>
+
+
+		</tr>
+		<tr>
+			<td th:text="${myblog.blogID}"></td>
+			<td th:text="${myblog.user.userID}"></td>
+			<td th:text="${myblog.blogTitle}"></td>
+		</tr>
+	</table> 
+	
+	<table>
+			<tr>
+				<th>게시물번호  </th>
+				<th>작성날짜  </th>
+				<th>제목  </th>
+				<th>조회수  </th>
+			</tr>
+			<tr th:each="post:${postlist}">
+				<td th:text="${post.postID}"></td>
+				<td th:text="${post.postDate}"></td>
+				<td>
+					<a th:href="@{/postDetail(postID=${post.postID})}">[[${post.postTitle}]]</a>
+					
+				</td>
+				<td th:text="${post.viewCnt}"></td>
+			</tr>
+			
+			
+			
+		</table>
+		
+     	<div th:if="${myblog.blogID} == 0">
+     		<a th:href="@{/blogInsert(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 만들기</button></a>
+     	</div>
+     	<div th:unless="${myblog.blogID} == 0">
+     		<a th:href="@{/blogUpdate(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 수정</button></a>
+     	</div>
+     	<a th:href="@{/posting(blogID=${myblog.blogID})}"><button style="margin: 0 auto;">게시글 만들기</button></a>
     </div>
   </section>
  

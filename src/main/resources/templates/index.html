@@ -1,313 +1,546 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>porlog</title>
-  <!-- 오픈그래프 -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="porlog" />
-  <meta property="og:title" content="Belog KOSTA KOREA" />
-  <meta property="og:description" content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
-  <meta property="og:image" content="images/logo-1.png" />
-  <meta property="og:url" content="" />
-  <!-- 트위터카드  -->
-  <meta property="twitter:card" content="summary" />
-  <meta property="twitter:site" content="porlog" />
-  <meta property="twitter:title" content="porlog는 KOSTA KOREA" />
-  <meta property="twitter:description" content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
-  <meta property="twitter:image" content="images/logo-1.png" />
-  <meta property="twitter:url" content="" />
-  <!-- 구글 폰트 -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
-  <!--구글 아이콘API  -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- 브라우져 기본 스타일 초기화  -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-  <!-- 브라우져 타이틀 이미지 -->
-  <link rel="icon" href="images/logo-1.png">
-  <!-- css  -->
-  <link rel="stylesheet" href="css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>porlog</title>
+<!-- 오픈그래프 -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="porlog" />
+<meta property="og:title" content="Belog KOSTA KOREA" />
+<meta property="og:description"	content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+<meta property="og:image" content="images/logo-1.png" />
+<meta property="og:url" content="" />
+<!-- 트위터카드  -->
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="porlog" />
+<meta property="twitter:title" content="porlog는 KOSTA KOREA" />
+<meta property="twitter:description"
+	content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+<meta property="twitter:image" content="images/logo-1.png" />
+<meta property="twitter:url" content="" />
+<!-- 구글 폰트 -->
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+<!--구글 아이콘API  -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- 브라우져 기본 스타일 초기화  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+<!-- 브라우져 타이틀 이미지 -->
+<link rel="icon" href="images/logo-1.png">
+<!-- css  -->
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/modal.css">
 <!-- lodash cdn -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
-crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+	integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- gsap libray -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"
-integrity="sha512-cdV6j5t5o24hkSciVrb8Ki6FveC2SgwGfLE31+ZQRHAeSRxYhAQskLkq3dLm8ZcWe1N3vBOEYmmbhzf7NTtFFQ=="
-crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"
+	integrity="sha512-cdV6j5t5o24hkSciVrb8Ki6FveC2SgwGfLE31+ZQRHAeSRxYhAQskLkq3dLm8ZcWe1N3vBOEYmmbhzf7NTtFFQ=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- gsap scroll -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollToPlugin.min.js" integrity="sha512-kSI9CgGh60rJbNVeMJvfNX0UTKAq8LEOea/yKJQbFpIroxT7bf9/zUFXbnfsQP5F6xlOOHtCfBPgsE1ceiHnRw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollToPlugin.min.js"
+	integrity="sha512-kSI9CgGh60rJbNVeMJvfNX0UTKAq8LEOea/yKJQbFpIroxT7bf9/zUFXbnfsQP5F6xlOOHtCfBPgsE1ceiHnRw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- SWIPER -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <!-- SCROLL MAGIC -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js" integrity="sha512-8E3KZoPoZCD+1dgfqhPbejQBnQfBXe8FuwL4z/c8sTrgeDMFEnoyTlH3obB4/fV+6Sg0a0XF+L/6xS4Xx1fUEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- YOUTUBE -->
-  <script defer src="js/youtube.js"></script>  
-  <!-- js -->
-  <script defer src="js/main.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"
+	integrity="sha512-8E3KZoPoZCD+1dgfqhPbejQBnQfBXe8FuwL4z/c8sTrgeDMFEnoyTlH3obB4/fV+6Sg0a0XF+L/6xS4Xx1fUEg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- YOUTUBE -->
+<script defer src="js/youtube.js"></script>
+<!-- js -->
+<script defer src="js/main.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </head>
 
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="inner">
-      <a href="/" class="logo">
-        <img src="images/logo-2.png" alt="Belog" class="img_title">
-      </a>
-      <div class="sub-menu">
-        <ul class="menu">
-          <li>
-            <a href="/signin">로그인</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">회원가입</a>
-          </li>
-
-        </ul>
-        <div class="search">
-          <input type="text">
-          <div class="material-icons">
-            search
-          </div>
-        </div>
-      </div>
-      <ul class="main-menu">
-        <li class="item">
-          <div class="item__name"><div class="material-icons">menu</div></div>
-          <div class="item__contents">
-            <div class="contents__menu">
-              <ul class="inner">
-                <li>
-                  <h4></h4>
-                  <ul>
-                    <li>지역별</li>
-                    <li>직업별</li>
-                  
-                  </ul>
-                </li>
-                <li>
-                  <h4>폴로그</h4>
-                  <ul>
-                    <li></li>
-                    <li></li>
-                    
-                  </ul>
-                </li>
-                <li>
-                  <h4>내 폴로그</h4>
-                  <ul>
-                    <li>폴로그 확인</li>
-                    <li>폴로그 수정</li>
-                    <li>폴로그 삭제</li>
-                    
-                  </ul>
-                </li>
-                <!-- <li>
-                  <h4>최상의 커피를 즐기는 법</h4>
-                  <ul>
-                    <li>커피 프레스</li>
-                    <li>푸어 오버</li>
-                    <li>아이스 푸어 오버</li>
-                    <li>커피 메이커</li>
-                    <li>리저브를 매장에서 다양하게 즐기는 법</li>
-                  </ul>
-                </li> -->
-              </ul>
-            </div>
-            <div class="contents__texture">
-              <div class="inner">
-                <!-- <h4>나와 어울리는 커피 찾기</h4>
+	<!-- HEADER -->
+	<header>
+		<div class="inner">
+			<a href="/index" class="logo"><img src="images/logo-2.png" alt="Belog" class="img_title"></a>
+			<div class="sub-menu">
+				<ul class="menu">
+					<li><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
+				</ul>
+				<div class="search">
+					<input type="text">
+					<div class="material-icons">search</div>
+				</div>
+			</div>
+			
+			<ul class="main-menu">
+				<li class="item">
+					<div class="item__name">
+						<div class="material-icons">menu</div>
+					</div>
+					<div class="item__contents">
+						<div class="contents__menu">
+							<ul class="inner">
+								<li>
+									<h4>채용정보</h4>
+									<ul>
+										<li>지역별</li>
+										<li>직업별</li>
+									</ul>
+								</li>
+								<li>
+									<h4>폴로그</h4>
+									<ul>
+										<li></li>
+										<li></li>
+									</ul>
+								</li>
+								<li>
+									<h4>내 폴로그</h4>
+									<ul>
+										<li>폴로그 확인</li>
+										<li>폴로그 수정</li>
+										<li>폴로그 삭제</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="contents__texture">
+							<div class="inner">
+								<!-- <h4>나와 어울리는 커피 찾기</h4>
                 <p>스타벅스가 여러분에게 어울리는 커피를 찾아드립니다.</p>
                 <h4>최상의 커피를 즐기는 법</h4>
                 <p>여러가지 방법을 통해 다양한 풍미의 커피를 즐겨보세요.</p> -->
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="basic.html">채용정보</a></div>
-
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="polio.html">폴로그</a></div>
-         
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="basic.html">내 폴로그</a></div>
-         
-        <!-- </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">검증면접</a></div>
-        
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">합격이야기</a></div>
-        
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">WHAT'S NEW</a></div>
-         
-           
-        </li> -->
-      </ul>
+							</div>
+						</div>
+					</div>
+				</li>
+			
+				<li class="item">
+					<div class="item__nameA">
+						<a th:href="@{/jInfo}">채용정보</a>
+					</div>
+				</li>
+				<li class="item">
+					<div class="item__nameA">
+						<a th:href="@{/blogList}">폴로그</a>
+					</div>
+				</li>
+				<li class="item">
+					<div class="item__nameA">
+						<div sec:authorize="isAuthenticated()">
+							<a th:href="@{/basic(userID=${user.userID})}" >내 블로그2</a>
+						</div>
+						<div sec:authorize="isAnonymous()">
+							<a th:href="@{/basic}" >내 폴로그</a>
+						</div>
+					</div> 
+				</li>
+			</ul>
+			
+		</div>
 
 
+	</header>
+	<!--Modal2  -->
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	  Sign Up
+	</button>
+	
+	<!-- Modal -->
+	<!--아이디찾기 -->
+	<div class="modal fade" id="exampleModalID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	          <h1>아이디 찾기 </h1>
+	          
+	          <form>
+	            <div class="form-group">
+	              <label for="exampleInputName">이름</label>
+	              <input type="text" class="form-control" id="exampleInputName" placeholder="이름">
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputEmail1">핸드폰번호</label>
+	              <input type="text" class="form-control" id="exampleInputPhone" aria-describedby="emailHelp" placeholder="핸드폰번호">
+	            </div>
+	            <button type="submit" class="btn btn-primary">아이디 찾기</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn">Cancel</button>
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--비밀번호찾기 -->
+	<div class="modal fade" id="exampleModalPW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	          <h1>비밀번호 찾기 </h1>
+	          
+	          <form>
+	            <div class="form-group">
+	              <label for="exampleInputName">이름</label>
+	              <input type="text" class="form-control" id="exampleInputName" placeholder="이름">
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputEmail1">핸드폰번호</label>
+	              <input type="text" class="form-control" id="exampleInputPhone" aria-describedby="emailHelp" placeholder="핸드폰번호">
+	            </div>
+	            <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn2">Cancel</button>
+	            
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--회원가입  -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column" id="main">
+	          <h1>회원가입 </h1>
+	          <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
+	          <form method="post" action="userInsert">
+	            <div class="form-group">
+	              <label for="nickname">이름</label>
+	              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="이름">
+	            </div>
+	            <div class="form-group">
+	              <label for="userID">아이디 </label>
+	              <input type="text" class="form-control" id="userID" name="userID" aria-describedby="emailHelp" placeholder="이메일(아이디)">
+	            </div>
+	            <div class="form-group">
+	              <label for="userPW">비밀번호</label>
+	              <input type="password" class="form-control" id="userPW" name="userPW" placeholder="비밀번호">
+	            </div>
+	            <div class="form-group">
+	              <label for="email">이메일</label>
+	              <input type="email" class="form-control" id="email" name="email" placeholder="비밀번호">
+	            </div>
+	            <div class="form-group">
+	              <label for="authLV">권한(1 또는 0)</label>
+	              <input type="number" class="form-control" id="authLV" name="authLV" placeholder="비밀번호">
+	            </div>
+	            <button type="submit" class="btn btn-primary">Sign Up</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+	          </form>
+	        </div>
+	        <div>
+	          <?xml version="1.0" encoding="UTF-8"?>
+	          <svg width="67px" height="578px" viewBox="0 0 67 578" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	              <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+	              <title>Path</title>
+	              <desc>Created with Sketch.</desc>
+	              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+	                  <path d="M11.3847656,-5.68434189e-14 C-7.44726562,36.7213542 5.14322917,126.757812 49.15625,270.109375 C70.9827986,341.199016 54.8877465,443.829224 0.87109375,578 L67,578 L67,-5.68434189e-14 L11.3847656,-5.68434189e-14 Z" id="Path" fill="#F9BC35"></path>
+	              </g>
+	          </svg>
+	        </div>
+	        <div class="column" id="secondary">
+	          <div class="sec-content">
+	            <h2>Welcome Back!</h2>
+	            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
+	            <button type="button" class="btn btn-primary" id="registerLogin" >Login</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--로그인  -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog" style="width: 350px;" >
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Login</h4>
+	      </div>
+	      <div class="modal-body">
+	      
+	       
+			<form  method="post">
+	        	<div class="form-group">
+	              <label for="exampleInputName">ID</label>
+	              <!-- <button class="btn-duplicate"  onclick="registerCheckFuntion();" type="button" style="margin-left: 330px" >중복체크</button> -->
+	              <input type="text" class="form-control" id="exampleInputName" name="username" placeholder="아이디">
+	     		  <a  href="#" data-toggle="modal"   id="registerCheck" >아이디 중복체크</a>
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputPassword1">Password</label>
+	              <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">  
+	            </div>
+	            <input type="checkbox" name="idcheck" id="idSaveCheck" onClick="confirmSave(this)"> 아이디저장<br>
+	            <input type="submit" class="btn btn-primary" id="login-login" value="login">
+	            <button type="button" class="btn btn-primary" data-dismiss="modal"  >Cancel</button><br>
+	        </form>
+	       	
+	      </div>
+	  		<div style="text-align: center;">
+	  		     <a  href="#" data-toggle="modal" data-target="#exampleModal"  id="registersend">회원가입</a>
+	      		 <a  href="#" data-toggle="modal" data-target="#exampleModalID" id="IDFind">아이디 찾기</a>
+	      		 <a  href="#" data-toggle="modal" data-target="#exampleModalPW" id="PWFind" >비밀번호 찾기</a>
+	  		</div>
+	    </div>
+	  </div>
+	</div>
 
 
-
-    </div>
-  </header>
-  
-  <!-- VISUAL -->
+	<!-- VISUAL -->
   <section class="visual">
+  	<img src="./images/main-bg.png" style="width: 100%; height: 646px;" alt="starbucksaaaa aaaa" class="mainbackground">
     <div class="inner" >
-    
-    
+      <div class="fade-in">
+        <img src="./images/main-text.png" alt="문구" class="mainText">
+      </div>
+      <div class="fade-in">
+        <img src="./images/main-character.png" alt="사람" class="cup2 image">
+      </div>
       <div class="title fade-in">
-        <img src="./images/visual_m.png" alt="starbucksaaaa aaaa" >
         <!-- https://media-exp1.licdn.com/dms/image/C4E0BAQHcxl0qPhYZmg/company-logo_200_200/0/1601962027966?e=2159024400&v=beta&t=haFXb6TFUW6JpvjsLi1Qk817Pzq6urVo4P8ShhMx6H8 -->
-        <a href="javascript:void(0)"  class="btn btn--brown">자세히 보기</a>
-      </div>
-      <div class="fade-in">
-        <img src="./images/visual_cup1.png" alt="오트밀라때" class="cup1 image">
-        <img src="./images/visual_cup1_text.png" alt="오트밀라때2" class="cup1 text">
-      </div>
-      <div class="fade-in">
-        <img src="./images/visual_cup2.png" alt="ㅁㅁㅁㅁ" class="cup2 image">
-        <img src="./images/visual_cup2_text.png" alt="라때" class="cup2 text">
-      </div>
-      <div class="fade-in">
-        <img src="./images/visual_spoon.png" alt="숟가락" class="spoon">
-      </div>
-
-    </div>
-  </section>
-   <!--YOUTUBE VIDEO -->
-   <section class="youtube">
-    <div class="youtube__area">
-        <div id="player"></div>
-    </div>
-    <div class="youtube__cover">
-      <div class="inner">
+        <a href="javascript:void(0)"  class="btn btn--brown">시작하기</a>
       </div>
     </div>
   </section>
-  <!-- NOTICE -->
-  <section class="notice">
-    <div class="notice-line">
-      <div class="bg-left"></div>
-      <div class="bg-right"></div>
-      <div class="inner">
-        <div class="inner__left">
-          <h2>공지사항</h2>
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <a href="javascript:void(0)">공지사항1</a>
-              </div>
-              <div class="swiper-slide">
-                <a href="javascript:void(0)">공지사항2</a>
-              </div>
-              <div class="swiper-slide">
-                <a href="javascript:void(0)">공지사항3</a>
-              </div>
-              <div class="swiper-slide">
-                <a href="javascript:void(0)">공지사항4</a>
-              </div>
-            </div>
-          </div>
-          <a href="javascript:void(0)" class="notice-line__more">
-            <div class="material-icons">
-              add_circle
-            </div>
-          </a>
-        </div>
-        <div class="inner__right">
-          <h2>Forlog 프로모션</h2>
-          <div class="toggle-promotion">
-            <div class="material-icons">upload</div>
-          </div>
+	
+	
+	<!--YOUTUBE VIDEO -->
+	<section class="youtube">
+		<div class="youtube__area">
+			<div id="player"></div>
+		</div>
+		<div class="youtube__cover">
+			<div class="inner"></div>
+		</div>
+	</section>
+	
+	
+	<!-- NOTICE -->
+	<section class="notice">
+		<div class="notice-line">
+			<div class="bg-left"></div>
+			<div class="bg-right"></div>
+			<div class="inner">
+				<div class="inner__left">
+					<h2>공지사항</h2>
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<a href="javascript:void(0)">공지사항1</a>
+							</div>
+							<div class="swiper-slide">
+								<a href="javascript:void(0)">공지사항2</a>
+							</div>
+							<div class="swiper-slide">
+								<a href="javascript:void(0)">공지사항3</a>
+							</div>
+							<div class="swiper-slide">
+								<a href="javascript:void(0)">공지사항4</a>
+							</div>
+						</div>
+					</div>
+					<a href="javascript:void(0)" class="notice-line__more">
+						<div class="material-icons">add_circle</div>
+					</a>
+				</div>
+				<div class="inner__right">
+					<h2>Forlog 프로모션</h2>
+					<div class="toggle-promotion">
+						<div class="material-icons">upload</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="promotion">
+			<h4>Best Porlog</h4>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<img src="images/강희원님.png" alt="프로모션슬라이드1"> <a	href="javascript:void(0)" class="btn">자세히보기</a>
+					</div>
+					<div class="swiper-slide">
+						<img src="images/정한영님.png" alt="프로모션슬라이드2"> <a href="javascript:void(0)" class="btn">자세히보기</a>
+					</div>
+					<div class="swiper-slide">
+						<img src="images/임상혁님.png" alt="프로모션슬라이드3" style="width: 632px; height: 689px"> <a	href="javascript:void(0)" class="btn">자세히보기</a>
+					</div>
+					<div class="swiper-slide">
+						<img src="images/배재영님.png" alt="프로모션슬라이드4"> <a	href="javascript:void(0)" class="btn">자세히보기</a>
+					</div>
+					<div class="swiper-slide">
+						<img src="images/promotion_slide5.jpg" alt="프로모션슬라이드5"> <a href="javascript:void(0)" class="btn">자세히보기</a>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-prev">
+				<div class="material-icons">arrow_back</div>
+			</div>
+			<div class="swiper-next">
+				<div class="material-icons">arrow_forward</div>
+			</div>
+		</div>
+	</section>
 
-        </div>
 
-      </div>
+	<!-- FOOTER -->
+	<footer>
+		<div class="inner">
+			<ul class="menu">
+				<li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
+				<li><a href="javascript:void(0)">개인정보처리방침2</a></li>
+				<li><a href="javascript:void(0)">개인정보처리방침3</a></li>
+				<li><a href="javascript:void(0)">개인정보처리방침4</a></li>
+				<li><a href="javascript:void(0)">개인정보처리방침5</a></li>
+				<li><a href="javascript:void(0)">개인정보처리방침6</a></li>
+			</ul>
+			<div class="btn-group">
+				<a href="javascript:void(0)" class="btn btn--white">찾아와라1</a> 
+				<a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
+				<a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
+			</div>
+			<div class="info">
+				<span>사사사11</span> <span>사사사12</span> <span>사사사13</span> <span>사사사14</span>
+			</div>
+			<p class="copyright">
+				&copy;<span class="this-year"></span>KOSTA TEAM4
+			</p>
+			<img src="./images/logo-2.png" alt="" class="logo">
+		</div>
+	</footer>
+	
+	
+	
+<script>
+$('#registerLogin').click(function(){
+	 $('#exampleModal').modal('hide'); 
+	 $('#myModal').modal('show'); 
+});
 
-    </div>
-    <div class="promotion">
-      <h4>Best Porlog</h4>
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
+$('#registersend').click(function(){
+	 $('#myModal').modal('hide'); 
+});
 
-          <div class="swiper-slide">
+$('#IDFind').click(function(){
+	 $('#myModal').modal('hide'); 
+});
 
-            <img src="images/promotion_slide1.jpg" alt="프로모션슬라이드1">
-            <a href="javascript:void(0)" class="btn">자세히보기</a>
-          </div>
-          <div class="swiper-slide">
-            <img src="images/promotion_slide2.jpg" alt="프로모션슬라이드2">
-            <a href="javascript:void(0)" class="btn">자세히보기</a>
-          </div>
-          <div class="swiper-slide">
-            <img src="images/promotion_slide3.jpg" alt="프로모션슬라이드3">
-            <a href="javascript:void(0)" class="btn">자세히보기</a>
-          </div>
-          <div class="swiper-slide">
-            <img src="images/promotion_slide4.jpg" alt="프로모션슬라이드4">
-            <a href="javascript:void(0)" class="btn">자세히보기</a>
-          </div>
-          <div class="swiper-slide">
-            <img src="images/promotion_slide5.jpg" alt="프로모션슬라이드5">
-            <a href="javascript:void(0)" class="btn">자세히보기</a>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-      <div class="swiper-prev">
-        <div class="material-icons">arrow_back</div>
-      </div>
-      <div class="swiper-next">
-        <div class="material-icons">arrow_forward</div>
-      </div>
-    </div>
-  </section>
+$('#PWFind').click(function(){
+	 $('#myModal').modal('hide'); 	 
+});
+
+$('#cancel-btn').click(function(){
+	 $('#myModal').modal('show'); 
+});
+
+$('#cancel-btn2').click(function(){
+	 $('#myModal').modal('show'); 	 
+});
+
+$('#registerCheck').click(function(){
+	alert("중복체크실험");	 
+});
 
 
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="inner">
-      <ul class="menu">
-        <li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침2</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침3</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침4</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침5</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침6</a></li>
-      </ul>
-      <div class="btn-group">
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라1</a>
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
-      </div>
-      <div class="info">
-        <span>사사사11</span>
-        <span>사사사12</span>
-        <span>사사사13</span>
-        <span>사사사14</span>
-      </div>
-      <p class="copyright">
-        &copy;<span class="this-year"></span>KOSTA TEAM4
-      </p>
-      <img src="./images/logo-2.png" alt="" class="logo">
-    </div>
+function confirmSave(checkbox)
+{
+ var isRemember;
 
-  </footer>
+ if(checkbox.checked)
+ {
+ isRemember = confirm("이 PC에 로그인 정보를 저장하시겠습니까? PC방등의 공공장소에서는 개인정보가 유출될 수 있으니 주의해주십시오.");
 
+  if(!isRemember)
+   checkbox.checked = false;
+ }
+}
+/* $('#login-login').click(function(){
+if($("#idSaveCheck").is(":checked")){
+	$("input[name='pw']").val(""); 
+}
+$("input[name='id']").val("");
+
+}); */
+/* $(document).ready(function(){
+    var userInputId = getCookie("userInputId");//저장된 쿠기값 가져오기
+    $("input[name='id']").val(userInputId); 
+    $("input[name='pw']").val(""); 
+    if($("input[name='id']").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩
+                                           // 아이디 저장하기 체크되어있을 시,
+        $("#idSaveCheck").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+    	
+    }
+     
+    $("#idSaveCheck").change(function(){ // 체크박스에 변화가 발생시
+        if($("#idSaveCheck").is(":checked")){ // ID 저장하기 체크했을 때,
+            var userInputId = $("input[name='id']").val();
+            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
+        }else{ // ID 저장하기 체크 해제 시,
+            deleteCookie("userInputId");
+        }
+    });
+     
+    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+    $("input[name='id']").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+        if($("#idSaveCheck").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+            var userInputId = $("input[name='id']").val();
+            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
+        }
+    });
+});
+ 
+function setCookie(cookieName, value, exdays){
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+    document.cookie = cookieName + "=" + cookieValue;
+}
+ 
+function deleteCookie(cookieName){
+    var expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() - 1);
+    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+}
+ 
+function getCookie(cookieName) {
+    cookieName = cookieName + '=';
+    var cookieData = document.cookie;
+    var start = cookieData.indexOf(cookieName);
+    var cookieValue = '';
+    if(start != -1){
+        start += cookieName.length;
+        var end = cookieData.indexOf(';', start);
+        if(end == -1)end = cookieData.length;
+        cookieValue = cookieData.substring(start, end);
+    }
+    return unescape(cookieValue);
+} */
+
+
+</script>
 </body>
 
 </html>

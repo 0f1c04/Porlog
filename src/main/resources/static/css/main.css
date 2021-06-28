@@ -1,12 +1,48 @@
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* COMMON */
 body{
   color: #333;
   font-size: 16px;
-  /* 폰트굵기 */
+  /* 占쎈？占쎈뱜�뤃�벀由� */
   font-weight: 400;
-  /* 줄높이 */
+  /* 餓κ쑬�꼥占쎌뵠 */
   line-height: 1.4;
-  /* 구글 폰트 적용 */
+  /* �뤃�덌옙 占쎈？占쎈뱜 占쎌읅占쎌뒠 */
   font-family: 'Nanum Gothic', sans-serif;
    /* height: 3000px;  */
 }
@@ -20,7 +56,7 @@ img{
   position: relative;
 }
 a{
-  /* 전체a 밑줄제거 */
+  /* 占쎌읈筌ｍ걨 獄쏅쵐夷わ옙�젫椰꾬옙 */
   text-decoration: none;
   color:#333;
 }
@@ -51,12 +87,12 @@ a{
   color: #333;
 }
 .btn.btn--brown{
-  color: #592B18;
-  border-color: #592B18;
+  color: #0078FF;
+  border-color: #0078FF;
 }
 .btn.btn--brown:hover{
   color: #fff;
-  background-color: #592B18;
+  background-color: #0078FF;
 }
 .btn.btn--gold{
   color: #D9AA8A;
@@ -74,8 +110,6 @@ a{
   color: #333;
   background-color: #fff;
 }
-
-
 /* HEADER */
 header{
   
@@ -87,9 +121,7 @@ header{
   z-index: 9;
 }
 header > .inner{
-
   height: 120px;
-
 }
 header .logo{
   height: 75px;
@@ -128,7 +160,6 @@ header .sub-menu ul.menu li:first-child::before{
   display: none;
 }
 header .sub-menu ul.menu li a{
- 
   font-size: 12px;
   padding: 11px 16px;
   display: block;
@@ -137,8 +168,8 @@ header .sub-menu ul.menu li a{
 }
 header .sub-menu ul.menu li a:hover{
   background-color: black;
-  
- 
+  text-decoration: none;
+  color: #fff;
 }
 header .sub-menu .search {
  
@@ -173,9 +204,11 @@ header .sub-menu .search .material-icons{
 }
 header .sub-menu .search.focused .material-icons{
   opacity: 0;
-
 }
+
 header .main-menu{
+  height: 60px;
+  padding-top: 10px;
   display: flex;
   position: absolute;
   bottom: 0;
@@ -186,9 +219,6 @@ header .main-menu li.item:hover .item__name a{
  
   color: #669900;
 } 
-header .main-menu .item{
- 
-}
 header .main-menu .item:hover .item__name{
   background-color: #2c2a29;
   color: #669900;
@@ -200,15 +230,22 @@ header .main-menu .item .item__name{
   font-size: 13px;
 }
 header .main-menu .item .item__nameA{
-  padding: 10px 20px 34px 20px;
+  padding: 14px 20px 34px 20px;
   font-family: Arial, sans-serif;
   font-size: 13px;
+}
+header .main-menu .item .item__nameA a{
+	color: black;
+}
+header .main-menu .item .item__nameA a:hover{
+	text-decoration: none;
 }
 header .main-menu .item:hover .item__contents{
  display: block;
 }
 header .main-menu .item .item__contents{
   width: 100%;
+  margin-top: -12px;
   position: fixed;
   left:0;
   display: none;
@@ -229,7 +266,6 @@ header .main-menu .item .item__contents .contents__menu > ul >li h4{
  font-size: 14px;
  color: #fff; 
 }
-
 header .main-menu .item .item__contents .contents__menu > ul >li ul li{
   padding: 5px 0;
   font-size: 12px;
@@ -238,7 +274,6 @@ header .main-menu .item .item__contents .contents__menu > ul >li ul li{
 }
 header .main-menu .item .item__contents .contents__menu > ul >li ul li:hover{
   color: #669900;
-
 }
 header .main-menu .item .item__contents .contents__texture{
   padding: 26px 0;
@@ -258,49 +293,44 @@ header .main-menu .item .item__contents .contents__texture p{
 
 
 /* VISUAL */
-.visual{  
-  margin-top: 120px;
+.visual{
   background-image: url('');  
   background-position: center;
 }
 .visual .inner{
+  /* max-width: 1080px;
+  width: 100%; */
   height: 646px;
-  
 }
 .visual .title{
   position: absolute;
-  top: 88px;
+  width: 100%;
   left: -10px;
 }
 .visual .title .btn{
   position: absolute;
-  top: 259px;
-  left: 173px;
+  top: 460px;
+  margin-left: 15px;
+  border-radius: 5px;
+  width: 150px;
 }
-.visual .cup1.image{
-  position: absolute;
-  bottom: 0;
-  right: -47px;
-}
-.visual .cup1.text{
-  position: absolute;
-  top: 38px;
-  right: 171px;
-}
+
 .visual .cup2.image{
   position: absolute;
-  bottom: 0;
-  right: 162px;
+  bottom: 80px;
+  right: 20px;
+  width: 40%;
+  height: 320px;
 }
-.visual .cup2.text{
+.visual .mainText{
   position: absolute;
-  top: 321px;
-  right: 416px;
+  top: 190px;
+  margin-left: 10px;
+  width: 450px;
+  height: 250px;
 }
-.visual .spoon{
+.visual .mainbackground{
   position: absolute;
-  bottom: 0px;
-  left: 275px;
 }
 .visual .fade-in{
   opacity: 0;
@@ -369,7 +399,6 @@ header .main-menu .item .item__contents .contents__texture p{
 .notice .notice-line .inner__left .notice-line__more .material-icons{
   color: #fff;
   font-size: 30px;
-
 }
 .notice .notice-line .inner__right{
   width: 40%;
@@ -585,7 +614,7 @@ footer .inner .logo{
   top: 50%;
   margin-top: calc(1920px * 9 /16 /-2);
 }
-/* 가상요소선택자 */
+/* 媛��긽�슂�냼�꽑�깮�옄 */
 .youtube .youtube__area::before{
   content: "";
   display: block;
