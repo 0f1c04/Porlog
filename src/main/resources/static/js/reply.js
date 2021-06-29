@@ -27,7 +27,6 @@ var replyManager = ( function() {
 	};
 	var remove = function(obj, callback) {
 		console.log("remove reply......");
-		alert(obj.postID);
 		$.ajax({
 			url:'/replies/' + obj['postID'] + "/" + obj['replyNO'],
 			type: 'delete',

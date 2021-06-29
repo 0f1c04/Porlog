@@ -2,14 +2,22 @@
 package com.kosta.finalProject.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +28,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "replies")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -43,12 +51,23 @@ public class PostDTO {
     private BlogDTO blog;
     
     @Column(name = "post_date")
-    private Date postDate;
+    private String postDate;
     
     @Column(name = "post_title")
     private String postTitle;
     
     @Column(name = "view_cnt")
     private int viewCnt;
+    
+    @Column(name = "like_cnt")
+    private int likeCnt;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<ReplyDTO> replies;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<LikeDTO> likes = new HashSet<>();
 
 }

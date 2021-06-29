@@ -171,6 +171,12 @@ header .sub-menu ul.menu li a:hover{
   text-decoration: none;
   color: #fff;
 }
+header .sub-menu ul.menu li span {
+  font-size: 12px;
+  padding: 11px 16px;
+  display: block;
+  color: #656565;
+}
 header .sub-menu .search {
  
   height: 34px;

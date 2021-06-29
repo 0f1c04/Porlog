@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -31,11 +32,14 @@
   <link rel="icon" href="images/logo-1.png">
   <!-- css  -->
   <link rel="stylesheet" href="css/jInfo.css">
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/modal2.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!-- js -->
   <script defer src="js/sample.js"></script>
+  <script defer src="js/mm.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>	
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -43,18 +47,13 @@
   
   <header>
     <div class="inner">
-      <a href="/" class="logo">
-        <img src="images/logo-2.png" alt="Belog" class="img_title">
-      </a>
+      <a href="/index" class="logo"><img src="images/logo-2.png" alt="Belog" class="img_title"></a>
       <div class="sub-menu">
         <ul class="menu">
-          <li>
-            <a href="/signin">로그인</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">회원가입</a>
-          </li>
-
+          	<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인</a></li>
+			<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+			<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
         </ul>
         <div class="search">
           <input type="text">
@@ -108,12 +107,22 @@
         </li>
         <li class="item">
           <div class="item__nameA">
-            <a th:href="@{/blogList}">폴로그</a>
+            <div sec:authorize="isAuthenticated()">
+				<a th:href="@{/blogList}">폴로그</a>
+			</div>
+			<div sec:authorize="!isAuthenticated()">
+				<a href="#" data-toggle="modal" data-target="#myModal">폴로그</a>
+			</div>
           </div>
         </li>
         <li class="item">
           <div class="item__nameA">
-            <a th:href="@{/postList}">내 폴로그</a>
+			<div sec:authorize="isAuthenticated()">
+				<a th:href="@{/basic(userID=${user?.userID})}" >내 폴로그</a>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<a th:href="@{/basic}" >내 폴로그</a>
+			</div>
           </div>
         </li>
       </ul>
@@ -121,31 +130,68 @@
     </div>
   </header>
 	
-	<div id='myModal' class='modal fade' role='dialog'>
-		<div class='modal-dialog' style='width: 350px;'>
-		<div class='modal-content'>
-		<div class='modal-header'>
-		<button type='button' class='close' data-dismiss='modal'>&times;</button>
-		<h4 class='modal-title'>채용정보 상세보기</h4>
-		</div>
-		<div class='modal-body'>
-		<div class='form-group'>
-		<label for='detailinfo'>상세정보</label>
-		<div class='detailinformation'></div>
-		</div>
-		<div class='form-group'>
-		<label for='submit'>지원하기</label>
+	<div id="modal-container">
+    <div class="modal-background">
+      <div class="modal">
+		<h4 >채용정보 상세보기</h4>
+		<hr>
+		<h3 for='detailinformation'>상세정보</h3>
+		<div class="detailinformation"></div>
+		<h3 for='submit'>지원하기</h3>
 		<div class='submit'></div>
-		</div>
-		<br>
-		<button id='close'>확인</button>
-					</div>
-				</div>
-			</div>
-		</div>
+        <svg class="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+			<rect x="0" y="0" fill="none" width="226" height="162" rx="3" ry="3"></rect>
+		</svg>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div class="buttons">
+      <div id="one" class="button">Unfolding</div>
+    </div>
+  </div>
 	
-
-
+<!-- Modal -->
+	<!--로그인  -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog" style="width: 350px;" >
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Login</h4>
+	      </div>
+	      <div class="modal-body">
+	      
+	       
+			<form  method="post" action="index">
+	        	<div class="form-group">
+	              <label for="exampleInputName">ID</label>
+	              <!-- <button class="btn-duplicate"  onclick="registerCheckFuntion();" type="button" style="margin-left: 330px" >중복체크</button> -->
+	              <input type="text" class="form-control" id="exampleInputName" name="username" placeholder="아이디">
+	     		  <a  href="#" data-toggle="modal"   id="registerCheck" >아이디 중복체크</a>
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputPassword1">Password</label>
+	              <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">  
+	            </div>
+	            <input type="checkbox" name="idcheck" id="idSaveCheck" onClick="confirmSave(this)"> 아이디저장<br>
+	            <input type="submit" class="btn btn-primary" id="login-login" value="login">
+	            <button type="button" class="btn btn-primary" data-dismiss="modal"  >Cancel</button><br>
+	        </form>
+	       	
+	      </div>
+	  		<div style="text-align: center;">
+	  		     <a  href="#" data-toggle="modal" data-target="#exampleModal"  id="registersend">회원가입</a>
+	      		 <a  href="#" data-toggle="modal" data-target="#exampleModalID" id="IDFind">아이디 찾기</a>
+	      		 <a  href="#" data-toggle="modal" data-target="#exampleModalPW" id="PWFind" >비밀번호 찾기</a>
+	  		</div>
+	    </div>
+	  </div>
+	</div>
+	
 	
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
@@ -194,11 +240,38 @@
 
  
 <script>
+$('#registerLogin').click(function(){
+	 $('#exampleModal').modal('hide'); 
+	 $('#myModal').modal('show'); 
+});
 
+$('#registersend').click(function(){
+	 $('#myModal').modal('hide'); 
+});
+
+$('#IDFind').click(function(){
+	 $('#myModal').modal('hide'); 
+});
+
+$('#PWFind').click(function(){
+	 $('#myModal').modal('hide'); 	 
+});
+
+$('#cancel-btn').click(function(){
+	 $('#myModal').modal('show'); 
+});
+
+$('#cancel-btn2').click(function(){
+	 $('#myModal').modal('show'); 	 
+});
+
+$('#registerCheck').click(function(){
+	alert("중복체크실험");	 
+});
 
 function call(i){
 	
-	$('#myModal').modal('show');
+	$('.button').trigger("click");
 	 
 	 $(".detailinformation").html(arr7[i].childNodes[0].nodeValue);
 	 
@@ -209,7 +282,7 @@ $("#close").click(function(){
 });
 $(document).ready(function() {
 	 $.ajax({
-        url:'http://192.168.0.172:8887/api/1',
+        url:'http://localhost:8887/api/1',
         type:'POST',        
         data:{},        
         dataType:'xml', // 리턴해주는 타입을 지정해줘야함
@@ -253,6 +326,9 @@ $(document).ready(function() {
         }// 요청 실패.
     });
 	
+	 $(document).ready(function(){
+		 $("#logouttext").append("님 환영합니다");
+	 });
 
 });
 

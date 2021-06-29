@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
 <head>
@@ -33,29 +33,25 @@
   <link rel="icon" href="images/logo-1.png">
   <!-- css  -->
   <link rel="stylesheet" href="css/sample.css">
-
-
+  <link rel="stylesheet" href="css/sidemenu.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!-- js -->
   <script defer src="js/sample.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 </head>
 
 <body>
   <!-- HEADER -->
   <header>
     <div class="inner">
-      <a th:href="@{/index}" class="logo">
-        <img src="images/logo-2.png" alt="Belog" class="img_title">
-      </a>
+      <a href="/index" class="logo"><img src="images/logo-2.png" alt="Belog" class="img_title"></a>
       <div class="sub-menu">
         <ul class="menu">
-          <li>
-            <a href="/signin">로그인</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">회원가입</a>
-          </li>
-
+          	<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인 </a></li>
+			<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+			<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
         </ul>
         <div class="search">
           <input type="text">
@@ -75,7 +71,6 @@
                   <ul>
                     <li>지역별</li>
                     <li>직업별</li>
-                  
                   </ul>
                 </li>
                 <li>
@@ -83,7 +78,6 @@
                   <ul>
                     <li></li>
                     <li></li>
-                    
                   </ul>
                 </li>
                 <li>
@@ -92,10 +86,8 @@
                     <li>폴로그 확인</li>
                     <li>폴로그 수정</li>
                     <li>폴로그 삭제</li>
-                    
                   </ul>
                 </li>
-              
               </ul>
             </div>
             <div class="contents__texture">
@@ -109,90 +101,139 @@
           </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="basic.html">채용정보</a></div>
-
+          <div class="item__nameA">
+          	<a th:href="@{/jInfo}">채용정보</a>
+          </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="polio.html">폴로그</a></div>
-         
+          <div class="item__nameA">
+          	<a th:href="@{/blogList}">폴로그</a>
+          </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="basic.html">내 폴로그</a></div>
-         
-        <!-- </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">검증면접</a></div>
-        
+          <div class="item__nameA">
+          	<div sec:authorize="isAuthenticated()">
+				<a th:href="@{/basic(userID=${user?.userID})}" >내 폴로그</a>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<a th:href="@{/basic}" >내 폴로그</a>
+			</div>
+          </div>
         </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">합격이야기</a></div>
-        
-        </li>
-        <li class="item">
-          <div class="item__nameA"><a href="javascript:void(0)">WHAT'S NEW</a></div>
-         
-           
-        </li> -->
       </ul>
-
-
-
-
-
     </div>
   </header>
   
+<!-- Modal -->
+<!--로그인  -->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog" style="width: 350px;" >
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Login</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" action="index">
+					<div class="form-group">
+						<label for="exampleInputName">ID</label>
+						<input type="text" class="form-control" id="exampleInputName" name="username" placeholder="아이디">
+						<a href="#" data-toggle="modal" id="registerCheck" >아이디 중복체크</a>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">  
+					</div>
+					<input type="checkbox" name="idcheck" id="idSaveCheck" onClick="confirmSave(this)"> 아이디저장<br>
+					<input type="submit" class="btn btn-primary" id="login-login" value="login">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button><br>
+				</form>
+			</div>
+			<div style="text-align: center;">
+				<a href="#" data-toggle="modal" data-target="#exampleModal" id="registersend">회원가입</a>
+				<a href="#" data-toggle="modal" data-target="#exampleModalID" id="IDFind">아이디 찾기</a>
+				<a href="#" data-toggle="modal" data-target="#exampleModalPW" id="PWFind">비밀번호 찾기</a>
+			</div>
+		</div>
+	</div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
-    <div class="inner2" >
-     
-	<table >
-		<tr>
-			<th>블로그ID</th>
-			<th>유저ID</th>
-			<th>블로그제목 &nbsp </th>
-
-
-		</tr>
-		<tr>
-			<td th:text="${myblog.blogID}"></td>
-			<td th:text="${myblog.user.userID}"></td>
-			<td th:text="${myblog.blogTitle}"></td>
-		</tr>
-	</table> 
-	
-	<table>
-			<tr>
-				<th>게시물번호  </th>
-				<th>작성날짜  </th>
-				<th>제목  </th>
-				<th>조회수  </th>
-			</tr>
-			<tr th:each="post:${postlist}">
-				<td th:text="${post.postID}"></td>
-				<td th:text="${post.postDate}"></td>
-				<td>
-					<a th:href="@{/postDetail(postID=${post.postID})}">[[${post.postTitle}]]</a>
-					
-				</td>
-				<td th:text="${post.viewCnt}"></td>
-			</tr>
-			
-			
-			
-		</table>
+  	<div class="information" style="width: 760px; margin: 0 auto; text-align: left; padding-top: 50px;">
+		<h1><b>INFORMATION 영역</b></h1>
+		<hr style="width: 760px;">
+		<br><br>
+	</div>
+  
+  	<div style="width: 760px; margin: 0 auto; text-align: left; padding-top: 50px;">
+		<h2><b>[[${myblog.user.nickname}]]</b></h2>
+		<p>[[${myblog.blogTitle}]]</p>
+  	</div>
+  	<hr style="width: 760px;">
+  	<div class="side-menu">
+		<div class="side-menu-title">
+			<h3><b>category</b></h3>
+			<hr>
+		</div>
 		
-     	<div th:if="${myblog.blogID} == 0">
-     		<a th:href="@{/blogInsert(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 만들기</button></a>
-     	</div>
-     	<div th:unless="${myblog.blogID} == 0">
-     		<a th:href="@{/blogUpdate(userID=${myblog.user.userID})}"><button style="margin: 0 auto;">블로그 수정</button></a>
-     	</div>
-     	<a th:href="@{/posting(blogID=${myblog.blogID})}"><button style="margin: 0 auto;">게시글 만들기</button></a>
+		<ul>
+			<li th:if="${myblog.blogID} == 0">
+				<a th:href="@{/blogInsert(userID=${myblog.user?.userID})}">블로그 생성</a>
+			</li>
+			<li th:unless="${myblog.blogID} == 0">
+				<a th:href="@{/blogUpdate(userID=${myblog.user?.userID})}">블로그 수정</a>
+			</li>
+			<li>
+				<a th:href="@{/posting(blogID=${myblog.blogID})}">게시글 작성</a>
+			</li>
+		</ul>
+	
+	</div>
+  	
+    <div class="inner2">
+	
+	
+	
+	
+	<div class="post-area">
+		<div class="post-box" th:each="post:${postlist}">
+			<div class="post-thumbnail">
+				<a th:href="@{/postDetail(postID=${post.postID})}">
+					<img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/attachments/delivery/asset/3e3992abaa7b67ef61e398bdfe4bd978-1607137833/Attachment_1607137783/create-personalized-among-us-gif-and-png-for-you.gif" />
+				</a>
+			</div>
+			<div class="subinfo">
+				<a th:href="@{/postDetail(postID=${post.postID})}"><h2><b>[[${post.postTitle}]]</b></h2></a>
+				<span>[[${post.postDate}]]</span>
+				<span>조회수 [[${post.viewCnt}]]</span>
+				<form action="">
+					<input type="hidden" name="blogID" th:value="${blogID}">
+					<input type="hidden" name="postID" th:value="${post.postID}">
+				</form>
+			</div>
+			<br><br><hr>
+		</div>
+	</div>
+	
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
   </section>
- 
-
 
 
   <!-- FOOTER -->
@@ -224,6 +265,26 @@
     </div>
 
   </footer>
+
+<script>
+$(function() {
+	var wind = $(window),
+		header = $('.side-menu'),
+		headerOffsetTop = header.offset().top;
+	wind.scroll(function() {
+		if($(this).scrollTop() > headerOffsetTop) {
+			header.addClass('sticky');
+		} else {
+			header.removeClass('sticky');
+		}
+	});
+});
+
+$(document).ready(function(){
+	 $("#logouttext").append("님 환영합니다");
+});
+
+</script>
 
 </body>
 

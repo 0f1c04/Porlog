@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -44,13 +45,13 @@
   <!-- HEADER -->
   <header>
     <div class="inner">
-      <a href="/index" class="logo">
-        <img src="images/logo-2.png" alt="Belog" class="img_title">
-      </a>
+      <a href="/index" class="logo"><img src="images/logo-2.png" alt="Belog" class="img_title"></a>
       <div class="sub-menu">
         <ul class="menu">
-          <li><a href="/signin">로그인</a></li>
-          <li><a href="javascript:void(0)">회원가입</a></li>
+          	<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인 </a></li>
+			<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+			<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
         </ul>
         <div class="search">
           <input type="text">
@@ -99,7 +100,7 @@
         </li>
         <li class="item">
           <div class="item__nameA">
-          	<a th:href="@{/basic}">채용정보</a>
+          	<a th:href="@{/jInfo}">채용정보</a>
           </div>
         </li>
         <li class="item">
@@ -109,7 +110,12 @@
         </li>
         <li class="item">
           <div class="item__nameA">
-          	<a th:href="@{/postList}">내 폴로그</a>
+          	<div sec:authorize="isAuthenticated()">
+				<a th:href="@{/basic(userID=${user?.userID})}" >내 폴로그</a>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<a th:href="@{/basic}" >내 폴로그</a>
+			</div>
           </div>
         </li>
         
@@ -118,14 +124,57 @@
     </div>
   </header>
   
+<!-- Modal -->
+<!--로그인  -->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog" style="width: 350px;" >
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Login</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" action="index">
+					<div class="form-group">
+						<label for="exampleInputName">ID</label>
+						<input type="text" class="form-control" id="exampleInputName" name="username" placeholder="아이디">
+						<a href="#" data-toggle="modal" id="registerCheck" >아이디 중복체크</a>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">  
+					</div>
+					<input type="checkbox" name="idcheck" id="idSaveCheck" onClick="confirmSave(this)"> 아이디저장<br>
+					<input type="submit" class="btn btn-primary" id="login-login" value="login">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button><br>
+				</form>
+			</div>
+			<div style="text-align: center;">
+				<a href="#" data-toggle="modal" data-target="#exampleModal" id="registersend">회원가입</a>
+				<a href="#" data-toggle="modal" data-target="#exampleModalID" id="IDFind">아이디 찾기</a>
+				<a href="#" data-toggle="modal" data-target="#exampleModalPW" id="PWFind">비밀번호 찾기</a>
+			</div>
+		</div>
+	</div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <!-- VISUAL -->
   <section class="visual">
-    <p style="text-align: center;">porlog</p>
-    <div class="inner" >
+    <h1 style="text-align: left; padding-left: 230px; padding-top: 50px;"><b>porlog</b></h1>
+    <div class="inner">
       
       <div class="fortpolio" th:each="blog:${bloglist}">
         <div class="forex">
-          <a href="#" class="title1"></a>
+          <a th:href="@{/postList(blogID=${blog.blogID})}" class="title1"></a>
           <div class="foo1">
             <a th:href="@{/postList(blogID=${blog.blogID})}" th:text="${blog.blogTitle}" class="content1"></a><span class="badge">([[${blog.postlist.size()}]]개의 게시물)</span>
           </div>
@@ -170,6 +219,12 @@
     </div>
 
   </footer>
+
+<script>
+$(document).ready(function(){
+	 $("#logouttext").append("님 환영합니다");
+});
+</script>
 
 </body>
 

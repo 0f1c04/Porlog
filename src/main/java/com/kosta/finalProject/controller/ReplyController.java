@@ -1,5 +1,6 @@
 package com.kosta.finalProject.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -38,12 +39,12 @@ public class ReplyController {
 	
 	// 댓글입력
 	@PostMapping("/{postID}")
-	public ResponseEntity<List<ReplyDTO>> insertReply(@PathVariable Long postID, String reply, String replyUser) {
+	public ResponseEntity<List<ReplyDTO>> insertReply(@PathVariable Long postID, String reply, Principal principal) {
 		System.out.println(postID);
 		System.out.println(reply);
-		System.out.println(replyUser);
+		System.out.println(principal.getName());
 		PostDTO post = service.selectByPost(postID);
-		UserDTO user = service.selectByUser(replyUser);
+		UserDTO user = uservice.selectById(principal.getName());
 		ReplyDTO newreply = ReplyDTO.builder().post(post).reply(reply).replyUser(user).replyDate(new Date()).build();
 		
 		service.updateReply(newreply);
@@ -69,7 +70,7 @@ public class ReplyController {
 		System.out.println(replyUser);
 		PostDTO post = service.selectByPost(postID);
 		UserDTO user = uservice.selectByNick(replyUser);
-		ReplyDTO newreply = ReplyDTO.builder().replyNO(replyNO).post(post).reply(reply).replyUser(user).build();
+		ReplyDTO newreply = ReplyDTO.builder().replyNO(replyNO).post(post).reply(reply).replyUser(user).replyDate(new Date()).build();
 		
 		service.updateReply(newreply);
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.OK);

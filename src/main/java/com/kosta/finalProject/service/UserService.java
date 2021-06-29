@@ -2,18 +2,11 @@ package com.kosta.finalProject.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.repository.UserRepository;
-import com.kosta.finalProject.security.SecurityUser;
 
 @Service
 public class UserService {

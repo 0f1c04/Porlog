@@ -37,10 +37,14 @@ public class LikeDTO {
     private int likeNO;
 
     @ManyToOne
+    private UserDTO user;
+    
+    @ManyToOne
     private PostDTO post;
-
-    @Column(name = "like_cnt")
-    private int likeCnt;
-
-
+    
+    public LikeDTO(PostDTO post, UserDTO user) {
+        this.post = post;
+        this.user = user;
+    }
+    
 }

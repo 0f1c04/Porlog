@@ -1,13 +1,11 @@
 package com.kosta.finalProject.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.finalProject.model.BlogDTO;
-import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.repository.BlogRepository;
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 <meta charset="UTF-8">
@@ -33,10 +34,16 @@
 <link rel="stylesheet" href="css/sample.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
+<!-- 에디터 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
+<!-- <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" /> -->
+<link rel="stylesheet" th:href="@{/css/toastui-editor.css}" />
+
 <!-- js -->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script defer src="js/sample.js"></script>
+
 
 </head>
 
@@ -49,12 +56,10 @@
       </a>
       <div class="sub-menu">
         <ul class="menu">
-          <li>
-            <a href="/signin">로그인</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">회원가입</a>
-          </li>
+          	<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인 </a></li>
+			<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+			<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
         </ul>
         <div class="search">
           <input type="text">
@@ -104,13 +109,24 @@
           </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="basic.html">채용정보</a></div>
+          <div class="item__nameA">
+          	<a th:href="@{/jInfo}">채용정보</a>
+          </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="polio.html">폴로그</a></div>
+          <div class="item__nameA">
+          		<a th:href="@{/blogList}">폴로그</a>
+          </div>
         </li>
         <li class="item">
-          <div class="item__nameA"><a href="basic.html">내 폴로그</a></div>
+          <div class="item__nameA">
+          	<div sec:authorize="isAuthenticated()">
+				<a th:href="@{/basic(userID=${user?.userID})}">내 폴로그</a>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<a th:href="@{/basic}" >내 폴로그</a>
+			</div>
+          </div>
         </li>
       </ul>
     </div>
@@ -120,39 +136,41 @@
   
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
-    <h1 style="text-align: center;">새 글 작성</h1>
-    <div class="inner2" >
-		
-		
-		<div>
-			<form th:action="@{/postInsert}" method="post">
-				<div class="form-group">
-					<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력하세요">
+    
+    <div class="inner3" >
+		<h1 style="text-align: left; padding-top: 100px; font-size:50px;"><b>새 글 작성</b></h1>
+		<br>
+		<div class="postingForm">
+			<div class="form-group">
+				<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력하세요">
+			</div>
+			<div>
+				<div id="editor" style="box-sizing: border-box; height: 500px;">
+					<input name="postContents">
 				</div>
-				<div class="form-group">
-					<textarea rows="20" cols="" id="contents" name="contents" placeholder="내용을 입력하세요"></textarea>
-				</div>
-				<input type="text" name="blogID" th:value="${blogID}">
-				<button type="submit">등록</button>
-				<button type="reset">리셋</button>
-			</form>
+			</div>
+				<input type="hidden" id="blogID" name="blogID" th:value="${blogID}">
+				<input type="hidden" id="userID" name="userID" th:value="${user.userID}">
+			<div class="form-group">
+				<button id="insertButton" type="button"><b>등 록</b></button>
+				<button type="reset"><b>리 셋</b></button>
+			</div>
 		</div>
+		
+		<!-- <div class="tui-doc-description">
+	        <h3>Toast UI Editor 2.0.0 Test</h3>
+	        <h2>설치와 기본기능 사용</h2>
+	    </div> -->
 
+        
+		<br>
+		<!-- <button onclick="ToView();">↓↓↓ 불러서 넣기 ↓↓↓</button> -->
+		<br>
+
+        <div id="viewer"></div>
     </div>
   </section>
  
-
-
-
-
-
-
-
-
-
-
-
-
 
   <!-- FOOTER -->
   <footer>
@@ -182,6 +200,95 @@
       <img src="./images/logo-2.png" alt="" class="logo">
     </div>
   </footer>
+
+
+ <script th:src="@{/js/toastui-editor-all.min.js}"></script>
+ <script>
+ 
+ const content = [].join('\n');
+
+ const editor = new toastui.Editor({
+     el: document.querySelector('#editor'),
+     previewStyle: 'vertical',
+     initialEditType: "wysiwyg",
+     height: '700px',
+     width: '1300px',
+     initialValue: content,
+      hooks: { 
+	       addImageBlobHook: (fileOrBlob, callback) => {   //fileOrBlob:파일객체를 되돌려줌
+	    	   
+	    	   //console.log(fileOrBlob);
+	    	   //console.log(fileOrBlob.name);
+	    	   //var imgurl = 'https://i.ibb.co/MRGgGnN/logo-2.png';
+	    	   var imgurl = uploadImgApi(fileOrBlob, callback);
+	    	   
+	       },
+  		}//hooks end 
+ });
+ 
+ 
+ 
+ 
+ function uploadImgApi(fileOrBlob, callback){
+	 var formdata = new FormData();
+	 var revalue;
+	 formdata.append('image',fileOrBlob);
+	 
+	 
+	$.ajax({
+		url:"/uploadImg",
+		data: formdata,
+		async : false,
+		type: "post",
+		contentType: false,
+		processData: false,
+		success: function(data){
+			callback(data,"kosta");
+		}
+	});
+ }
+ 
+ 
+ 
+ 
+ const viewer = toastui.Editor.factory({
+     el: document.querySelector('#viewer'),
+     viewer: true,
+     height: '500px',
+     initialValue: content
+ });
+
+ function ToView()
+ {
+	 var markdown = editor.getHTML();
+	 
+	 console.log(markdown);
+	 console.log('경계');
+     viewer.setMarkdown(markdown);
+     console.log(markdown);
+ };
+ 
+ 
+ $("#insertButton").click(function(){
+	 var id = $("input[name='blogID']").val();
+	 var data = {"blogID":id, "postTitle":$("#postTitle").val(), "postContents":editor.getHTML()};
+	 var param = $("input[name='userID']").val();
+	 $.ajax({
+		url:"/postInsert",
+		data: data,
+		type: "post",
+		success: function(res) {
+			location.href="/basic?userID="+ param; 
+		}
+	 });  
+ });
+ 
+ $(document).ready(function(){
+	 $("#logouttext").append("님 환영합니다");
+	 
+});
+ document.getElementById('now_date').valueAsDate = new Date();
+ </script>
 
 </body>
 

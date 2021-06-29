@@ -1,6 +1,6 @@
 package com.kosta.finalProject.controller;
 
-import java.util.List;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kosta.finalProject.model.UserDTO;
@@ -24,36 +23,35 @@ public class UserController {
 	@Autowired
 	SecurityService securityService;
 	
+	
+
+	//main페이지
+	@PostMapping("/index")
+	public void selectUsers(Model model,Principal principal) {
+	     
+		
+	
+	}
 	//main페이지
 	@GetMapping("/index")
-	public void selectUsers(Model model) {
+	public void selectUsers2(Model model, Principal principal) {
 //		List<UserDTO> user = service.selectAll();
 //		
 //		model.addAttribute("user", user);
+		if(principal!=null)
+		     model.addAttribute("user", service.selectById(principal.getName())	);
+		
 	}
 	
 	
-	@GetMapping("/user/login")
-	public void login() {
-		System.out.println("/user/login 통과!!");
-	}
+
+	
+	
+
 	
 
 	//로그인
-	//@PostMapping("/login")
-	public String userLogin(Model model,String userID) {
-		System.out.println(userID);
-		String param = userID;
-		//service.loadUserByUsername(userID);
-		model.addAttribute("user",service.selectById(userID));
-//		
-//		
-//		if(service.selectById(userID).getUserID() == null)
-//			return "redirect:/index";
-		
-		//return "redirect:/index?userID=" + param;
-		return "/index";
-	}
+
 	
 	
 	//입력
@@ -73,6 +71,10 @@ public class UserController {
 	
 	@GetMapping("/user/userInsert") 
 	public void boardRegister() {
+		
+	}
+	@GetMapping("/logout") 
+	public void logout() {
 		
 	}
 	
