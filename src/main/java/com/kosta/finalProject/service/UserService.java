@@ -68,5 +68,21 @@ public class UserService {
 		return repo.findByNickname(nickname);
 	}
 
+	//아이디중복체크
+    public int idCheck(String memberId) throws Exception {
+        
+        return repo.idCheck(memberId);
+    } 
+    //아이디 찾기
+    public String idFind(String name,String email) throws Exception {
+        
+        return repo.idFind(name,email);
+    } 
+    //비밀번호 재설정
+    public int updatePW(String id,String pw) throws Exception {
+      
+         
+         return repo.updatePW(id,pw);
+    } 
 	
 }

@@ -1,8 +1,6 @@
 
 package com.kosta.finalProject.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -41,17 +39,12 @@ public class UserDTO {
     private String email;
 
     private String nickname;
-
-    @Column(name = "last_login")
-    private Date lastLogin;
-
-    @Column(name = "last_pw_chg")
-    private Date lastPWChg;
+    
+    private String phone;
+    
+    private String address;
 
     @Column(name = "auth_lv")
     private int authLV;
     
-
-
-
 }
