@@ -168,15 +168,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
-  	<div class="information" style="width: 760px; margin: 0 auto; text-align: left; padding-top: 50px;">
-		<h1><b>INFORMATION 영역</b></h1>
-		<hr style="width: 760px;">
-		<br><br>
+  	<div class="information" style="width: 760px; margin: 0 auto; text-align: left; padding-top: 90px;">
+		<span style="font-size: 25px;"><b>[[${myblog.user.nickname}]]</b></span><span> / <i>[[${myblog.user.address}]]</i></span>
+		<h5><b>H.P.</b>&nbsp; [[${myblog.user.phone}]] &nbsp; · &nbsp; <b>Email</b> &nbsp;[[${myblog.user.email}]]</h5>
 	</div>
+	<hr style="width: 760px;">
   
   	<div style="width: 760px; margin: 0 auto; text-align: left; padding-top: 50px;">
-		<h2><b>[[${myblog.user.nickname}]]</b></h2>
-		<p>[[${myblog.blogTitle}]]</p>
+		
+		<h2><b>[[${myblog.blogTitle}]]</b></h2>
   	</div>
   	<hr style="width: 760px;">
   	<div class="side-menu">
@@ -191,6 +191,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			</li>
 			<li th:unless="${myblog.blogID} == 0">
 				<a th:href="@{/blogUpdate(userID=${myblog.user?.userID})}">블로그 수정</a>
+			</li>
+			<li>
+				<a th:href="@{/userDetail}">내정보 수정</a>
 			</li>
 			<li>
 				<a th:href="@{/posting(blogID=${myblog.blogID})}">게시글 작성</a>
@@ -208,16 +211,18 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<div class="post-box" th:each="post:${postlist}">
 			<div class="post-thumbnail">
 				<a th:href="@{/postDetail(postID=${post.postID})}">
-					<img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/attachments/delivery/asset/3e3992abaa7b67ef61e398bdfe4bd978-1607137833/Attachment_1607137783/create-personalized-among-us-gif-and-png-for-you.gif" />
+					<img th:src="${post.postThumbnail}" />
 				</a>
 			</div>
 			<div class="subinfo">
 				<a th:href="@{/postDetail(postID=${post.postID})}"><h2><b>[[${post.postTitle}]]</b></h2></a>
 				<span>[[${post.postDate}]]</span>
-				<span>조회수 [[${post.viewCnt}]]</span>
-				<form action="">
+				<span>조회수 [[${post.viewCnt}]] </span>
+				<button class="btn-like">👍<p id="likecnt" >[[${post.likeCnt}]]</p> </button>
+				<form id="likeform">
 					<input type="hidden" name="blogID" th:value="${blogID}">
 					<input type="hidden" name="postID" th:value="${post.postID}">
+					<input type="hidden" name="like" id="like" value="0">
 				</form>
 			</div>
 			<br><br><hr>
@@ -267,6 +272,32 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   </footer>
 
 <script>
+$(".btn-like").click(function() {
+	var p=Number($('#likecnt').html());
+	
+	alert($(this).attr("class"));
+	$(".btn-like").toggleClass("done");
+	if($(this).attr("class").indexOf("done")>=0){
+	     $('#likecnt').text(p+1);
+	     $("#like").val(1);
+	}else{
+	     $('#likecnt').text(p-1);
+	      $("#like").val(-1);
+	}
+	
+ 	  $.ajax({
+ 		url:'likepost',
+		type:'POST',
+		data:$('#likeform').serialize(),
+		success: function(data) {	
+		},
+		error:function(){
+			
+		}
+ 	 });
+	
+});
+
 $(function() {
 	var wind = $(window),
 		header = $('.side-menu'),

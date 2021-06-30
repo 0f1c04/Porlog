@@ -76,7 +76,15 @@ public class UserController {
 	public void boardRegister() {
 
 	}
-
+	
+	// 유저 정보수정
+	@PostMapping("/userUpdate")
+	public String userUpdate(UserDTO user, RedirectAttributes rttr, Principal principal) {
+		UserDTO user_update = service.updateUser(user);
+		rttr.addFlashAttribute("resultMessage", user_update==null?"수정실패":"수정성공");
+		return "redirect:/basic?userID=" + principal.getName();
+	}
+	
 	@GetMapping("/logout")
 	public void logout() {
 

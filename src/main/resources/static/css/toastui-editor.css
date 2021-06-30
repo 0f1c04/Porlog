@@ -193,7 +193,7 @@ li.ProseMirror-selectednode:after {
 .toastui-editor-md-mode .toastui-editor-md-container,
 .toastui-editor-ww-mode .toastui-editor-ww-container {
   display: block;
-  z-index: -10;
+  z-index: 0;
 }
 
 .toastui-editor-md-mode .toastui-editor-md-vertical-style {

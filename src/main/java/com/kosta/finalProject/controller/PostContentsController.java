@@ -16,6 +16,7 @@ import com.kosta.finalProject.service.PostContentsService;
 import com.kosta.finalProject.service.PostService;
 import com.kosta.finalProject.service.UserService;
 
+
 @Controller
 public class PostContentsController {
 	
@@ -62,9 +63,10 @@ public class PostContentsController {
 	
 	// 게시글삭제
 	@GetMapping("/postContentsDelete")
-	public String postDelete(Long postcID) {
+	public String postDelete(Long postcID, Long postID, Principal principal) {
 		int result = service.deletePostContents(postcID);
 		System.out.println(result + "건의 컨텐츠 삭제");
-		return "redirect:/blogList";
+		
+		return "redirect:/basic?userID=" + principal.getName();
 	}
 }

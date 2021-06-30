@@ -62,6 +62,9 @@ public class PostDTO {
     @Column(name = "like_cnt")
     private int likeCnt;
     
+    @Column(name = "post_thumbnail")
+    private String postThumbnail;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<ReplyDTO> replies;

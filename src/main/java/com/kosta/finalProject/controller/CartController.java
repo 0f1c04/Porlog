@@ -28,6 +28,8 @@ public class CartController {
         return -1;
     }
     
+    //세션과 DB에 같이 저장?
+    
     @ResponseBody
     @GetMapping("buy/{id}")
     public List<Item> buy(@PathVariable(value = "id") String id, HttpSession session) {

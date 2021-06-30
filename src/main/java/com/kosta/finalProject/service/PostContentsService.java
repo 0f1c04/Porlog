@@ -37,13 +37,13 @@ public class PostContentsService {
 	
 	// 삭제
 	public int deletePostContents(Long postcID) {
-		int result = 0;
+		int ret = 0;
 		try {
 			repo.deleteById(postcID);
-			result = 1;
+			ret = 1;
 		} catch(Exception ex) {
 			
 		}
-		return result;
+		return ret;
 	}
 }

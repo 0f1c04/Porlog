@@ -178,16 +178,18 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<div class="post-box" th:each="post:${postlist}">
 			<div class="post-thumbnail">
 				<a th:href="@{/postDetail(postID=${post.postID})}">
-					<img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/attachments/delivery/asset/3e3992abaa7b67ef61e398bdfe4bd978-1607137833/Attachment_1607137783/create-personalized-among-us-gif-and-png-for-you.gif" />
+					<img th:src="${post.postThumbnail}" />
 				</a>
 			</div>
 			<div class="subinfo">
 				<a th:href="@{/postDetail(postID=${post.postID})}"><h2><b>[[${post.postTitle}]]</b></h2></a>
 				<span>[[${post.postDate}]]</span>
-				<span>조회수 [[${post.viewCnt}]] &nbsp;&nbsp;·&nbsp;&nbsp; ♥ [[${post.likeCnt}]]</span>
-				<form action="">
+				<span>조회수 [[${post.viewCnt}]] </span>
+				<button class="btn-like">👍<p id="likecnt">[[${post.likeCnt}]]</p> </button>
+				<form id="likeform">
 					<input type="hidden" name="blogID" th:value="${blogID}">
 					<input type="hidden" name="postID" th:value="${post.postID}">
+					<input type="hidden" name="like" id="like" value="0">
 				</form>
 			</div>
 			<br><br><hr>
@@ -230,6 +232,32 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   </footer>
 
 <script>
+$(".btn-like").click(function() {
+	var p=Number($('#likecnt').html());
+	
+	alert($(this).attr("class"));
+	$(".btn-like").toggleClass("done");
+	if($(this).attr("class").indexOf("done")>=0){
+	     $('#likecnt').text(p+1);
+	     $("#like").val(1);
+	}else{
+	     $('#likecnt').text(p-1);
+	      $("#like").val(-1);
+	}
+	
+ 	  $.ajax({
+ 		url:'likepost',
+		type:'POST',
+		data:$('#likeform').serialize(),
+		success: function(data) {	
+		},
+		error:function(){
+			
+		}
+ 	 });
+	
+});
+
 $(document).ready(function(){
 	 $("#logouttext").append("님 환영합니다");
 });

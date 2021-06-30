@@ -26,11 +26,6 @@ public interface PostRepository extends CrudRepository<PostDTO, Long>, JpaReposi
 	
 	@Transactional
 	@Modifying
-	@Query("update PostDTO p set p.likeCnt = p.likeCnt + 1 where p.postID = :postID")
-	public int HitLikeUp(Long postID);
-	
-	@Transactional
-	@Modifying
-	@Query("update PostDTO p set p.likeCnt = p.likeCnt - 1 where p.postID = :postID")
-	public int HitLikeDown(Long postID);
+	@Query("update PostDTO p set p.likeCnt = p.likeCnt + ?2 where p.postID = ?1")
+	public int HitLikeUpDown(Long postID, int like);
 }

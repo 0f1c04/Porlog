@@ -32,17 +32,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <link rel="icon" href="images/logo-1.png">
 <!-- css  -->
 <link rel="stylesheet" href="css/sample.css">
+<link rel="stylesheet" href="css/modal.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <!-- 에디터 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
-<!-- <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" /> -->
 <link rel="stylesheet" th:href="@{/css/toastui-editor.css}" />
 
 <!-- js -->
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script defer src="js/sample.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 
 </head>
@@ -133,9 +135,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   </header>
   
   
-  
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
+    
+    
     
     <div class="inner3" >
 		<h1 style="text-align: left; padding-top: 100px; font-size:50px;"><b>새 글 작성</b></h1>
@@ -149,23 +152,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					<input name="postContents">
 				</div>
 			</div>
+			<br>
 				<input type="hidden" id="blogID" name="blogID" th:value="${blogID}">
 				<input type="hidden" id="userID" name="userID" th:value="${user.userID}">
+				<label>썸네일 이미지 등록</label>
+				<input type="file" name="imgFile" id="imgFile" /><br>
 			<div class="form-group">
 				<button id="insertButton" type="button"><b>등 록</b></button>
-				<button type="reset"><b>리 셋</b></button>
 			</div>
 		</div>
 		
-		<!-- <div class="tui-doc-description">
-	        <h3>Toast UI Editor 2.0.0 Test</h3>
-	        <h2>설치와 기본기능 사용</h2>
-	    </div> -->
 
         
-		<br>
-		<!-- <button onclick="ToView();">↓↓↓ 불러서 넣기 ↓↓↓</button> -->
-		<br>
+		<br><br>
 
         <div id="viewer"></div>
     </div>
@@ -204,6 +203,180 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
  <script th:src="@{/js/toastui-editor-all.min.js}"></script>
  <script>
+ $('#registerLogin').click(function(){
+	 $('#exampleModal').modal('hide'); 
+	 $('#myModal').modal('show'); 
+});
+
+$('#registersend').click(function(){
+	 $('#myModal').modal('hide'); 
+});
+
+$('#IDFind').click(function(){
+	 $('#myModal').modal('hide'); 
+});
+
+$('#PWFind').click(function(){
+	 $('#myModal').modal('hide'); 	 
+});
+
+$('#cancel-btn').click(function(){
+	 $('#myModal').modal('show'); 
+});
+
+$('#cancel-btn2').click(function(){
+	 $('#myModal').modal('show'); 	 
+});
+
+$('#registerCheck').click(function(){
+	var id =$("#userID").val();
+	
+	
+	$.ajax({
+		 url: 'ID_Check',
+		    type: 'POST',
+		    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
+		    contentType : 'text/plain; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
+		    data: id,
+		    success: function(data){
+		        
+		    	
+		     	if(data == 0){		        	 
+		         console.log("아이디 없음");
+		         alert("사용하실 수 있는 아이디입니다.");
+		         }
+		   		     	else{
+		         	console.log("아이디 있음");
+		         	alert("중복된 아이디가 존재합니다.");
+		         	$("#userID").val('');
+		         	
+		         } 
+		    },
+		    error: function (){        
+		                      
+		    }
+	}); 
+	
+});
+
+
+//아이디 찾기
+$('#findId').click(function(){
+
+	 $.ajax({
+		 url: 'findId',
+		    type: 'POST',
+		    data:$('#idcatch').serialize(),
+		    success: function(data){
+		   console.log(data);
+		        
+		        $('#exampleModalID').modal('hide'); 
+		   		$('#FindIDModal').modal('show');
+		   		$('#catchId').html('<h1>아이디:'+data+'입니다</h1>');
+		   		
+		     	
+		    },
+		    error: function (){        
+		                      
+		    }
+	});  
+});
+//인증번호
+var first="";
+//아이디
+var fid="";
+//비밀번호찾기
+$('#findPW').click(function(){
+	
+	$("#aa").css("display","block");
+	$("#aa").css("color","blue");
+	$("#aa").show();
+	
+	 $.ajax({
+		 url: 'findpw',
+		    type: 'POST',
+		    data:$('#pwcatch').serialize(),		   
+		    success: function(data){		    	
+		        $("#exampleModalPW").modal("hide");
+		    	$("#mail").modal("show");
+		   		/* $("#emailnumber").val(data); */
+		     	first=data.test1;
+		   		fid=data.test2
+		   		$("#requireID").val(fid);
+		   		
+		    },
+		    error: function (){        
+		                      
+		    }
+	});  
+});
+//이메일 인증 관련
+$('#permitcheck').click(function(){
+	
+	$.ajax({
+		url:'changepw',
+		type:'POST',
+		data:$('#emailcatch').serialize(),
+		success: function(data){			
+			if(data==first){
+				
+				$("#mail").modal("hide");
+				$("#SettingPW").modal("show");
+			}
+			else{
+				alert("인증번호를 잘못입력하였습니다.");
+			}
+			
+		},
+		error:function(){
+			
+		}
+	});
+});
+//비밀번호재설정
+$('#setpwbtn').click(function(){
+	
+	$.ajax({
+		url:'setpwform',
+		type:'POST',
+		data:$('#settingpwform').serialize(),
+		success: function(data){			
+			
+			$('#SettingPW').modal('hide');
+			
+		},
+		error:function(){
+			
+		}
+	});
+});
+
+$(document).ready(function(){
+	 $("#logouttext").append("님 환영합니다");
+});
+ /* 여기까지가 모달 */
+ 
+ 
+  var thumbUrl;
+ 
+  $("#imgFile").change(function(file){
+	    var formdata = new FormData();
+		formdata.append('image',file.target.files[0]);
+		 
+		 $.ajax({
+				url:"/uploadThumbnail",
+				data: formdata,
+				async : false,
+				type: "post",
+				contentType: false,
+				processData: false,
+				success: function(data){
+					thumbUrl = data;
+				}
+			});
+	 
+}); 
+ 
  
  const content = [].join('\n');
 
@@ -216,24 +389,29 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
      initialValue: content,
       hooks: { 
 	       addImageBlobHook: (fileOrBlob, callback) => {   //fileOrBlob:파일객체를 되돌려줌
-	    	   
-	    	   //console.log(fileOrBlob);
-	    	   //console.log(fileOrBlob.name);
-	    	   //var imgurl = 'https://i.ibb.co/MRGgGnN/logo-2.png';
-	    	   var imgurl = uploadImgApi(fileOrBlob, callback);
-	    	   
+	    	   var imgurl = uploadImgApi(fileOrBlob, callback);	   
 	       },
   		}//hooks end 
  });
  
- 
+ $("#insertButton").click(function(){
+	 var id = $("input[name='blogID']").val();
+	 var data = {"blogID":id, "postTitle":$("#postTitle").val(), "postContents":editor.getHTML(), "postThumbnail":thumbUrl};
+	 var param = $("input[id='userID']").val();
+	 $.ajax({
+		url:"/postInsert",
+		data: data,
+		type: "post",
+		success: function(res) {
+			location.href="/basic?userID="+ param; 
+		}
+	 });  
+ });
  
  
  function uploadImgApi(fileOrBlob, callback){
 	 var formdata = new FormData();
-	 var revalue;
 	 formdata.append('image',fileOrBlob);
-	 
 	 
 	$.ajax({
 		url:"/uploadImg",
@@ -243,7 +421,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		contentType: false,
 		processData: false,
 		success: function(data){
-			callback(data,"kosta");
+			callback(data, fileOrBlob.name);
 		}
 	});
  }
@@ -251,7 +429,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
  
  
  
- const viewer = toastui.Editor.factory({
+ 
+ 
+/*  const viewer = toastui.Editor.factory({
      el: document.querySelector('#viewer'),
      viewer: true,
      height: '500px',
@@ -266,28 +446,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	 console.log('경계');
      viewer.setMarkdown(markdown);
      console.log(markdown);
- };
+ }; */
  
- 
- $("#insertButton").click(function(){
-	 var id = $("input[name='blogID']").val();
-	 var data = {"blogID":id, "postTitle":$("#postTitle").val(), "postContents":editor.getHTML()};
-	 var param = $("input[name='userID']").val();
-	 $.ajax({
-		url:"/postInsert",
-		data: data,
-		type: "post",
-		success: function(res) {
-			location.href="/basic?userID="+ param; 
-		}
-	 });  
- });
- 
- $(document).ready(function(){
-	 $("#logouttext").append("님 환영합니다");
-	 
-});
- document.getElementById('now_date').valueAsDate = new Date();
+
  </script>
 
 </body>

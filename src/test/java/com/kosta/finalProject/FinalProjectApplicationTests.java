@@ -55,8 +55,6 @@ class FinalProjectApplicationTests {
 		user.setUserPW("1234");
 		user.setEmail("테스트Email");
 		user.setNickname("테스트닉넴");
-		user.setLastLogin(new Date());
-		user.setLastPWChg(new Date());
 		user.setAuthLV(1);
 		repo.save(user);
 	}
