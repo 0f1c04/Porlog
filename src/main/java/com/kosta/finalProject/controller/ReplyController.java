@@ -1,6 +1,7 @@
 package com.kosta.finalProject.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,9 @@ public class ReplyController {
 		System.out.println(principal.getName());
 		PostDTO post = service.selectByPost(postID);
 		UserDTO user = uservice.selectById(principal.getName());
-		ReplyDTO newreply = ReplyDTO.builder().post(post).reply(reply).replyUser(user).replyDate(new Date()).build();
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+		Date time = new Date();
+		ReplyDTO newreply = ReplyDTO.builder().post(post).reply(reply).replyUser(user).replyDate(dateformat.format(time)).build();
 		
 		service.updateReply(newreply);
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.CREATED);
@@ -70,7 +73,9 @@ public class ReplyController {
 		System.out.println(replyUser);
 		PostDTO post = service.selectByPost(postID);
 		UserDTO user = uservice.selectByNick(replyUser);
-		ReplyDTO newreply = ReplyDTO.builder().replyNO(replyNO).post(post).reply(reply).replyUser(user).replyDate(new Date()).build();
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date time = new Date();
+		ReplyDTO newreply = ReplyDTO.builder().replyNO(replyNO).post(post).reply(reply).replyUser(user).replyDate(dateformat.format(time)).build();
 		
 		service.updateReply(newreply);
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.OK);

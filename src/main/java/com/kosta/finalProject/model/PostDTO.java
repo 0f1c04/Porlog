@@ -1,7 +1,6 @@
 
 package com.kosta.finalProject.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,9 +67,5 @@ public class PostDTO {
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<ReplyDTO> replies;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<LikeDTO> likes = new HashSet<>();
 
 }

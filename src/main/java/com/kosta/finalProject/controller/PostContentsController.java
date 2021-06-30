@@ -63,7 +63,7 @@ public class PostContentsController {
 	
 	// 게시글삭제
 	@GetMapping("/postContentsDelete")
-	public String postDelete(Long postcID, Long postID, Principal principal) {
+	public String postDelete(Long postcID, Principal principal) {
 		int result = service.deletePostContents(postcID);
 		System.out.println(result + "건의 컨텐츠 삭제");
 		

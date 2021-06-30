@@ -362,14 +362,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   
   <!-- VISUAL -->
   <section class="visual">
-    <h1 style="text-align: left; padding-left: 230px; padding-top: 50px;"><b>porlog</b></h1>
+    <h1 style="text-align: left; padding-left: 300px; padding-top: 50px; font-style: italic;"><b>porlog</b></h1>
     <div class="inner">
       
       <div class="fortpolio" th:each="blog:${bloglist}">
         <div class="forex">
           <a th:href="@{/postList(blogID=${blog.blogID})}" class="title1"></a>
           <div class="foo1">
-            <a th:href="@{/postList(blogID=${blog.blogID})}" th:text="${blog.blogTitle}" class="content1"></a><span class="badge">([[${blog.postlist.size()}]]개의 게시물)</span>
+            <a th:href="@{/postList(blogID=${blog.blogID})}" th:text="${blog.blogTitle}" class="content1"></a>&nbsp;&nbsp;<span class="badge">([[${blog.postlist.size()}]]개의 게시물)</span>
           </div>
           <div class="footer1">
             <p th:text="${blog.user.nickname}"></p>
@@ -387,12 +387,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <footer>
     <div class="inner">
       <ul class="menu">
-        <li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침2</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침3</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침4</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침5</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침6</a></li>
+        <li><a href="javascript:void(0)" class="green">개인정보처리방침</a></li>
       </ul>
       <div class="btn-group">
         <a href="javascript:void(0)" class="btn btn--white">찾아와라1</a>
@@ -400,10 +395,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
       </div>
       <div class="info">
-        <span>사사사11</span>
-        <span>사사사12</span>
-        <span>사사사13</span>
-        <span>사사사14</span>
+        <span>배윤호</span>
+        <span>강희원</span>
+        <span>임상혁</span>
+        <span>배재영</span>
+        <span>정한영</span>
       </div>
       <p class="copyright">
         &copy;<span class="this-year"></span>KOSTA TEAM4

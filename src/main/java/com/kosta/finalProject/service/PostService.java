@@ -42,14 +42,14 @@ public class PostService {
 
 	// 삭제
 	public int deletePost(Long postID) {
-		int result = 0;
+		int ret = 0;
 		try {
-			repo.deleteById(postID);
-			result = 1;
+			repo.deleteByPostId(postID);
+			ret = 1;
 		} catch (Exception ex) {
 
 		}
-		return result;
+		return ret;
 	}
 
 	// 좋아요 증가,감소

@@ -13,6 +13,7 @@ import com.kosta.finalProject.model.PostDTO;
 
 public interface PostRepository extends CrudRepository<PostDTO, Long>, JpaRepository<PostDTO, Long>{
 	
+	@Query(value = "select * from P_POST where blog_blog_id = ? order by 1 desc", nativeQuery = true)
 	public List<PostDTO> findByBlog(BlogDTO blog);
 	
 	@Query(value = "select * from P_POST where POST_ID = (select MAX(POST_ID) from P_POST)", nativeQuery = true)
@@ -28,4 +29,9 @@ public interface PostRepository extends CrudRepository<PostDTO, Long>, JpaReposi
 	@Modifying
 	@Query("update PostDTO p set p.likeCnt = p.likeCnt + ?2 where p.postID = ?1")
 	public int HitLikeUpDown(Long postID, int like);
+	
+	@Transactional
+	@Modifying
+	@Query("delete from PostDTO p where p.postID = :postID")
+	public int deleteByPostId(Long postID);
 }

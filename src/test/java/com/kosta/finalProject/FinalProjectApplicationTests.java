@@ -1,12 +1,5 @@
 package com.kosta.finalProject;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Date;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,8 +8,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kosta.finalProject.model.BlogDTO;
-import com.kosta.finalProject.model.LikeDTO;
-import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.ReplyDTO;
 import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.repository.BlogRepository;
@@ -86,7 +77,6 @@ class FinalProjectApplicationTests {
 						.replyUser(u)
 						.post(b)
 						.reply("잘부탁드립니다.")
-						.replyDate(new Date())
 						.build();
 				rrepo.save(reply);
 			});

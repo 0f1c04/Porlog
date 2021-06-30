@@ -49,7 +49,7 @@ public class ReplyDTO {
     private String reply;
     
     @Column(name = "reply_date")
-    private Date replyDate;
+    private String replyDate;
 
 
 

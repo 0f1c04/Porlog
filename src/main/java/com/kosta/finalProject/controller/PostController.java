@@ -77,10 +77,11 @@ public class PostController {
 	}
 
 	@GetMapping("/postDelete")
-	public String postDelete(Long postID) {
+	public String postDelete(Long postID, Principal principal) {
+		System.out.println(postID);
 		int result = service.deletePost(postID);
 		System.out.println(result + "건의 게시물 삭제");
-		return "redirect:/blogList";
+		return "redirect:/basic?userID=" + principal.getName();
 	}
 
 	@RequestMapping(value = "/likepost", method = RequestMethod.POST)
