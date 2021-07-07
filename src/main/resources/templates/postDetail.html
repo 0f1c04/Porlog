@@ -137,6 +137,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	    <input type="hidden" name="postcontents" th:value="${postcontent.contents}">
 	  </div>
 	  <div sec:authorize="isAuthenticated()">
+	  	<!--  <a th:href="@{/postUpdate(post=${post})">게시물 수정</a> -->
+	 	<a th:href="@{/postUpdate(postID=${postcontent.post.postID},contents=${postcontent.contents},blogID=${blogID})}" class="update-btn">게시글 수정</a>
 		<a th:href="@{/postDelete(postID=${postcontent.post.postID})}" class="delete-btn">게시글 삭제</a>
 	  </div>
 	  <div sec:authorize="isAnonymous()">
@@ -241,10 +243,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		var replyUser = tds[0].innerHTML;
 		$("input[name='reply']").val(reply);
 		$("input[name='replyUser']").val(replyUser);
-		
 		$("#replyModal").show();
 		$(".modal-title").text("수정 또는 삭제 작업")
 	});
+	
 	
 	$("#modalButton").click(function() {
 		var reply = $("input[name='reply']");
@@ -282,6 +284,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	//console.log(replyManager); //{"getAll":function(){}, ........}
 	replyManager.getAll("[[${postcontent.post.postID}]]",  printList);
    
+	//replyTable 공간에 댓글에 관한 데이터를 출력한다.
 	function printList(rList){
 		console.log(rList);
 		var str="";

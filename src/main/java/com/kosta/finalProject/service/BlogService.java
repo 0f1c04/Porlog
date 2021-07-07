@@ -18,7 +18,6 @@ public class BlogService {
 	//조회
 	public List<BlogDTO> selectAll(){
 		List<BlogDTO> blog = repo.findAll();
-		//System.out.println(blog);
 		return blog;
 	}
 	public BlogDTO selectById(Long blogid) {
@@ -31,10 +30,9 @@ public class BlogService {
 	}
 	
 	public BlogDTO selectByUser(UserDTO user) {
-		//repo.findById(1L).orElse(null)
 		BlogDTO blog = repo.findByUser2(user);
 		if(blog.getBlogTitle() == null)
-			blog.setBlogTitle("새 블로그를 만들어주세요");
+			blog.setBlogTitle("새 폴로그를 만들어주세요");
 		return blog;  
 	}
 	

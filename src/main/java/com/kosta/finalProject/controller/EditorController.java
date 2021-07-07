@@ -14,27 +14,25 @@ public class EditorController {
 
 	@Autowired
 	S3FileUploadService s3Service;
-
+	
+	//이미지 업로드
 	@PostMapping(value = "/uploadImg")
 	public String uploadImage(MultipartFile image) {
-		//System.out.println("uploadImage왔음 : " + image);
 		try {
 			return s3Service.upload(image);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "이미지로드실패";
 
 	}
 	
+	//썸네일 업로드
 	@PostMapping(value = "/uploadThumbnail")
 	public String uploadThumbnail(MultipartFile image) {
-		System.out.println("uploadImage왔음 : " + image);
 		try {
 			return s3Service.upload(image);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "이미지로드실패";

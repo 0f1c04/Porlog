@@ -362,21 +362,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   
   <!-- VISUAL -->
   <section class="visual">
-    <h1 style="text-align: left; padding-left: 300px; padding-top: 50px; font-style: italic;"><b>porlog</b></h1>
+    <h1 style="padding-left: 380px; padding-top: 50px; font-style: italic;"><b>porlog</b></h1>
     <div class="inner">
-      
       <div class="fortpolio" th:each="blog:${bloglist}">
         <div class="forex">
+          <!-- 블로그 썸네일 이미지. 클릭 시 블로그에 해당하는 포스트 리스트 출력화면으로 넘어간다. -->
           <a th:href="@{/postList(blogID=${blog.blogID})}" class="title1"></a>
           <div class="foo1">
-            <a th:href="@{/postList(blogID=${blog.blogID})}" th:text="${blog.blogTitle}" class="content1"></a>&nbsp;&nbsp;<span class="badge">([[${blog.postlist.size()}]]개의 게시물)</span>
+          	<!-- 블로그 타이틀. 클릭 시 블로그에 해당하는 포스트 리스트 출력화면으로 넘어간다. -->
+            <a th:href="@{/postList(blogID=${blog.blogID})}" th:text="${blog.blogTitle}" class="content1"></a>
+            &nbsp;&nbsp;<span class="badge">([[${blog.postlist.size()}]]개의 게시물)</span>
           </div>
           <div class="footer1">
+          	<!-- 유저 닉네임 출력 -->
             <p th:text="${blog.user.nickname}"></p>
           </div>
         </div>
       </div>
-
     </div>
   </section>
  

@@ -28,10 +28,9 @@ public class BlogController {
 	@Autowired
 	PostService postService;
 	
-	
+	// 블로그 리스트 (Principal로 User 정보를 가져온다.)
 	@GetMapping("/blogList")
-	public String selectUsers(Model model, String userID, Principal principal) {
-		System.out.println(principal.getName());
+	public String selectUsers(Model model, Principal principal) {
 		model.addAttribute("bloglist", blogService.selectAll());
 		model.addAttribute("user", userService.selectById(principal.getName()));
 		return "blogList";
@@ -54,6 +53,7 @@ public class BlogController {
 		return "/blog/blogInsert";
 	}
 
+	// 내 폴로그 페이지 불러오기
 	@GetMapping("/basic")
 	public String selectById(Model model, String userID, Principal principal) {
 		UserDTO user = userService.selectById(userID);
@@ -62,8 +62,7 @@ public class BlogController {
 		List<PostDTO> postlist = postService.selectByBlog(blog);
 		model.addAttribute("postlist", postlist);
 		model.addAttribute("user", userService.selectById(principal.getName()));
-		System.out.println(userID);
-		return "/basic"; 
+		return "/basic";
 	}
 	
 	@PostMapping("/blogUpdate")

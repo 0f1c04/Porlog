@@ -187,10 +187,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		
 		<ul>
 			<li th:if="${myblog.blogID} == 0">
-				<a th:href="@{/blogInsert(userID=${myblog.user?.userID})}">블로그 생성</a>
+				<a th:href="@{/blogInsert(userID=${myblog.user?.userID})}">폴로그 생성</a>
 			</li>
 			<li th:unless="${myblog.blogID} == 0">
-				<a th:href="@{/blogUpdate(userID=${myblog.user?.userID})}">블로그 수정</a>
+				<a th:href="@{/blogUpdate(userID=${myblog.user?.userID})}">폴로그 수정</a>
 			</li>
 			<li>
 				<a th:href="@{/userDetail}">내정보 수정</a>
@@ -204,14 +204,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   	
     <div class="inner2">
 	
-	
+	<input type="hidden" class="postlist" th:value="${postlist}">
 	
 	
 	<div class="post-area">
 		<div class="post-box" th:each="post:${postlist}">
-			<div class="post-thumbnail">
-				<a th:href="@{/postDetail(postID=${post.postID})}">
+			<div class="post-thumbnail" id="pThumbnail">
+				<a th:href="@{/postDetail(postID=${post.postID},blogID=${myblog.blogID})}">
 					<img th:src="${post.postThumbnail}" />
+					<input type="hidden" class="postID" th:value="${post.postID}"/>
 				</a>
 			</div>
 			<div class="subinfo">
@@ -220,9 +221,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				<span>조회수 [[${post.viewCnt}]] </span>
 				<button class="btn-like">👍<p id="likecnt" >[[${post.likeCnt}]]</p> </button>
 				<form id="likeform">
-					<input type="hidden" name="blogID" th:value="${blogID}">
+					<input type="hidden" name="blogID" th:value="${myblog.blogID}">
 					<input type="hidden" name="postID" th:value="${post.postID}">
 					<input type="hidden" name="like" id="like" value="0">
+					
 				</form>
 			</div>
 			<br><br><hr>

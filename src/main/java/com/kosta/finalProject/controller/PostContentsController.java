@@ -29,12 +29,13 @@ public class PostContentsController {
 	@Autowired
 	UserService serviceU;
 	
+	// 게시글 상세내용보기 (선택된 게시글ID에 해당하는 게시글의 상세내용을 보여준다.)
 	@GetMapping("/postDetail")
-	public String selectByPost(Model model, Long postID, String userID, Principal principal) {
+	public String selectByPost(Model model, Long postID, Long blogID, Principal principal) {
 		PostDTO post = serviceP.selectByPostId(postID);
-		System.out.println(principal.getName());
 		model.addAttribute("postcontent", service.selectByPost(post));
 		model.addAttribute("postID", postID);
+		model.addAttribute("blogID", blogID);
 		model.addAttribute("user", serviceU.selectById(principal.getName()));
 		model.addAttribute("view", serviceP.HitCount(postID));
 		return "/postDetail";
@@ -53,6 +54,18 @@ public class PostContentsController {
 		return "redirect:/post";
 	}
 	
+	//게시물수정(Get)
+	@GetMapping("/postUpdate")
+	public String updateByPost(Model model, Long postID,String contents, Long blogID, Principal principal) {
+		PostDTO post = serviceP.selectByPostId(postID);
+		
+		model.addAttribute("user", serviceU.selectById(principal.getName()));
+		model.addAttribute("post", post);
+		model.addAttribute("contents", contents);
+		model.addAttribute("blogID", blogID);
+		return "/postUpdate";
+	} 
+	
 	// 게시글수정
 	@PostMapping("/postupdate")
 	public String postUpdate(Post_ContentsDTO postC, RedirectAttributes rttr) {
@@ -66,7 +79,6 @@ public class PostContentsController {
 	public String postDelete(Long postcID, Principal principal) {
 		int result = service.deletePostContents(postcID);
 		System.out.println(result + "건의 컨텐츠 삭제");
-		
 		return "redirect:/basic?userID=" + principal.getName();
 	}
 }

@@ -46,14 +46,17 @@ public class PostService {
 		try {
 			repo.deleteByPostId(postID);
 			ret = 1;
-		} catch (Exception ex) {
-
-		}
+		} catch (Exception ex) {}
 		return ret;
 	}
 
-	// 좋아요 증가,감소
+	// 좋아요 증가
 	public int LikeUp(Long postID, int like) {
+		return repo.HitLikeUp(postID, like);
+	}
+	
+	// 좋아요 감소
+	public int LikeDown(Long postID, int like) {
 		return repo.HitLikeUpDown(postID, like);
 	}
 

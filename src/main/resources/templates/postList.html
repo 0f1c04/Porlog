@@ -39,6 +39,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script defer src="js/sample.js"></script>
 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body>
@@ -172,6 +174,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<p>[[${blog.blogTitle}]]</p>
   	</div>
   	<hr style="width: 760px;">
+  	
+  	<div class="side-menu">
+		<div class="side-menu-title">
+			<h3><b>게시물 카트</b></h3>
+			<hr>
+		</div>
+		
+		
+		<div id="cart" style="width: 200px; min-height: 200px; border: 5px dotted  rgb(145, 106, 6);">
+	    </div>
+	
+	</div>
+  	
+  	
+  	
+  	
+  	
     <div class="inner2">
     
 	<div class="post-area">
@@ -179,17 +198,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			<div class="post-thumbnail">
 				<a th:href="@{/postDetail(postID=${post.postID})}">
 					<img th:src="${post.postThumbnail}" />
+					<input type="hidden" class="postID" th:value="${post.postID}"/>
 				</a>
 			</div>
 			<div class="subinfo">
 				<a th:href="@{/postDetail(postID=${post.postID})}"><h2><b>[[${post.postTitle}]]</b></h2></a>
 				<span>[[${post.postDate}]]</span>
 				<span>조회수 [[${post.viewCnt}]] </span>
-				<button class="btn-like">👍<p id="likecnt">[[${post.likeCnt}]]</p> </button>
-				<form id="likeform">
+				<button th:class="'btn-like'+${post.postID}" th:id="'likecnt'+${post.postID}" th:onclick="'like(\'likecnt'+${post.postID}+'\',\'btn-like'+${post.postID}+'\')'" th:text="'👍'+${post.likeCnt}" style=" color: transparent;text-shadow: 0 0 2px rgba(255,255,255,.7), 0 0 0 #000; width: 100px;background-color: white;border: 0;"></button>
+				<form th:id="'likeform'+${post.postID}">
 					<input type="hidden" name="blogID" th:value="${blogID}">
-					<input type="hidden" name="postID" th:value="${post.postID}">
-					<input type="hidden" name="like" id="like" value="0">
+					<input type="hidden" name="postID" id="example"  th:value="${post.postID}">
+					<input type="hidden" name="like" id="like" th:value="${post.likeCnt}">
+					<input type="hidden" name="pcheck" th:id="'check'+${post.postID}" th:value="0">
+					<input type="hidden" name="ucheck" id="ucheck" th:value="${user.authLV}">
+					<input type="hidden" name="uid" id="uid" th:value="${user.userID}">
 				</form>
 			</div>
 			<br><br><hr>
@@ -232,35 +255,164 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   </footer>
 
 <script>
-$(".btn-like").click(function() {
-	var p=Number($('#likecnt').html());
+
+function like(id,cc){
+	//버튼 아이디
+	var key=Number(id.substr(7));
+	//requestmapping에 넘길값에 key값 넣기
+	$("#example").val(key);
+	//버튼 아이디 관련
+	var a= "#"+id;
+	var p =$(a).text();	
+	var h= Number(p.substr(2,4));
+	//기타 내용
+	var likea=Number($("#like").val());
 	
-	alert($(this).attr("class"));
-	$(".btn-like").toggleClass("done");
-	if($(this).attr("class").indexOf("done")>=0){
-	     $('#likecnt').text(p+1);
-	     $("#like").val(1);
+	//버튼 클래스
+	$("."+cc).toggleClass("done");
+	
+	//////var fa= Number($("#check"+key).val()); 
+	
+	//버튼 클래스 관련
+	var s ="."+cc;
+	//버튼 스타일
+	$(s+':hover').css('text-shadow', '0 0 0 #ea0');
+	
+	
+	//클릭할때 done이 되고 페이지를 나가도 저장이되어라!!
+	
+	 if($(a).attr("class").indexOf("done")>=0){ 
+		 $(s).css('color', 'inherit');
+		 $(s).css('text-shadow', '0');
+		 $(a).text(h+1).prepend('👍');
+	   
+	   
+  			$("#like").val(likea+1); 
+  			
+		 
 	}else{
-	     $('#likecnt').text(p-1);
-	      $("#like").val(-1);
-	}
-	
- 	  $.ajax({
- 		url:'likepost',
-		type:'POST',
-		data:$('#likeform').serialize(),
-		success: function(data) {	
-		},
-		error:function(){
+		 $(s).css('color', 'transparent');
+		 $(s).css('text-shadow', '0 0 0 #777');
+		 
+		 $(a).text(h-1).prepend('👍');
+			$("#like").val(likea-1); 
 			
-		}
- 	 });
-	
-});
+	} 
+	console.log($('#likeform'+key).serializeArray());
+	 $.ajax({
+	 		url:'likepost',
+			type:'POST',
+			data:$('#likeform'+key).serializeArray(),
+			success: function(data){
+				
+				$("#check"+key).val(data);
+				
+			},
+			error:function(){
+				
+			}
+	 	 }); 
+	 
+}
+
+
+
+
+
+
 
 $(document).ready(function(){
 	 $("#logouttext").append("님 환영합니다");
 });
+
+
+/* side menu */
+$(function() {
+	var wind = $(window),
+		header = $('.side-menu'),
+		headerOffsetTop = header.offset().top;
+	wind.scroll(function() {
+		if($(this).scrollTop() > headerOffsetTop) {
+			header.addClass('sticky');
+		} else {
+			header.removeClass('sticky');
+		}
+	});
+});
+
+
+
+//------------------cart부분-------------------
+
+
+function displayCart(data) {
+    var s = '';
+    var sum = 0;
+    var pp = '';
+    for (var i= 0; i < data.length; i++) {
+        sum += parseInt(data[i].quantity)
+        console.log(data[i].post.postThumbnail);
+        s += '<br><img src="'+data[i].post.postThumbnail+'" width="70" height="50">';
+        s += 'Id: ' + data[i].post.postID;
+        s += '<br>Name: ' + data[i].post.postTitle;
+        s += `<br><a href="javascript:del('${data[i].post.postID}')" id=delete>Delete</a>`; 
+        s += '<br>---------------------------------------';
+    } 
+    s += '<br>담은 게시물 : ' + sum;
+    
+    $('#cart').html(s);
+}
+
+//cart에서 삭제
+function del(postID){
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        url: '/cart/delete/' + postID,
+        success: function (data) {
+            displayCart(data);
+        }
+    });
+}
+
+$(document).ready(function() {
+	//초기값 설정
+	var s = '<br>담은 게시물 : 0';
+	$('#cart').html(s);
+	
+	//이미지 드래그기능 설정
+    $('.post-thumbnail img').css({
+        'z-index' : 1
+    }).draggable({
+        'opacity' : '0.5',
+        'revert' : true,
+        'cursor' : 'pointer'
+    });
+    
+	//이미지 드래그 시 cart에 담기
+    $('#cart').droppable({
+        drop: function (event, ui) {
+            var postID = $(ui.draggable).siblings('.postID').val();
+            var blogID = $("input[name='blogID']").val();
+            //var data = {"postlist":$(".postlist").val(),};
+            console.log(postID);
+            console.log(blogID);
+            $.ajax({
+                type: 'GET',
+                //data: data,
+                //dataType: 'json',
+                contentType: 'application/json',
+                url: '/cart/buy/' + postID + '/' + blogID,
+                success: function (data) {
+                    displayCart(data);
+                }
+            });
+        }
+    });
+});
+
+
 </script>
 
 </body>

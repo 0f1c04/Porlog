@@ -141,24 +141,26 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     
     
     <div class="inner3" >
-		<h1 style="text-align: left; padding-top: 100px; font-size:50px;"><b>새 글 작성</b></h1>
+		<h1 style="text-align: left; padding-top: 100px; font-size:50px;"><b>글 작성</b></h1>
 		<br>
 		<div class="postingForm">
 			<div class="form-group">
-				<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력하세요">
+				<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력하세요" th:value="${post.postTitle}">
 			</div>
 			<div>
 				<div id="editor" style="box-sizing: border-box; height: 500px;">
 					<input name="postContents">
+					<input type="hidden" name="oldContents" th:value="${contents}">
 				</div>
 			</div>
 			<br>
 				<input type="hidden" id="blogID" name="blogID" th:value="${blogID}">
 				<input type="hidden" id="userID" name="userID" th:value="${user.userID}">
 				<label>썸네일 이미지 등록</label>
-				<input type="file" name="imgFile" id="imgFile" /><br>
+				<input type="file" name="imgFile" id="imgFile"/><br>
+				<input type="hidden" name="oldimg" id="oldimg" th:value="${post.postThumbnail}"/><br>
 			<div class="form-group">
-				<button id="updateButton" type="button"><b>등 록</b></button>
+				<button id="updateButton" type="button"><b>수 정</b></button>
 			</div>
 		</div>
 		
@@ -357,9 +359,8 @@ $(document).ready(function(){
  /* 여기까지가 모달 */
  
  
- 
  //썸네일 url변경
-  var thumbUrl;
+  var thumbUrl="";
  
   $("#imgFile").change(function(file){
 	    var formdata = new FormData();
@@ -376,10 +377,13 @@ $(document).ready(function(){
 					thumbUrl = data;
 				}
 			});
+	 
    }); 
  
- //에디터
- const content = [].join('\n');
+ 
+//에디터
+ var old = $("input[name='oldContents']").val();
+ const content = [old].join('\n');
 
  const editor = new toastui.Editor({
      el: document.querySelector('#editor'),
@@ -395,9 +399,17 @@ $(document).ready(function(){
   		}//hooks end 
  });
  
- //등록버튼
+ 
+//수정버튼
  $("#updateButton").click(function(){
 	 var id = $("input[name='blogID']").val();
+	 var oldimg = $("input[name='oldimg']").val();
+	 
+	 //썸네일이 바뀌지 않으면 원본 유지
+	 if (thumbUrl == "") {
+		 thumbUrl = oldimg;
+	}
+	 
 	 var data = {"blogID":id, "postTitle":$("#postTitle").val(), "postContents":editor.getHTML(), "postThumbnail":thumbUrl};
 	 var param = $("input[id='userID']").val();
 	 $.ajax({
@@ -409,7 +421,6 @@ $(document).ready(function(){
 		}
 	 });  
  });
- 
  
  //에디터에서 이미지 첨부
  function uploadImgApi(fileOrBlob, callback){
@@ -430,6 +441,26 @@ $(document).ready(function(){
  }
  
  
+ 
+ 
+ 
+ 
+/*  const viewer = toastui.Editor.factory({
+     el: document.querySelector('#viewer'),
+     viewer: true,
+     height: '500px',
+     initialValue: content
+ });
+
+ function ToView()
+ {
+	 var markdown = editor.getHTML();
+	 
+	 console.log(markdown);
+	 console.log('경계');
+     viewer.setMarkdown(markdown);
+     console.log(markdown);
+ }; */
  
 
  </script>
