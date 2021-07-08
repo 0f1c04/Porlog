@@ -459,10 +459,24 @@ header .main-menu .item .item__contents .contents__texture p{
 	margin-bottom: 20px;
 }
 .visual .inner3 .delete-btn {
-	width: 120px;
+	width: 110px;
 	background-color: red;
 	color: white;
-	font-size: 15px;
+	font-size: 13px;
+	font-weight: 700;
+	padding: 7px 10px 7px 10px;
+	box-shadow: 5px 5px 10px lightgray;
+	border-radius: 5px;
+	float: right;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.visual .inner3 .update-btn {
+	width: 110px;
+	background-color: blue;
+	color: white;
+	font-size: 13px;
 	font-weight: 700;
 	padding: 7px 10px 7px 10px;
 	box-shadow: 5px 5px 10px lightgray;

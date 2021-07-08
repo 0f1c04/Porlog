@@ -134,11 +134,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <section class="visual">
     <div class="inner3">
 		
-		<h1 style="padding-top: 90px;"><b>폴로그 생성</b></h1>
-		<p style="color: gray;">나만의 폴로그를 만들어보세요!</p>
+		<h1 style="padding-top: 90px;"><b>폴로그 수정</b></h1>
+		<p style="color: gray;">폴로그의 제목은 언제든 수정가능합니다!</p>
 		<br>
 		<div class="panel-body">
-			<form th:action="@{/blogInsert}" method="post">
+			<form th:action="@{/blogUpdate}" method="post">
 				<div class="form-group">
 			      <!-- <label for="userID">유저ID : [[${userID}]]</label> -->
 			      <label style="font-size: 20px; font-weight: 600;">사용자 ID</label><br>
@@ -147,9 +147,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			    </div><br>
 			    <div class="form-group">
 			      <label for="blogTitle" style="font-size: 20px; font-weight: 600;"><b>폴로그 제목</b></label>
-			      <textarea class="form-control" cols="" id="blogTitle" name="blogTitle"></textarea>
+			      <textarea class="form-control" cols="" id="blogTitle" name="blogTitle">[[${blog.blogTitle}]]</textarea>
+			      <!-- <input type="text" th:value="${blog.blogTitle}"> -->
 			    </div>
-			    <button type="submit" class="btn btn-success" style="float: right;">등록하기</button>
+			    <button type="submit" class="btn btn-success" style="float: right;">수정하기</button>
 			  </form>
 		</div>
 		

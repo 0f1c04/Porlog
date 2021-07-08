@@ -11,7 +11,6 @@ import com.kosta.finalProject.model.BlogDTO;
 import com.kosta.finalProject.model.ReplyDTO;
 import com.kosta.finalProject.model.UserDTO;
 import com.kosta.finalProject.repository.BlogRepository;
-import com.kosta.finalProject.repository.LikeRepository;
 import com.kosta.finalProject.repository.PostRepository;
 import com.kosta.finalProject.repository.ReplyRepository;
 import com.kosta.finalProject.repository.UserRepository;
@@ -32,10 +31,7 @@ class FinalProjectApplicationTests {
 	
 	@Autowired
 	ReplyRepository rrepo;
-	
-	@Autowired
-	LikeRepository lrepo;
-	
+		
 	@Autowired
 	MockMvc mockMvc;
 	

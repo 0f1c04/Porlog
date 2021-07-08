@@ -41,6 +41,18 @@ public class PostContentsController {
 		return "/postDetail";
 	}
 	
+	// 게시글 상세내용보기2 (내 폴로그에서 포스트를 클릭할 시 나오게 될 게시글상세내용)
+		@GetMapping("/postDetail2")
+		public String selectByMyPost(Model model, Long postID, Long blogID, Principal principal) {
+			PostDTO post = serviceP.selectByPostId(postID);
+			model.addAttribute("postcontent", service.selectByPost(post));
+			model.addAttribute("postID", postID);
+			model.addAttribute("blogID", blogID);
+			model.addAttribute("user", serviceU.selectById(principal.getName()));
+			model.addAttribute("view", serviceP.HitCount(postID));
+			return "/postDetail2";
+		}
+	
 	// 게시글입력페이지(Get)
 	@GetMapping("/postContents")
 	public void postContents() {

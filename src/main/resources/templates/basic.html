@@ -210,13 +210,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<div class="post-area">
 		<div class="post-box" th:each="post:${postlist}">
 			<div class="post-thumbnail" id="pThumbnail">
-				<a th:href="@{/postDetail(postID=${post.postID},blogID=${myblog.blogID})}">
+				<a th:href="@{/postDetail2(postID=${post.postID},blogID=${myblog.blogID})}">
 					<img th:src="${post.postThumbnail}" />
-					<input type="hidden" class="postID" th:value="${post.postID}"/>
 				</a>
 			</div>
 			<div class="subinfo">
-				<a th:href="@{/postDetail(postID=${post.postID})}"><h2><b>[[${post.postTitle}]]</b></h2></a>
+				<a th:href="@{/postDetail2(postID=${post.postID})}"><h2><b>[[${post.postTitle}]]</b></h2></a>
 				<span>[[${post.postDate}]]</span>
 				<span>조회수 [[${post.viewCnt}]] </span>
 				<button class="btn-like">👍<p id="likecnt" >[[${post.likeCnt}]]</p> </button>
@@ -224,7 +223,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					<input type="hidden" name="blogID" th:value="${myblog.blogID}">
 					<input type="hidden" name="postID" th:value="${post.postID}">
 					<input type="hidden" name="like" id="like" value="0">
-					
 				</form>
 			</div>
 			<br><br><hr>
@@ -246,14 +244,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <!-- FOOTER -->
   <footer>
     <div class="inner">
-      <ul class="menu">
-        <li><a href="javascript:void(0)" class="green">개인정보처리방침</a></li>
-      </ul>
-      <div class="btn-group">
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라1</a>
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
-      </div>
       <div class="info">
         <span>배윤호</span>
         <span>강희원</span>
