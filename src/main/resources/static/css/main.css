@@ -171,6 +171,12 @@ header .sub-menu ul.menu li a:hover{
   text-decoration: none;
   color: #fff;
 }
+header .sub-menu ul.menu li span {
+  font-size: 12px;
+  padding: 11px 16px;
+  display: block;
+  color: #656565;
+}
 header .sub-menu .search {
  
   height: 34px;
@@ -446,10 +452,13 @@ header .main-menu .item .item__contents .contents__texture p{
   left: 50%;
   margin-left: calc((819px * 3 + 20px) /-2);
 }
-.notice .promotion .swiper-slide{
+.notice .promotion .swiper-slide {
   opacity: .5;
   transition: opacity 1s;
   position: relative;
+}
+.notice .promotion .swiper-slide img{
+	margin: 0 auto;
 }
 
 .notice .promotion .swiper-slide-active{

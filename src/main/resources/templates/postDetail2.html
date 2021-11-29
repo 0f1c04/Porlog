@@ -138,14 +138,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	  </div>
 	  <div sec:authorize="isAuthenticated()">
 	  	<!--  <a th:href="@{/postUpdate(post=${post})">게시물 수정</a> -->
-	 	<!-- <a th:href="@{/postUpdate(postID=${postcontent.post.postID},contents=${postcontent.contents},blogID=${blogID})}" class="update-btn">게시글 수정</a>
-		<a th:href="@{/postDelete(postID=${postcontent.post.postID})}" class="delete-btn">게시글 삭제</a> -->
+	  	<a th:href="@{/postDelete(postID=${postcontent.post.postID})}" class="delete-btn">게시글 삭제</a>
+	 	<a th:href="@{/postUpdate(postID=${postcontent.post.postID},contents=${postcontent.contents},blogID=${blogID})}" class="update-btn">게시글 수정</a>
 	  </div>
 	  <div sec:authorize="isAnonymous()">
 		
 	  </div>
   </div>
-    
+    <br><br>
+    <hr style="width: 960px;">
     
     
     

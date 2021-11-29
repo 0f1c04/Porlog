@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>porlog</title>
+  
+<!-- 오픈그래프 -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="porlog" />
+<meta property="og:title" content="Belog KOSTA KOREA" />
+<meta property="og:description" content="porlog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+<meta property="og:image" content="images/logo-1.png" />
+<meta property="og:url" content="" />
+<!-- 트위터카드  -->
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="porlog" />
+<meta property="twitter:title" content="porlog는 KOSTA KOREA" />
+<meta property="twitter:description" content="Belog는 2021년6월1일~7월12일에 개발한 홈페이지입니다." />
+<meta property="twitter:image" content="images/logo-1.png" />
+<meta property="twitter:url" content="" />
+<!-- 구글 폰트 -->
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+<!--구글 아이콘API  -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- 브라우져 기본 스타일 초기화  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+<!-- 브라우져 타이틀 이미지 -->
+<link rel="icon" href="images/logo-1.png">
+<!-- css  -->
+<link rel="stylesheet" href="css/sample.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- 에디터 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
+<!-- <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" /> -->
+<link rel="stylesheet" th:href="@{/css/toastui-editor.css}" />
+
+<!-- js -->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script defer src="js/sample.js"></script>
+
+
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="inner">
+      <a href="/index" class="logo">
+        <img src="images/logo-2.png" alt="Belog" class="img_title">
+      </a>
+      <div class="sub-menu">
+        <ul class="menu">
+          	<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인 </a></li>
+			<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+			<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
+        </ul>
+        <div class="search">
+          <input type="text">
+          <div class="material-icons">
+            search
+          </div>
+        </div>
+      </div>
+      <ul class="main-menu">
+        <li class="item">
+          <div class="item__name"><div class="material-icons">menu</div></div>
+          <div class="item__contents">
+            <div class="contents__menu">
+              <ul class="inner">
+                <li>
+                  <h4>채용정보</h4>
+                  <ul>
+                    <li>지역별</li>
+                    <li>직업별</li>
+                  </ul>
+                </li>
+                <li>
+                  <h4>폴로그</h4>
+                  <ul>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </li>
+                <li>
+                  <h4>내 폴로그</h4>
+                  <ul>
+                    <li>폴로그 확인</li>
+                    <li>폴로그 수정</li>
+                    <li>폴로그 삭제</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="contents__texture">
+              <div class="inner">
+              
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA">
+          	<a th:href="@{/jInfo}">채용정보</a>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA">
+          		<a th:href="@{/blogList}">폴로그</a>
+          </div>
+        </li>
+        <li class="item">
+          <div class="item__nameA">
+          	<div sec:authorize="isAuthenticated()">
+				<a th:href="@{/basic(userID=${user?.userID})}">내 폴로그</a>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<a th:href="@{/basic}" >내 폴로그</a>
+			</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </header>
+  
+  
+  <!-- VISUAL   조원분들이 건드려야할 부분-->
+  <section class="visual">
+    <div class="inner3">
+		
+		<div class="myinform">
+			<h1 style="padding-top: 90px;"><b>내 정보 수정</b></h1>
+			<br>
+			<form th:action="@{/userUpdate}" method="post">
+				<label>ID</label><br>
+				<input type="text" id="userID" name="userID" th:value="${user.userID}" readonly="readonly"><br>
+				<input type="hidden" id="userPW" name="userPW" th:value="${user.userPW}" readonly="readonly">
+				<label>닉네임</label><br>
+				<input type="text" id="nickname" name="nickname" th:value="${user.nickname}" placeholder="닉네임"><br>
+				<label>주소</label><br>
+				<input type="text" id="address" name="address" th:value="${user.address}" placeholder="주소"><br>
+				<label>이메일</label><br>
+				<input type="text" id="email" name="email" th:value="${user.email}" placeholder="이메일"><br>
+				<label>전화번호</label><br>
+				<input type="text" id="phone" name="phone" th:value="${user.phone}" placeholder="전화번호"><br><br>
+				<button type="submit" class="btn btn-success">수정완료</button>
+			</form>
+		</div>
+    </div>
+  </section>
+ 
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="inner">
+      <div class="info">
+        <span>배윤호</span>
+        <span>강희원</span>
+        <span>임상혁</span>
+        <span>배재영</span>
+        <span>정한영</span>
+      </div>
+      <p class="copyright">
+        &copy;<span class="this-year"></span>KOSTA TEAM4
+      </p>
+      <img src="./images/logo-2.png" alt="" class="logo">
+    </div>
+  </footer>
+
+
+ 
+<script>
+	$(document).ready(function(){
+		$("#logouttext").append("님 환영합니다");
+	});
+</script>
+
+</body>
+
+</html>

@@ -1,18 +1,10 @@
 
 package com.kosta.finalProject.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,17 +39,12 @@ public class UserDTO {
     private String email;
 
     private String nickname;
-
-    @Column(name = "last_login")
-    private Date lastLogin;
-
-    @Column(name = "last_pw_chg")
-    private Date lastPWChg;
+    
+    private String phone;
+    
+    private String address;
 
     @Column(name = "auth_lv")
     private int authLV;
     
-
-
-
 }

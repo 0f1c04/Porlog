@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Item {
-	private Product product;
+	private PostDTO post;
     private int quantity;
 }

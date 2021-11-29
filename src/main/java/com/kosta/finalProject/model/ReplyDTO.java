@@ -1,8 +1,6 @@
 
 package com.kosta.finalProject.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +18,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "post")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -33,13 +31,12 @@ public class ReplyDTO {
      */
     public ReplyDTO() {
     }
-
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "reply_no")
     private Long replyNO;
-
+    
     @ManyToOne
     private UserDTO replyUser;
 
@@ -49,8 +46,5 @@ public class ReplyDTO {
     private String reply;
     
     @Column(name = "reply_date")
-    private Date replyDate;
-
-
-
+    private String replyDate;
 }

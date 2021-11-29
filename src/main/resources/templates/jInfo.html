@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -31,11 +32,14 @@
   <link rel="icon" href="images/logo-1.png">
   <!-- css  -->
   <link rel="stylesheet" href="css/jInfo.css">
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/modal2.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!-- js -->
   <script defer src="js/sample.js"></script>
+  <script defer src="js/mm.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>	
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -43,18 +47,13 @@
   
   <header>
     <div class="inner">
-      <a href="/" class="logo">
-        <img src="images/logo-2.png" alt="Belog" class="img_title">
-      </a>
+      <a href="/index" class="logo"><img src="images/logo-2.png" alt="Belog" class="img_title"></a>
       <div class="sub-menu">
         <ul class="menu">
-          <li>
-            <a href="/signin">로그인</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">회원가입</a>
-          </li>
-
+          	<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인</a></li>
+			<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+			<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
         </ul>
         <div class="search">
           <input type="text">
@@ -108,12 +107,22 @@
         </li>
         <li class="item">
           <div class="item__nameA">
-            <a th:href="@{/blogList}">폴로그</a>
+            <div sec:authorize="isAuthenticated()">
+				<a th:href="@{/blogList}">폴로그</a>
+			</div>
+			<div sec:authorize="!isAuthenticated()">
+				<a href="#" data-toggle="modal" data-target="#myModal">폴로그</a>
+			</div>
           </div>
         </li>
         <li class="item">
           <div class="item__nameA">
-            <a th:href="@{/postList}">내 폴로그</a>
+			<div sec:authorize="isAuthenticated()">
+				<a th:href="@{/basic(userID=${user?.userID})}" >내 폴로그</a>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<a th:href="@{/basic}" >내 폴로그</a>
+			</div>
           </div>
         </li>
       </ul>
@@ -121,31 +130,247 @@
     </div>
   </header>
 	
-	<div id='myModal' class='modal fade' role='dialog'>
-		<div class='modal-dialog' style='width: 350px;'>
-		<div class='modal-content'>
-		<div class='modal-header'>
-		<button type='button' class='close' data-dismiss='modal'>&times;</button>
-		<h4 class='modal-title'>채용정보 상세보기</h4>
-		</div>
-		<div class='modal-body'>
-		<div class='form-group'>
-		<label for='detailinfo'>상세정보</label>
-		<div class='detailinformation'></div>
-		</div>
-		<div class='form-group'>
-		<label for='submit'>지원하기</label>
+	<div id="modal-container">
+    <div class="modal-background">
+      <div class="modal">
+		<h4 >채용정보 상세보기</h4>
+		<hr>
+		<h3 for='detailinformation'>상세정보</h3>
+		<div class="detailinformation"></div>
+		<h3 for='submit'>지원하기</h3>
 		<div class='submit'></div>
-		</div>
-		<br>
-		<button id='close'>확인</button>
-					</div>
-				</div>
-			</div>
-		</div>
+        <svg class="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+			<rect x="0" y="0" fill="none" width="226" height="162" rx="3" ry="3"></rect>
+		</svg>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div class="buttons">
+      <div id="one" class="button">Unfolding</div>
+    </div>
+  </div>
 	
-
-
+<!-- Modal -->
+	<!--비밀번호바꾸기 -->
+	<div class="modal fade" id="SettingPW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content" style="width: 100%;text-align: center;padding: 0">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	         
+	          
+	              <h1>비밀번호 재설정 </h1>
+	          <form id="settingpwform" >
+	           
+	            <div class="form-group" style="display: none;">	              
+	              
+	              <input type="text" class="form-control" id="requireID" name="requireID" >
+	            </div>
+	            <div class="form-group">	              
+	              <label for="userPW">비밀번호</label>
+	              <input type="password" class="form-control" id="setPW" name="setPW" placeholder="Password">
+	            </div>
+	           
+	            
+	            <button type="button" class="btn btn-primary"  id="setpwbtn">비밀번호 재설정</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	        
+	<!-- Modal -->
+	<!--인증코드로 인증하기 -->
+	<div class="modal fade" id="mail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content" style="width: 100%;text-align: center;padding: 0">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	         
+	          
+	        <form id="emailcatch">
+	            <div class="form-group">
+	             
+	              <label for="emailnumber">인증번호</label>
+	              <input type="text" class="form-control" id="emailnumber" name="enumber">
+	            </div>
+	           
+	            <button type="button" class="btn btn-primary" id="permitcheck">인증확인</button>
+	           
+	            
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--찾은아이디 -->
+	<div class="modal fade" id="FindIDModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content" style="width: 100%;text-align: center;padding: 0">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	          <form>
+	            <div class="form-group">
+	              <label id="catchId">
+	              </label>
+	            </div>
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
+	<!-- Modal -->
+	<!--아이디찾기 -->
+	<div class="modal fade" id="exampleModalID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	          <h1>아이디 찾기 </h1>
+	          
+	          <form id="idcatch">
+	            <div class="form-group">
+	              <label for="exampleInputName" id="permit">이름</label>
+	              <input type="text" class="form-control" id="InputName" name="idName" placeholder="이름">
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputEmail1">이메일</label>
+	              <input type="text" class="form-control" id="Inputemail" name="idEmail" aria-describedby="emailHelp" placeholder="이메일">
+	            </div>
+	            <button type="button" class="btn btn-primary"  id="findId">아이디 찾기</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn">Cancel</button>
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--비밀번호찾기 -->
+	<div class="modal fade" id="exampleModalPW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	          <h1>비밀번호 찾기 </h1>
+	          
+	          <form id="pwcatch">
+	            <div class="form-group">
+	              <span  id="aa" style="display: none; text-align:center;">입력하신정보에 인증메일을 보냈습니다.</span><br>	
+	              <label for="exampleInputName">이름</label>
+	              <input type="text" class="form-control" id="findName" name="cname" placeholder="이름">
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputEmail1">이메일</label>
+	              <input type="text" class="form-control" id="findEmail" name="cemail" aria-describedby="emailHelp" placeholder="이메일">
+	            </div>
+	            <button type="button" class="btn btn-primary" id="findPW">비밀번호 찾기</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn2">Cancel</button>
+	            
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal -->
+	<!--로그인  -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog" style="width: 350px;" >
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Login</h4>
+	      </div>
+	      <div class="modal-body">
+	      
+	       
+			<form  method="post" action="index">
+	        	<div class="form-group">
+	              <label for="exampleInputName">ID</label>
+	              
+	              <input type="text" class="form-control" id="InputID" name="username" placeholder="아이디">
+	     		  
+	            </div>
+	            <div class="form-group">
+	              <label for="exampleInputPassword1">Password</label>
+	              <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">  
+	            </div>
+	            <!-- <input id="remember_me" name="remember-me-param" type="checkbox"/>아이디 저장<br> -->
+	            <input type="submit" class="btn btn-primary" id="login-login" value="login">
+	            <button type="button" class="btn btn-primary" data-dismiss="modal"  >Cancel</button><br>
+	        </form>
+	       	
+	      </div>
+	  		<div style="text-align: center;">
+	  		     <a  href="#" data-toggle="modal" data-target="#exampleModal"  id="registersend">회원가입</a>
+	      		 <a  href="#" data-toggle="modal" data-target="#exampleModalID" id="IDFind">아이디 찾기</a>
+	      		 <a  href="#" data-toggle="modal" data-target="#exampleModalPW" id="PWFind" >비밀번호 찾기</a>
+	  		</div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--회원가입  -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column" id="main">
+	          <h1>회원가입 </h1>
+	          <form method="post" action="userInsert">
+	            <div class="form-group">
+	              <label for="nickname">이름</label>
+	              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Name">
+	            </div>
+	            <div class="form-group">
+	              <label for="userID">아이디</label>
+	              <input type="text" class="form-control" id="userID" name="userID" aria-describedby="emailHelp" placeholder="ID">
+	              <a  href="#" data-toggle="modal"   id="registerCheck" >아이디 중복체크</a>
+	            </div>
+	            <div class="form-group">
+	              <label for="userPW">비밀번호</label>
+	              <input type="password" class="form-control" id="userPW" name="userPW" placeholder="Password">
+	            </div>
+	            <div class="form-group">
+	              <label for="email">이메일</label>
+	              <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+	            </div>
+	            <div class="form-group">
+	              <label for="authLV">권한(1 또는 0)</label>
+	              <input type="number" class="form-control" id="authLV" name="authLV" placeholder="1 or 0">
+	            </div>
+	            <button type="submit" class="btn btn-primary">Sign Up</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+	          </form>
+	        </div>
+	        <div class="column" id="secondary">
+	          <div class="sec-content">
+	            <h2>Welcome !</h2>
+	            <button type="button" class="btn btn-primary" id="registerLogin">Login</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
   <!-- VISUAL   조원분들이 건드려야할 부분-->
   <section class="visual">
@@ -160,24 +385,12 @@
   <!-- FOOTER -->
   <footer>
     <div class="inner">
-      <ul class="menu">
-        <li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침2</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침3</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침4</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침5</a></li>
-        <li><a href="javascript:void(0)">개인정보처리방침6</a></li>
-      </ul>
-      <div class="btn-group">
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라1</a>
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
-        <a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
-      </div>
       <div class="info">
-        <span>사사사11</span>
-        <span>사사사12</span>
-        <span>사사사13</span>
-        <span>사사사14</span>
+        <span>배윤호</span>
+        <span>강희원</span>
+        <span>임상혁</span>
+        <span>배재영</span>
+        <span>정한영</span>
       </div>
       <p class="copyright">
         &copy;<span class="this-year"></span>KOSTA TEAM4
@@ -194,11 +407,157 @@
 
  
 <script>
+$('#registerLogin').click(function(){
+	 $('#exampleModal').modal('hide'); 
+	 $('#myModal').modal('show'); 
+});
 
+$('#registersend').click(function(){
+	 $('#myModal').modal('hide'); 
+});
+
+$('#IDFind').click(function(){
+	 $('#myModal').modal('hide'); 
+});
+
+$('#PWFind').click(function(){
+	 $('#myModal').modal('hide'); 	 
+});
+
+$('#cancel-btn').click(function(){
+	 $('#myModal').modal('show'); 
+});
+
+$('#cancel-btn2').click(function(){
+	 $('#myModal').modal('show'); 	 
+});
+
+$('#registerCheck').click(function(){
+	var id =$("#userID").val();
+	
+	
+	$.ajax({
+		 url: 'ID_Check',
+		    type: 'POST',
+		    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
+		    contentType : 'text/plain; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
+		    data: id,
+		    success: function(data){
+		        
+		    	
+		     	if(data == 0){		        	 
+		         console.log("아이디 없음");
+		         alert("사용하실 수 있는 아이디입니다.");
+		         }
+		   		     	else{
+		         	console.log("아이디 있음");
+		         	alert("중복된 아이디가 존재합니다.");
+		         	$("#userID").val('');
+		         	
+		         } 
+		    },
+		    error: function (){        
+		                      
+		    }
+	}); 
+	
+});
+
+
+//아이디 찾기
+$('#findId').click(function(){
+
+	 $.ajax({
+		 url: 'findId',
+		    type: 'POST',
+		    data:$('#idcatch').serialize(),
+		    success: function(data){
+		   console.log(data);
+		        
+		        $('#exampleModalID').modal('hide'); 
+		   		$('#FindIDModal').modal('show');
+		   		$('#catchId').html('<h1>아이디:'+data+'입니다</h1>');
+		   		
+		     	
+		    },
+		    error: function (){        
+		                      
+		    }
+	});  
+});
+//인증번호
+var first="";
+//아이디
+var fid="";
+//비밀번호찾기
+$('#findPW').click(function(){
+	
+	$("#aa").css("display","block");
+	$("#aa").css("color","blue");
+	$("#aa").show();
+	
+	 $.ajax({
+		 url: 'findpw',
+		    type: 'POST',
+		    data:$('#pwcatch').serialize(),		   
+		    success: function(data){		    	
+		        $("#exampleModalPW").modal("hide");
+		    	$("#mail").modal("show");
+		   		/* $("#emailnumber").val(data); */
+		     	first=data.test1;
+		   		fid=data.test2
+		   		$("#requireID").val(fid);
+		   		
+		    },
+		    error: function (){        
+		                      
+		    }
+	});  
+});
+//이메일 인증 관련
+$('#permitcheck').click(function(){
+	
+	$.ajax({
+		url:'changepw',
+		type:'POST',
+		data:$('#emailcatch').serialize(),
+		success: function(data){			
+			if(data==first){
+				
+				$("#mail").modal("hide");
+				$("#SettingPW").modal("show");
+			}
+			else{
+				alert("인증번호를 잘못입력하였습니다.");
+			}
+			
+		},
+		error:function(){
+			
+		}
+	});
+});
+//비밀번호재설정
+$('#setpwbtn').click(function(){
+	
+	$.ajax({
+		url:'setpwform',
+		type:'POST',
+		data:$('#settingpwform').serialize(),
+		success: function(data){			
+			
+			$('#SettingPW').modal('hide');
+			
+		},
+		error:function(){
+			
+		}
+	});
+});
 
 function call(i){
 	
-	$('#myModal').modal('show');
+	$('.button').trigger("click");
 	 
 	 $(".detailinformation").html(arr7[i].childNodes[0].nodeValue);
 	 
@@ -209,7 +568,7 @@ $("#close").click(function(){
 });
 $(document).ready(function() {
 	 $.ajax({
-        url:'http://192.168.0.172:8887/api/1',
+        url:'http://f1c04.xyz/api/1',
         type:'POST',        
         data:{},        
         dataType:'xml', // 리턴해주는 타입을 지정해줘야함
@@ -253,6 +612,9 @@ $(document).ready(function() {
         }// 요청 실패.
     });
 	
+	 $(document).ready(function(){
+		 $("#logouttext").append("님 환영합니다");
+	 });
 
 });
 

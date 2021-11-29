@@ -1,5 +1,7 @@
 package com.kosta.finalProject.controller;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -36,16 +38,16 @@ public class ReplyController {
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.OK);
 	}
 	
-	// 댓글입력
+	// 댓글입력 (Principal을 이용하여 User 데이터를 가져온다.)
 	@PostMapping("/{postID}")
-	public ResponseEntity<List<ReplyDTO>> insertReply(@PathVariable Long postID, String reply, String replyUser) {
-		System.out.println(postID);
-		System.out.println(reply);
-		System.out.println(replyUser);
+	public ResponseEntity<List<ReplyDTO>> insertReply(@PathVariable Long postID, 
+												String reply, Principal principal) {
 		PostDTO post = service.selectByPost(postID);
-		UserDTO user = service.selectByUser(replyUser);
-		ReplyDTO newreply = ReplyDTO.builder().post(post).reply(reply).replyUser(user).replyDate(new Date()).build();
-		
+		UserDTO user = uservice.selectById(principal.getName());
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date time = new Date();
+		ReplyDTO newreply = ReplyDTO.builder().post(post).reply(reply).replyUser(user)
+									.replyDate(dateformat.format(time)).build();
 		service.updateReply(newreply);
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.CREATED);
 	}
@@ -53,24 +55,22 @@ public class ReplyController {
 	// 댓글삭제
 	@DeleteMapping("/{postID}/{replyNO}")
 	public ResponseEntity<List<ReplyDTO>> deleteByRno(@PathVariable Long replyNO, @PathVariable Long postID) {
-		System.out.println(replyNO);
-		System.out.println(postID);
 		PostDTO post = new PostDTO();
 		post.setPostID(postID);
-		
 		service.deleteReply(replyNO);
-		
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.OK);
 	}
 	
 	// 댓글수정
 	@PutMapping("/{postID}")
-	public ResponseEntity<List<ReplyDTO>> updateReply(@PathVariable Long postID, String reply, String replyUser, Long replyNO) {
-		System.out.println(replyUser);
+	public ResponseEntity<List<ReplyDTO>> updateReply(@PathVariable Long postID, 
+									String reply, String replyUser, Long replyNO) {
 		PostDTO post = service.selectByPost(postID);
 		UserDTO user = uservice.selectByNick(replyUser);
-		ReplyDTO newreply = ReplyDTO.builder().replyNO(replyNO).post(post).reply(reply).replyUser(user).build();
-		
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date time = new Date();
+		ReplyDTO newreply = ReplyDTO.builder().replyNO(replyNO).post(post).reply(reply)
+							.replyUser(user).replyDate(dateformat.format(time)).build();
 		service.updateReply(newreply);
 		return new ResponseEntity<>(service.selectAll(post), HttpStatus.OK);
 	}

@@ -1,11 +1,8 @@
 package com.kosta.finalProject.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kosta.finalProject.model.BlogDTO;
 import com.kosta.finalProject.model.PostDTO;
 import com.kosta.finalProject.model.Post_ContentsDTO;
 import com.kosta.finalProject.repository.PostContentsRepository;
@@ -25,6 +22,7 @@ public class PostContentsService {
 		return repo.findByPost(post);
 	}
 	
+	
 	// 입력
 	public Post_ContentsDTO insertPostContents(Post_ContentsDTO postC) {
 		PostDTO post = Postrepo.findByPostIdMaxVal();
@@ -35,5 +33,17 @@ public class PostContentsService {
 	// 수정
 	public Post_ContentsDTO updatePostContents(Post_ContentsDTO postC) {
 		return repo.save(postC);
+	}
+	
+	// 삭제
+	public int deletePostContents(Long postcID) {
+		int ret = 0;
+		try {
+			repo.deleteById(postcID);
+			ret = 1;
+		} catch(Exception ex) {
+			
+		}
+		return ret;
 	}
 }

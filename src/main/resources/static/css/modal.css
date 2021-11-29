@@ -37,9 +37,9 @@ form {
 }
 .column#main {
   flex: 75%;
-  padding: 50px;
+  padding: 50px 50px 50px 0px;
   margin-top: 30px;
-  margin-left: 15px;
+  margin-left: 30px;
 }
 .column#main2 {
   flex: 75%;
@@ -70,7 +70,7 @@ background: -webkit-linear-gradient(left, #F1DA36 0%,#FCA86C 99%); /* Chrome10-2
 background: linear-gradient(to right, #F1DA36 0%,#FCA86C 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F1DA36', endColorstr='#FCA86C',GradientType=1 ); /* IE6-9 */
 }
-/* 아이디 중복체크 버튼 */
+/* �븘�씠�뵒 以묐났泥댄겕 踰꾪듉 */
 .btn-duplicate {
   border-color: rgba( 255, 255, 255, 0);
   background: #F1DA36; /* Old browsers */

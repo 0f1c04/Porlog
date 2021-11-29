@@ -18,7 +18,10 @@ public class FinalProjectApplication {
 	}
 	
 	@RequestMapping( "/jInfo" )
-	public String home2() { 
+	public String home2() {
 		return "jInfo";
 	}
+	
+	
+	
 }

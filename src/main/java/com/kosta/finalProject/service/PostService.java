@@ -40,4 +40,24 @@ public class PostService {
 		return repo.save(post);
 	}
 
+	// 삭제
+	public int deletePost(Long postID) {
+		int ret = 0;
+		try {
+			repo.deleteByPostId(postID);
+			ret = 1;
+		} catch (Exception ex) {}
+		return ret;
+	}
+
+	// 좋아요 증가
+	public int LikeUp(Long postID, int like) {
+		return repo.HitLikeUp(postID, like);
+	}
+	
+	// 좋아요 감소
+	public int LikeDown(Long postID, int like) {
+		return repo.HitLikeUpDown(postID, like);
+	}
+
 }

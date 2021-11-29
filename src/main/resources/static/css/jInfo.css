@@ -138,9 +138,14 @@ header .sub-menu ul.menu li a{
 }
 header .sub-menu ul.menu li a:hover{
   background-color: black;
-  
- 
 }
+header .sub-menu ul.menu li span {
+  font-size: 12px;
+  padding: 11px 16px;
+  display: block;
+  color: #656565;
+}
+
 header .sub-menu .search {
  
   height: 34px;
@@ -262,7 +267,12 @@ header .main-menu .item .item__contents .contents__texture p{
   margin: 4px 0 14px;
   
 }
-
+/* MODAL */
+#modal-container .modal{
+	max-width: 960px;
+	width: 100%;
+	height: 400px;
+}
 
 /* VISUAL */
 .visual{  
@@ -307,8 +317,6 @@ header .main-menu .item .item__contents .contents__texture p{
 	margin: 15px 15px;
 	display: flex;
 	box-shadow: lightgray 0px 4px 10px 0px;
-	/* background-image: url('https://blog.kakaocdn.net/dn/bA8XwX/btqV0FgoLMH/u5azP1YGe0KyiWF1o6n3Q0/img.jpg');
-    background-size: cover; */
 }
 
 .visual .inner2 .joblist p{
@@ -319,11 +327,39 @@ header .main-menu .item .item__contents .contents__texture p{
 	overflow: hidden;
 }
 
-.visual .inner2 .jobimgdiv {
+.visual .inner2 .joblist .jobimgdiv {
 	margin: 30px 0px 30px 30px;
 	width: 100px;
 	height: 100px;
 	background-image: url('http://www.worldfringe.com/wp-content/uploads/2012/07/instagram-Logo-PNG-Transparent-Background-download-200x200.png');
+    background-size: contain;
+}
+.visual .inner2 .joblist:nth-child(2n) .jobimgdiv {
+	margin: 30px 0px 30px 30px;
+	width: 100px;
+	height: 100px;
+	background-image: url('https://cdn.theorg.com/6aa26807-55ff-4e88-8441-d451d3ea1626_thumb.png');
+    background-size: contain;
+}
+.visual .inner2 .joblist:nth-child(3n) .jobimgdiv {
+	margin: 30px 0px 30px 30px;
+	width: 100px;
+	height: 100px;
+	background-image: url('https://blog.kakaocdn.net/dn/CNqfY/btqzjsct2YY/PfKa0QqNmiKdUticLxuAaK/img.png');
+    background-size: contain;
+}
+.visual .inner2 .joblist:nth-child(4n) .jobimgdiv {
+	margin: 30px 0px 30px 30px;
+	width: 100px;
+	height: 100px;
+	background-image: url('https://t1.daumcdn.net/cfile/tistory/994EAB4F5D2565432F');
+    background-size: contain;
+}
+.visual .inner2 .joblist:nth-child(5n) .jobimgdiv {
+	margin: 30px 0px 30px 30px;
+	width: 100px;
+	height: 100px;
+	background-image: url('https://mblogthumb-phinf.pstatic.net/MjAxODA5MjhfMTU4/MDAxNTM4MTIxMDM1NjEz.y_vypYsX9eNReCcIklqgl_UB2IKe_vVM_uYdSE-o2log.XClSScgwlU1PtY2b9iWQINVhHNrYReHaC9gYav-IWjgg.PNG.dnduf75/%EB%A1%9C%EA%B3%A0%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-%ED%8A%B8%EC%9C%84%ED%84%B0%EB%A1%9C%EA%B3%A0-png-3.png?type=w800');
     background-size: contain;
 }
 

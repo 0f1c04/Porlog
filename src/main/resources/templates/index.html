@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 <meta charset="UTF-8">
@@ -33,6 +33,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <!-- css  -->
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/modal.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <!-- lodash cdn -->
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
 	integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
@@ -56,9 +57,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <script defer src="js/youtube.js"></script>
 <!-- js -->
 <script defer src="js/main.js"></script>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -69,8 +69,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<a href="/index" class="logo"><img src="images/logo-2.png" alt="Belog" class="img_title"></a>
 			<div class="sub-menu">
 				<ul class="menu">
-					<li><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인</a></li>
-					<li><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
+					<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#myModal" id="">로그인 </a></li>
+					<li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username" id="logouttext"></span></li> 
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+					<li sec:authorize="!isAuthenticated()"><a href="#" data-toggle="modal" data-target="#exampleModal">회원가입</a></li>
 				</ul>
 				<div class="search">
 					<input type="text">
@@ -128,16 +130,21 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				</li>
 				<li class="item">
 					<div class="item__nameA">
-						<a th:href="@{/blogList}">폴로그</a>
+						<div sec:authorize="isAuthenticated()">
+							<a th:href="@{/blogList}">폴로그</a>
+						</div>
+						<div sec:authorize="!isAuthenticated()">
+							<a href="#" data-toggle="modal" data-target="#myModal">폴로그</a>
+						</div>
 					</div>
 				</li>
 				<li class="item">
 					<div class="item__nameA">
 						<div sec:authorize="isAuthenticated()">
-							<a th:href="@{/basic(userID=${user.userID})}" >내 블로그2</a>
+							<a th:href="@{/basic(userID=${user?.userID})}" >내 폴로그</a>
 						</div>
-						<div sec:authorize="isAnonymous()">
-							<a th:href="@{/basic}" >내 폴로그</a>
+						<div sec:authorize="!isAuthenticated()">
+							<a href="#" data-toggle="modal" data-target="#myModal">내 폴로그</a>
 						</div>
 					</div> 
 				</li>
@@ -154,6 +161,93 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	</button>
 	
 	<!-- Modal -->
+	<!--비밀번호바꾸기 -->
+	<div class="modal fade" id="SettingPW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content" style="width: 100%;text-align: center;padding: 0">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	         
+	          
+	              <h1>비밀번호 재설정 </h1>
+	          <form id="settingpwform" >
+	           
+	            <div class="form-group" style="display: none;">	              
+	              
+	              <input type="text" class="form-control" id="requireID" name="requireID" >
+	            </div>
+	            <div class="form-group">	              
+	              <label for="userPW">비밀번호</label>
+	              <input type="password" class="form-control" id="setPW" name="setPW" placeholder="Password">
+	            </div>
+	           
+	            
+	            <button type="button" class="btn btn-primary"  id="setpwbtn">비밀번호 재설정</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	        
+	<!-- Modal -->
+	<!--인증코드로 인증하기 -->
+	<div class="modal fade" id="mail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content" style="width: 100%;text-align: center;padding: 0">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	         
+	          
+	        <form id="emailcatch">
+	            <div class="form-group">
+	             
+	              <label for="emailnumber">인증번호</label>
+	              <input type="text" class="form-control" id="emailnumber" name="enumber">
+	            </div>
+	           
+	            <button type="button" class="btn btn-primary" id="permitcheck">인증확인</button>
+	           
+	            
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<!--찾은아이디 -->
+	<div class="modal fade" id="FindIDModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="width: 350px;">
+	    <div class="modal-content" style="width: 100%;text-align: center;padding: 0">
+	      <div class="modal-body">
+	        <div class="column2" id="main2">
+	         
+	          
+	          <form>
+	            <div class="form-group">
+	              <label id="catchId">
+	              
+	              </label>
+	             
+	            </div>
+	            
+	          
+	           
+	          </form>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
+	<!-- Modal -->
 	<!--아이디찾기 -->
 	<div class="modal fade" id="exampleModalID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document" style="width: 350px;">
@@ -162,16 +256,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	        <div class="column2" id="main2">
 	          <h1>아이디 찾기 </h1>
 	          
-	          <form>
+	          <form id="idcatch">
 	            <div class="form-group">
-	              <label for="exampleInputName">이름</label>
-	              <input type="text" class="form-control" id="exampleInputName" placeholder="이름">
+	              <label for="exampleInputName" id="permit">이름</label>
+	              <input type="text" class="form-control" id="InputName" name="idName" placeholder="이름">
 	            </div>
 	            <div class="form-group">
-	              <label for="exampleInputEmail1">핸드폰번호</label>
-	              <input type="text" class="form-control" id="exampleInputPhone" aria-describedby="emailHelp" placeholder="핸드폰번호">
+	              <label for="exampleInputEmail1">이메일</label>
+	              <input type="text" class="form-control" id="Inputemail" name="idEmail" aria-describedby="emailHelp" placeholder="이메일">
 	            </div>
-	            <button type="submit" class="btn btn-primary">아이디 찾기</button>
+	            <button type="button" class="btn btn-primary"  id="findId">아이디 찾기</button>
 	            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn">Cancel</button>
 	          </form>
 	          
@@ -190,16 +284,17 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	        <div class="column2" id="main2">
 	          <h1>비밀번호 찾기 </h1>
 	          
-	          <form>
+	          <form id="pwcatch">
 	            <div class="form-group">
+	              <span  id="aa" style="display: none; text-align:center;">입력하신정보에 인증메일을 보냈습니다.</span><br>	
 	              <label for="exampleInputName">이름</label>
-	              <input type="text" class="form-control" id="exampleInputName" placeholder="이름">
+	              <input type="text" class="form-control" id="findName" name="cname" placeholder="이름">
 	            </div>
 	            <div class="form-group">
-	              <label for="exampleInputEmail1">핸드폰번호</label>
-	              <input type="text" class="form-control" id="exampleInputPhone" aria-describedby="emailHelp" placeholder="핸드폰번호">
+	              <label for="exampleInputEmail1">이메일</label>
+	              <input type="text" class="form-control" id="findEmail" name="cemail" aria-describedby="emailHelp" placeholder="이메일">
 	            </div>
-	            <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
+	            <button type="button" class="btn btn-primary" id="findPW">비밀번호 찾기</button>
 	            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn2">Cancel</button>
 	            
 	          </form>
@@ -208,64 +303,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	    </div>
 	  </div>
 	</div>
-	
-	<!-- Modal -->
-	<!--회원가입  -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-body">
-	        <div class="column" id="main">
-	          <h1>회원가입 </h1>
-	          <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-	          <form method="post" action="userInsert">
-	            <div class="form-group">
-	              <label for="nickname">이름</label>
-	              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="이름">
-	            </div>
-	            <div class="form-group">
-	              <label for="userID">아이디 </label>
-	              <input type="text" class="form-control" id="userID" name="userID" aria-describedby="emailHelp" placeholder="이메일(아이디)">
-	            </div>
-	            <div class="form-group">
-	              <label for="userPW">비밀번호</label>
-	              <input type="password" class="form-control" id="userPW" name="userPW" placeholder="비밀번호">
-	            </div>
-	            <div class="form-group">
-	              <label for="email">이메일</label>
-	              <input type="email" class="form-control" id="email" name="email" placeholder="비밀번호">
-	            </div>
-	            <div class="form-group">
-	              <label for="authLV">권한(1 또는 0)</label>
-	              <input type="number" class="form-control" id="authLV" name="authLV" placeholder="비밀번호">
-	            </div>
-	            <button type="submit" class="btn btn-primary">Sign Up</button>
-	            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-	          </form>
-	        </div>
-	        <div>
-	          <?xml version="1.0" encoding="UTF-8"?>
-	          <svg width="67px" height="578px" viewBox="0 0 67 578" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	              <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-	              <title>Path</title>
-	              <desc>Created with Sketch.</desc>
-	              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-	                  <path d="M11.3847656,-5.68434189e-14 C-7.44726562,36.7213542 5.14322917,126.757812 49.15625,270.109375 C70.9827986,341.199016 54.8877465,443.829224 0.87109375,578 L67,578 L67,-5.68434189e-14 L11.3847656,-5.68434189e-14 Z" id="Path" fill="#F9BC35"></path>
-	              </g>
-	          </svg>
-	        </div>
-	        <div class="column" id="secondary">
-	          <div class="sec-content">
-	            <h2>Welcome Back!</h2>
-	            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-	            <button type="button" class="btn btn-primary" id="registerLogin" >Login</button>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
 	<!-- Modal -->
 	<!--로그인  -->
 	<div id="myModal" class="modal fade" role="dialog">
@@ -280,18 +317,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	      <div class="modal-body">
 	      
 	       
-			<form  method="post">
+			<form  method="post" action="index">
 	        	<div class="form-group">
 	              <label for="exampleInputName">ID</label>
-	              <!-- <button class="btn-duplicate"  onclick="registerCheckFuntion();" type="button" style="margin-left: 330px" >중복체크</button> -->
-	              <input type="text" class="form-control" id="exampleInputName" name="username" placeholder="아이디">
-	     		  <a  href="#" data-toggle="modal"   id="registerCheck" >아이디 중복체크</a>
+	              
+	              <input type="text" class="form-control" id="InputID" name="username" placeholder="아이디">
+	     		  
 	            </div>
 	            <div class="form-group">
 	              <label for="exampleInputPassword1">Password</label>
 	              <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">  
 	            </div>
-	            <input type="checkbox" name="idcheck" id="idSaveCheck" onClick="confirmSave(this)"> 아이디저장<br>
+	            <!-- <input id="remember_me" name="remember-me-param" type="checkbox"/>아이디 저장<br> -->
 	            <input type="submit" class="btn btn-primary" id="login-login" value="login">
 	            <button type="button" class="btn btn-primary" data-dismiss="modal"  >Cancel</button><br>
 	        </form>
@@ -305,6 +342,61 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	    </div>
 	  </div>
 	</div>
+	
+	<!-- Modal -->
+	<!--회원가입  -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <div class="column" id="main">
+	          <h1>회원가입 </h1>
+	          <form method="post" action="userInsert">
+	            <div class="form-group">
+	              <label for="nickname">이름</label>
+	              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Name">
+	            </div>
+	            <div class="form-group">
+	              <label for="userID">아이디</label>
+	              <input type="text" class="form-control" id="userID" name="userID" aria-describedby="emailHelp" placeholder="ID">
+	              <a  href="#" data-toggle="modal"   id="registerCheck" >아이디 중복체크</a>
+	            </div>
+	            <div class="form-group">
+	              <label for="userPW">비밀번호</label>
+	              <input type="password" class="form-control" id="userPW" name="userPW" placeholder="Password">
+	            </div>
+	            <div class="form-group">
+	              <label for="email">이메일</label>
+	              <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+	            </div>
+	            <div class="form-group">
+	              <label for="phone">전화번호</label>
+	              <input type="text" class="form-control" id="phone" name="phone" placeholder="phone">
+	            </div>
+	            <div class="form-group">
+	              <label for="address">주소</label>
+	              <input type="text" class="form-control" id="address" name="address" placeholder="address">
+	            </div>
+	            <div class="form-group">
+	              <label for="authLV">권한(1 또는 0)</label>
+	              <input type="number" class="form-control" id="authLV" name="authLV" placeholder="1 or 0">
+	            </div>
+	            <button type="submit" class="btn btn-primary">Sign Up</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+	          </form>
+	        </div>
+	        <div class="column" id="secondary">
+	          <div class="sec-content">
+	            <h2>Welcome !</h2>
+	            <button type="button" class="btn btn-primary" id="registerLogin">Login</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
 
 
 	<!-- VISUAL -->
@@ -342,7 +434,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<div class="bg-left"></div>
 			<div class="bg-right"></div>
 			<div class="inner">
-				<div class="inner__left">
+				<!-- <div class="inner__left">
 					<h2>공지사항</h2>
 					<div class="swiper-container">
 						<div class="swiper-wrapper">
@@ -363,7 +455,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					<a href="javascript:void(0)" class="notice-line__more">
 						<div class="material-icons">add_circle</div>
 					</a>
-				</div>
+				</div> -->
 				<div class="inner__right">
 					<h2>Forlog 프로모션</h2>
 					<div class="toggle-promotion">
@@ -374,23 +466,23 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 		</div>
 		
 		<div class="promotion">
-			<h4>Best Porlog</h4>
+			<h4>Porlog 개발자들</h4>
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
-						<img src="images/강희원님.png" alt="프로모션슬라이드1"> <a	href="javascript:void(0)" class="btn">자세히보기</a>
+						<img src="images/강희원님.png" alt="프로모션슬라이드1"> <a href="https://github.com/kang1234536" class="btn">자세히보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="images/정한영님.png" alt="프로모션슬라이드2"> <a href="javascript:void(0)" class="btn">자세히보기</a>
+						<img src="images/정한영님.png" alt="프로모션슬라이드2"> <a href="https://github.com/gksdud14" class="btn">자세히보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="images/임상혁님.png" alt="프로모션슬라이드3" style="width: 632px; height: 689px"> <a	href="javascript:void(0)" class="btn">자세히보기</a>
+						<img src="images/임상혁님.png" alt="프로모션슬라이드3" style="width: 632px; height: 689px"> <a	href="https://github.com/0f1c04" class="btn">자세히보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="images/배재영님.png" alt="프로모션슬라이드4"> <a	href="javascript:void(0)" class="btn">자세히보기</a>
+						<img src="images/배재영님.png" alt="프로모션슬라이드4"> <a	href="https://google.com" class="btn">자세히보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="images/promotion_slide5.jpg" alt="프로모션슬라이드5"> <a href="javascript:void(0)" class="btn">자세히보기</a>
+						<img src="images/배윤호님.PNG" alt="프로모션슬라이드5"> <a href="https://github.com/yoonho96" class="btn">자세히보기</a>
 					</div>
 				</div>
 			</div>
@@ -408,21 +500,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<!-- FOOTER -->
 	<footer>
 		<div class="inner">
-			<ul class="menu">
-				<li><a href="javascript:void(0)" class="green">개인정보처리방침1</a></li>
-				<li><a href="javascript:void(0)">개인정보처리방침2</a></li>
-				<li><a href="javascript:void(0)">개인정보처리방침3</a></li>
-				<li><a href="javascript:void(0)">개인정보처리방침4</a></li>
-				<li><a href="javascript:void(0)">개인정보처리방침5</a></li>
-				<li><a href="javascript:void(0)">개인정보처리방침6</a></li>
-			</ul>
-			<div class="btn-group">
+			<!-- <ul class="menu">
+				<li><a href="javascript:void(0)" class="green">개인정보처리방침</a></li>
+			</ul> -->
+			<!-- <div class="btn-group">
 				<a href="javascript:void(0)" class="btn btn--white">찾아와라1</a> 
 				<a href="javascript:void(0)" class="btn btn--white">찾아와라2</a>
 				<a href="javascript:void(0)" class="btn btn--white">찾아와라3</a>
-			</div>
+			</div> -->
 			<div class="info">
-				<span>사사사11</span> <span>사사사12</span> <span>사사사13</span> <span>사사사14</span>
+				<span>배윤호</span> <span>강희원</span> <span>임상혁</span> <span>배재영</span> <span>정한영</span>
 			</div>
 			<p class="copyright">
 				&copy;<span class="this-year"></span>KOSTA TEAM4
@@ -460,85 +547,132 @@ $('#cancel-btn2').click(function(){
 });
 
 $('#registerCheck').click(function(){
-	alert("중복체크실험");	 
+	var id =$("#userID").val();
+	
+	
+	$.ajax({
+		 url: 'ID_Check',
+		    type: 'POST',
+		    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
+		    contentType : 'text/plain; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
+		    data: id,
+		    success: function(data){
+		        
+		    	
+		     	if(data == 0){		        	 
+		         console.log("아이디 없음");
+		         alert("사용하실 수 있는 아이디입니다.");
+		         }
+		   		     	else{
+		         	console.log("아이디 있음");
+		         	alert("중복된 아이디가 존재합니다.");
+		         	$("#userID").val('');
+		         	
+		         } 
+		    },
+		    error: function (){        
+		                      
+		    }
+	}); 
+	
 });
 
 
+//아이디 찾기
+$('#findId').click(function(){
 
-function confirmSave(checkbox)
-{
- var isRemember;
-
- if(checkbox.checked)
- {
- isRemember = confirm("이 PC에 로그인 정보를 저장하시겠습니까? PC방등의 공공장소에서는 개인정보가 유출될 수 있으니 주의해주십시오.");
-
-  if(!isRemember)
-   checkbox.checked = false;
- }
-}
-/* $('#login-login').click(function(){
-if($("#idSaveCheck").is(":checked")){
-	$("input[name='pw']").val(""); 
-}
-$("input[name='id']").val("");
-
-}); */
-/* $(document).ready(function(){
-    var userInputId = getCookie("userInputId");//저장된 쿠기값 가져오기
-    $("input[name='id']").val(userInputId); 
-    $("input[name='pw']").val(""); 
-    if($("input[name='id']").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩
-                                           // 아이디 저장하기 체크되어있을 시,
-        $("#idSaveCheck").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
-    	
-    }
-     
-    $("#idSaveCheck").change(function(){ // 체크박스에 변화가 발생시
-        if($("#idSaveCheck").is(":checked")){ // ID 저장하기 체크했을 때,
-            var userInputId = $("input[name='id']").val();
-            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
-        }else{ // ID 저장하기 체크 해제 시,
-            deleteCookie("userInputId");
-        }
-    });
-     
-    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
-    $("input[name='id']").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
-        if($("#idSaveCheck").is(":checked")){ // ID 저장하기를 체크한 상태라면,
-            var userInputId = $("input[name='id']").val();
-            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
-        }
-    });
+	 $.ajax({
+		 url: 'findId',
+		    type: 'POST',
+		    data:$('#idcatch').serialize(),
+		    success: function(data){
+		   console.log(data);
+		        
+		        $('#exampleModalID').modal('hide'); 
+		   		$('#FindIDModal').modal('show');
+		   		$('#catchId').html('<h1>아이디:'+data+'입니다</h1>');
+		   		
+		     	
+		    },
+		    error: function (){        
+		                      
+		    }
+	});  
 });
- 
-function setCookie(cookieName, value, exdays){
-    var exdate = new Date();
-    exdate.setDate(exdate.getDate() + exdays);
-    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
-    document.cookie = cookieName + "=" + cookieValue;
-}
- 
-function deleteCookie(cookieName){
-    var expireDate = new Date();
-    expireDate.setDate(expireDate.getDate() - 1);
-    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
-}
- 
-function getCookie(cookieName) {
-    cookieName = cookieName + '=';
-    var cookieData = document.cookie;
-    var start = cookieData.indexOf(cookieName);
-    var cookieValue = '';
-    if(start != -1){
-        start += cookieName.length;
-        var end = cookieData.indexOf(';', start);
-        if(end == -1)end = cookieData.length;
-        cookieValue = cookieData.substring(start, end);
-    }
-    return unescape(cookieValue);
-} */
+//인증번호
+var first="";
+//아이디
+var fid="";
+//비밀번호찾기
+$('#findPW').click(function(){
+	
+	$("#aa").css("display","block");
+	$("#aa").css("color","blue");
+	$("#aa").show();
+	
+	 $.ajax({
+		 url: 'findpw',
+		    type: 'POST',
+		    data:$('#pwcatch').serialize(),		   
+		    success: function(data){		    	
+		        $("#exampleModalPW").modal("hide");
+		    	$("#mail").modal("show");
+		   		/* $("#emailnumber").val(data); */
+		     	first=data.test1;
+		   		fid=data.test2
+		   		$("#requireID").val(fid);
+		   		
+		    },
+		    error: function (){        
+		                      
+		    }
+	});  
+});
+//이메일 인증 관련
+$('#permitcheck').click(function(){
+	
+	$.ajax({
+		url:'changepw',
+		type:'POST',
+		data:$('#emailcatch').serialize(),
+		success: function(data){			
+			if(data==first){
+				
+				$("#mail").modal("hide");
+				$("#SettingPW").modal("show");
+			}
+			else{
+				alert("인증번호를 잘못입력하였습니다.");
+			}
+			
+		},
+		error:function(){
+			
+		}
+	});
+});
+//비밀번호재설정
+$('#setpwbtn').click(function(){
+	
+	$.ajax({
+		url:'setpwform',
+		type:'POST',
+		data:$('#settingpwform').serialize(),
+		success: function(data){			
+			
+			$('#SettingPW').modal('hide');
+			
+		},
+		error:function(){
+			
+		}
+	});
+});
 
+$(document).ready(function(){
+	 $("#logouttext").append("님 환영합니다");
+	
+});
 
 </script>
 </body>

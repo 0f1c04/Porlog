@@ -15,7 +15,7 @@ public interface BlogRepository extends CrudRepository<BlogDTO, Long>, JpaReposi
 	
 	public BlogDTO findByUser(UserDTO user);  
 	
-	@Query(value = "select nvl(blog_id, 0) as blog_id, nvl(user_user_id, ?1) as user_user_id, nvl(blog_title,'새 블로그를 만들어주세요') as blog_title from p_blog right outer join DUAL on user_user_id= ?1",
+	@Query(value = "select nvl(blog_id, 0) as blog_id, nvl(user_user_id, ?1) as user_user_id, nvl(blog_title,'새 폴로그를 만들어주세요') as blog_title from p_blog right outer join DUAL on user_user_id= ?1",
 			nativeQuery = true)
 	public BlogDTO findByUser2(UserDTO user);  
 	
